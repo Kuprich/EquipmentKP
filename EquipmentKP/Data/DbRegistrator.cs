@@ -24,7 +24,7 @@ namespace EquipmentKP.Data
                     default: throw new InvalidOperationException($"Тип подключения \"{nameof(type)}\" не поддерживается!");
                 }
             })
-            //.AddSingleton<DbInitializer>()
+            .AddSingleton<DbInitializer>()
             ;
     }
 }

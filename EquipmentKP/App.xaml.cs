@@ -30,6 +30,11 @@ namespace EquipmentKP
         {
             var host = Host;
             base.OnStartup(e);
+
+            //выделим пространство для инициализации БД
+            using (var scope = host.Services.CreateScope())
+                scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
+
             await host.StartAsync();
         }
         protected override async void OnExit(ExitEventArgs e)

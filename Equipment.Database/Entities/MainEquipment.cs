@@ -7,6 +7,8 @@ namespace Equipment.Database.Entities
     {
         public string InvNo { get; set; }
         public string SerialNo { get; set; }
+
+        //TODO: реализовать владельца (Owner) через отдельную таблицу
         public string Owner { get; set; }
         public string NetworkName { get; set; }
         public string OperationSystem { get; set; }
