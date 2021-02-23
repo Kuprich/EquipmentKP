@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquipmentKP", "EquipmentKP\EquipmentKP.csproj", "{C646DBB3-5BCF-4B5C-8C5F-D9B2217B1979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EquipmentKP", "EquipmentKP\EquipmentKP.csproj", "{C646DBB3-5BCF-4B5C-8C5F-D9B2217B1979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipment.Database", "Equipment.Database\Equipment.Database.csproj", "{457C5DCD-3943-4F53-B1F4-DE74C37B490B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipment.Database", "Equipment.Database\Equipment.Database.csproj", "{457C5DCD-3943-4F53-B1F4-DE74C37B490B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipment.Interfaces", "Equipment.Interfaces\Equipment.Interfaces.csproj", "{0EF77AB7-C656-40A6-A009-99DF94DA6C20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{457C5DCD-3943-4F53-B1F4-DE74C37B490B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{457C5DCD-3943-4F53-B1F4-DE74C37B490B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{457C5DCD-3943-4F53-B1F4-DE74C37B490B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF77AB7-C656-40A6-A009-99DF94DA6C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF77AB7-C656-40A6-A009-99DF94DA6C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF77AB7-C656-40A6-A009-99DF94DA6C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF77AB7-C656-40A6-A009-99DF94DA6C20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

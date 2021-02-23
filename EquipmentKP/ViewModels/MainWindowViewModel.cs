@@ -1,7 +1,10 @@
-﻿using EquipmentKP.Infrastructure.Command;
+﻿using Equipment.Database.Entities;
+using Equipment.Interfaces;
+using EquipmentKP.Infrastructure.Command;
 using EquipmentKP.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +15,12 @@ namespace EquipmentKP.ViewModels
 {
     class MainWindowViewModel : ViewModelBase
     {
+        private readonly IRepository<Location> localtionsRep;
+        private readonly IRepository<SubEquipmentType> subEquipmentTypesRep;
+        private readonly IRepository<MainEquipmentType> mainEquipmentTypesRep;
+        private readonly IRepository<MainEquipment> mainEquipmentsRep;
+        private readonly IRepository<SubEquipment> subEquipmentsRep;
+
         #region Title - заголовок окна
         private string _Title;
 
@@ -21,7 +30,6 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _Title, value);
         }
         #endregion
-
 
         // пример синхронной команды
         #region CloseAplicationCommand - Команда закрытия окна
@@ -53,9 +61,22 @@ namespace EquipmentKP.ViewModels
             Time = DateTime.Now;
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(
+            IRepository<Location> localtionsRep,
+            IRepository<SubEquipmentType> subEquipmentTypesRep,
+            IRepository<MainEquipmentType> mainEquipmentTypesRep,
+            IRepository<MainEquipment> mainEquipmentsRep,
+            IRepository<SubEquipment> subEquipmentsRep
+            )
         {
             Title = "Главное окно модели";
+
+            this.localtionsRep = localtionsRep;
+            this.subEquipmentTypesRep = subEquipmentTypesRep;
+            this.mainEquipmentTypesRep = mainEquipmentTypesRep;
+            this.mainEquipmentsRep = mainEquipmentsRep;
+            this.subEquipmentsRep = subEquipmentsRep;
+
         }
     }
 }

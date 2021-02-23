@@ -1,4 +1,5 @@
 ﻿using Equipment.Database.Context;
+using Equipment.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace EquipmentKP.Data
                 }
             })
             .AddSingleton<DbInitializer>()
+            .AddDbRepositories()
             ;
     }
 }
