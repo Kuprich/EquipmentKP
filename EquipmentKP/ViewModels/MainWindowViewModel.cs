@@ -15,6 +15,7 @@ namespace EquipmentKP.ViewModels
 {
     class MainWindowViewModel : ViewModelBase
     {
+        #region ПОЛЯ И СВОЙСТВА
         private readonly IRepository<Location> localtionsRep;
         private readonly IRepository<SubEquipmentType> subEquipmentTypesRep;
         private readonly IRepository<MainEquipmentType> mainEquipmentTypesRep;
@@ -22,16 +23,17 @@ namespace EquipmentKP.ViewModels
         private readonly IRepository<SubEquipment> subEquipmentsRep;
 
         #region Title - заголовок окна
-        private string _Title;
+        private string _Title = "Заголовок окна";
 
         public string Title
         {
             get => _Title;
             set => Set(ref _Title, value);
         }
+        #endregion 
         #endregion
 
-        // пример синхронной команды
+        #region КОМАНДЫ
         #region CloseAplicationCommand - Команда закрытия окна
         private ICommand _CloseAplicationCommand;
         public ICommand CloseAplicationCommand => _CloseAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
@@ -43,6 +45,7 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region TestAsyncCommand - пример асинхронной команды
         private ICommand _TestAsyncCommand;
         public ICommand TestAsyncCommand => _TestAsyncCommand ??= new LambdaCommandAsync(OnTestAsyncCommandExecuted);
         private DateTime _Time;
@@ -55,11 +58,13 @@ namespace EquipmentKP.ViewModels
 
         private async Task OnTestAsyncCommandExecuted(object p) => await Task.Run(TestAsyncMethod);
 
-        private async Task TestAsyncMethod()
+        private void TestAsyncMethod()
         {
             Thread.Sleep(5000);
             Time = DateTime.Now;
         }
+        #endregion 
+        #endregion
 
         public MainWindowViewModel(
             IRepository<Location> localtionsRep,
@@ -69,14 +74,11 @@ namespace EquipmentKP.ViewModels
             IRepository<SubEquipment> subEquipmentsRep
             )
         {
-            Title = "Главное окно модели";
-
             this.localtionsRep = localtionsRep;
             this.subEquipmentTypesRep = subEquipmentTypesRep;
             this.mainEquipmentTypesRep = mainEquipmentTypesRep;
             this.mainEquipmentsRep = mainEquipmentsRep;
             this.subEquipmentsRep = subEquipmentsRep;
-
         }
     }
 }
