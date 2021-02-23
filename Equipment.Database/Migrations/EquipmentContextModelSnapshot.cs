@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Equipment.Database.Migrations
 {
-    [DbContext(typeof(EquipContext))]
-    partial class EquipContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EquipmentContext))]
+    partial class EquipmentContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +74,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("MainEquipmentTypeId");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("MainEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.MainEquipmentType", b =>
@@ -89,7 +89,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EquipmentTypes");
+                    b.ToTable("MainEquipmentTypes");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.SubEquipment", b =>
@@ -117,7 +117,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("SubEquipmentTypeId");
 
-                    b.ToTable("SubEquipment");
+                    b.ToTable("SubEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.SubEquipmentType", b =>

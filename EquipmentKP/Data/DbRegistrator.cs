@@ -11,7 +11,7 @@ namespace EquipmentKP.Data
     public static class DbRegistrator
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration) => services
-            .AddDbContext<EquipContext>(opt =>
+            .AddDbContext<EquipmentContext>(opt =>
             {
                 var type = configuration["Type"];
                 switch (type)
@@ -23,7 +23,8 @@ namespace EquipmentKP.Data
                         break;
                     default: throw new InvalidOperationException($"Тип подключения \"{nameof(type)}\" не поддерживается!");
                 }
-            });
-            //.AddSingleton<DbInitializer>();
+            })
+            //.AddSingleton<DbInitializer>()
+            ;
     }
 }

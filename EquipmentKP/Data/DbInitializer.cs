@@ -12,11 +12,17 @@ namespace EquipmentKP.Data
 {
     class DbInitializer
     {
-        private readonly EquipContext context;
+        private readonly EquipmentContext context;
         private readonly ILogger<DbInitializer> logger;
         private Stopwatch timer = new Stopwatch();
 
-        public DbInitializer(EquipContext context, ILogger<DbInitializer> logger)
+        private MainEquipmentType[] mainEquipmentTypes;
+        private SubEquipmentType[]  subEquipmentTypes;
+        private Location[]          locations;
+        private MainEquipment[]     mainEquipments;
+        private SubEquipment[]      subEquipments;
+
+        public DbInitializer(EquipmentContext context, ILogger<DbInitializer> logger)
         {
             this.context = context;
             this.logger = logger;
@@ -40,12 +46,16 @@ namespace EquipmentKP.Data
             logger.LogInformation($"Миграция БД произведена за {timer.ElapsedMilliseconds}");
 
             await Init_EquipmentSubTypes();
-            await Init_EquipmentTypes();
+            await Init_MainEquipmentTypes();
         }
 
-        private Task Init_EquipmentTypes()
+        private async Task Init_MainEquipmentTypes()
         {
-            throw new NotImplementedException();
+            mainEquipmentTypes = new MainEquipmentType[2];
+            mainEquipmentTypes[0] = new MainEquipmentType { Name = "Сервер общего назначения" };
+            mainEquipmentTypes[1] = new MainEquipmentType { Name = "Рабочая станция" };
+
+            await context.MainEquipmentTypes.AddRangeAsync(mainEquipmentTypes);
         }
 
         private Task Init_EquipmentSubTypes()

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Equipment.Database.Migrations
 {
-    [DbContext(typeof(EquipContext))]
-    [Migration("20210223110729_initial")]
+    [DbContext(typeof(EquipmentContext))]
+    [Migration("20210223112929_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("MainEquipmentTypeId");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("MainEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.MainEquipmentType", b =>
@@ -91,7 +91,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EquipmentTypes");
+                    b.ToTable("MainEquipmentTypes");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.SubEquipment", b =>
@@ -119,7 +119,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("SubEquipmentTypeId");
 
-                    b.ToTable("SubEquipment");
+                    b.ToTable("SubEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.SubEquipmentType", b =>
