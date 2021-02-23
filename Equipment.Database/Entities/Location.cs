@@ -6,7 +6,6 @@ namespace Equipment.Database.Entities
     public class Location : NamedEntity
     {
         public string CodeName { get; set; }
-        public string Organization { get; set; }
-        public IList<Equip> Equips { get; set; }
+        public IList<MainEquipment> Equipments { get; set; } = new List<MainEquipment>();
     }
 }

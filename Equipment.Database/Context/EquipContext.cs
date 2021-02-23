@@ -8,10 +8,11 @@ namespace Equipment.Database.Context
 {
     public class EquipContext : DbContext
     {
-        public DbSet<EquipSubType> EquipSubTypes { get; set; }
-        public DbSet<EquipType> EquipTypes { get; set; }
+        public DbSet<MainEquipmentType> EquipmentTypes { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Equip> Equips { get; set; }
+        public DbSet<SubEquipmentType> SubEquipmentTypes { get; set; }
+        public DbSet<Entities.MainEquipment> Equipment { get; set; }
+        
         public EquipContext(DbContextOptions<EquipContext> options) : base(options)
         {
 

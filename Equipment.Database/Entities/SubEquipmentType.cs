@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Equipment.Database.Entities
 {
-    public class EquipSubType : NamedEntity
+    public class SubEquipmentType : NamedEntity
     {
-        public IList<EquipType> EquipTypes { get; set; }
+        public IList<SubEquipment> SubEquipments = new List<SubEquipment>();
     }
 }

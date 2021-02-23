@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Equipment.Database.Migrations
 {
     [DbContext(typeof(EquipContext))]
-    [Migration("20210222155244_Initial")]
-    partial class Initial
+    [Migration("20210223110729_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,20 +21,38 @@ namespace Equipment.Database.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Equipment.Database.Entities.Equip", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EquipTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("CodeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("Equipment.Database.Entities.MainEquipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("InvNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MainEquipmentTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -54,14 +72,14 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipTypeId");
-
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Equips");
+                    b.HasIndex("MainEquipmentTypeId");
+
+                    b.ToTable("Equipment");
                 });
 
-            modelBuilder.Entity("Equipment.Database.Entities.EquipSubType", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.MainEquipmentType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,85 +91,95 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EquipSubTypes");
+                    b.ToTable("EquipmentTypes");
                 });
 
-            modelBuilder.Entity("Equipment.Database.Entities.EquipType", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.SubEquipment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EquipSubTypeId")
+                    b.Property<int?>("MainEquipmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SerialNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SubEquipmentTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipSubTypeId");
+                    b.HasIndex("MainEquipmentId");
 
-                    b.ToTable("EquipTypes");
+                    b.HasIndex("SubEquipmentTypeId");
+
+                    b.ToTable("SubEquipment");
                 });
 
-            modelBuilder.Entity("Equipment.Database.Entities.Location", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.SubEquipmentType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CodeName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Organization")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("SubEquipmentTypes");
                 });
 
-            modelBuilder.Entity("Equipment.Database.Entities.Equip", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.MainEquipment", b =>
                 {
-                    b.HasOne("Equipment.Database.Entities.EquipType", "EquipType")
-                        .WithMany("Equips")
-                        .HasForeignKey("EquipTypeId");
-
                     b.HasOne("Equipment.Database.Entities.Location", "Location")
-                        .WithMany("Equips")
+                        .WithMany("Equipments")
                         .HasForeignKey("LocationId");
 
-                    b.Navigation("EquipType");
+                    b.HasOne("Equipment.Database.Entities.MainEquipmentType", "MainEquipmentType")
+                        .WithMany("MainEquipments")
+                        .HasForeignKey("MainEquipmentTypeId");
 
                     b.Navigation("Location");
+
+                    b.Navigation("MainEquipmentType");
                 });
 
-            modelBuilder.Entity("Equipment.Database.Entities.EquipType", b =>
+            modelBuilder.Entity("Equipment.Database.Entities.SubEquipment", b =>
                 {
-                    b.HasOne("Equipment.Database.Entities.EquipSubType", null)
-                        .WithMany("EquipTypes")
-                        .HasForeignKey("EquipSubTypeId");
-                });
+                    b.HasOne("Equipment.Database.Entities.MainEquipment", "MainEquipment")
+                        .WithMany("SubEquipments")
+                        .HasForeignKey("MainEquipmentId");
 
-            modelBuilder.Entity("Equipment.Database.Entities.EquipSubType", b =>
-                {
-                    b.Navigation("EquipTypes");
-                });
+                    b.HasOne("Equipment.Database.Entities.SubEquipmentType", "SubEquipmentType")
+                        .WithMany()
+                        .HasForeignKey("SubEquipmentTypeId");
 
-            modelBuilder.Entity("Equipment.Database.Entities.EquipType", b =>
-                {
-                    b.Navigation("Equips");
+                    b.Navigation("MainEquipment");
+
+                    b.Navigation("SubEquipmentType");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.Location", b =>
                 {
-                    b.Navigation("Equips");
+                    b.Navigation("Equipments");
+                });
+
+            modelBuilder.Entity("Equipment.Database.Entities.MainEquipment", b =>
+                {
+                    b.Navigation("SubEquipments");
+                });
+
+            modelBuilder.Entity("Equipment.Database.Entities.MainEquipmentType", b =>
+                {
+                    b.Navigation("MainEquipments");
                 });
 #pragma warning restore 612, 618
         }
