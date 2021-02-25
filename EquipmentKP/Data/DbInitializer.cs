@@ -18,11 +18,11 @@ namespace EquipmentKP.Data
         private readonly ILogger<DbInitializer> logger;
         private Stopwatch timer = new Stopwatch();
 
-        private MainEquipmentType[] mainEquipmentTypes;
-        private SubEquipmentType[]  subEquipmentTypes;
-        private Location[]          locations;
-        private MainEquipment[]     mainEquipments;
-        private SubEquipment[]      subEquipments;
+        private MainEquipmentType   [] mainEquipmentTypes;
+        private SubEquipmentType    [] subEquipmentTypes;
+        private Location            [] locations;
+        private MainEquipment       [] mainEquipments;
+        private SubEquipment        [] subEquipments;
 
         public DbInitializer(EquipmentContext context, ILogger<DbInitializer> logger)
         {
@@ -104,7 +104,7 @@ namespace EquipmentKP.Data
                 Name = "крафтвей экспресс",
                 Owner = "УСД по РМ",
                 MainEquipmentType = mainEquipmentTypes[0],
-                Location = locations[1],
+                Location = locations[0],
                 NetworkName = "serverNew",
                 OperationSystem = "Windows Server 2012R2"
             };
@@ -125,8 +125,8 @@ namespace EquipmentKP.Data
                 SerialNo = "049258690342",
                 Name = "Asus prime 123",
                 Owner = "Зубова поляна",
-                MainEquipmentType = mainEquipmentTypes[0],
-                Location = locations[1],
+                MainEquipmentType = mainEquipmentTypes[1],
+                Location = locations[2],
                 NetworkName = "serverak",
                 OperationSystem = "Windows 7"
             };
