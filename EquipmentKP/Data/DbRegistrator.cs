@@ -26,7 +26,7 @@ namespace EquipmentKP.Data
                 }
             })
             //.AddSingleton<DbInitializer>()
-            .AddDbRepositories()
+            //.AddDbRepositories()
             ;
     }
 }

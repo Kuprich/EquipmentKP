@@ -22,9 +22,9 @@ namespace EquipmentKP
         public static IHost Host => __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
         public static IServiceProvider Services => Host.Services;
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
-            .AddDatabase(host.Configuration.GetSection("Database"))
-            .AddServices()
-            .AddViewModels();
+            .AddDatabase(host.Configuration.GetSection("Database"));
+            //.AddServices()
+            //.AddViewModels();
 
         protected override async void OnStartup(StartupEventArgs e)
         {
