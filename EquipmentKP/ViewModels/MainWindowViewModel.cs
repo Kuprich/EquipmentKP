@@ -19,12 +19,6 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
-        private readonly IRepository<Location> localtionsRep;
-        private readonly IRepository<SubEquipmentType> subEquipmentTypesRep;
-        private readonly IRepository<MainEquipmentType> mainEquipmentTypesRep;
-        private readonly IRepository<MainEquipment> mainEquipmentsRep;
-        private readonly IRepository<SubEquipment> subEquipmentsRep;
-
         #region string Title - заголовок окна
         private string _Title = "ИАЦ: Движение оборудования";
 
@@ -33,49 +27,6 @@ namespace EquipmentKP.ViewModels
             get => _Title;
             set => Set(ref _Title, value);
         }
-        #endregion
-
-        #region  List<string> MainEquipmentType список типов основного оборудования
-        public List<string> MainEquipmentType
-        {
-            get
-            {
-                return mainEquipmentTypesRep.Items.Select(s => s.Name).ToList();
-            }
-        }
-        #endregion
-
-        #region  List<string> Location список мест установки оборудования
-        public List<string> Location
-        {
-            get
-            {
-                return localtionsRep.Items.Select(s => s.Name).ToList();
-            }
-        }
-        #endregion
-
-        #region  MainEquipment SelectedMainEquipment - выбранное основное оборудование
-        private MainEquipment selectedMainEquipment;
-
-        public MainEquipment SelectedMainEquipment
-        {
-            get => selectedMainEquipment;
-            set => Set(ref selectedMainEquipment, value);
-        } 
-        #endregion
-
-
-        #region V и VS (collectionVSMainEquipment / collectionVMainEquipment) - отображение данных из главного репозитория
-        private readonly CollectionViewSource collectionVSMainEquipment;
-        public ICollectionView CollectionVMainEquipment => collectionVSMainEquipment?.View;
-        #endregion
-
-        #region int EquipmentsCount - количество данных в основной таблице с оборудованием
-        public int EquipmentsCount
-        {
-            get => CollectionVMainEquipment.Count();
-        } 
         #endregion
 
 
@@ -114,21 +65,9 @@ namespace EquipmentKP.ViewModels
         #endregion 
         #endregion
 
-        public MainWindowViewModel(
-            IRepository<Location> localtionsRep,
-            IRepository<SubEquipmentType> subEquipmentTypesRep,
-            IRepository<MainEquipmentType> mainEquipmentTypesRep,
-            IRepository<MainEquipment> mainEquipmentsRep,
-            IRepository<SubEquipment> subEquipmentsRep
-            )
+        public MainWindowViewModel( )
         {
-            this.localtionsRep = localtionsRep;
-            this.subEquipmentTypesRep = subEquipmentTypesRep;
-            this.mainEquipmentTypesRep = mainEquipmentTypesRep;
-            this.mainEquipmentsRep = mainEquipmentsRep;
-            this.subEquipmentsRep = subEquipmentsRep;
-
-            collectionVSMainEquipment = new CollectionViewSource { Source = mainEquipmentsRep.Items.ToArray() };
+            
         }
     }
 }

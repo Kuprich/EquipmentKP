@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Equipment.Database.Entities
 {
-    public class SubEquipmentType : NamedEntity
+    public class RequestStatus : NamedEntity
     {
-        public IList<SubEquipment> SubEquipments = new List<SubEquipment>();
+        public Request Request { get; set; }
+        public DateTime RegistrationDate { get; set; }
     }
 }
