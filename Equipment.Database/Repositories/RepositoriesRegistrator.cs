@@ -14,9 +14,9 @@ namespace Equipment.Database.Repositories
             .AddSingleton<IRepository<Location>, DbRepositoryBase<Location>>()
             .AddSingleton<IRepository<EquipmentCategory>, DbRepositoryBase<EquipmentCategory>>()
             .AddSingleton<IRepository<EquipmentType>, DbRepositoryBase<EquipmentType>>()
-            .AddSingleton<IRepository<RequestStatus>, DbRepositoryBase<RequestStatus>>()
+            .AddSingleton<IRepository<MainEquipment>, DbRepositoryBase<MainEquipment>>()
             .AddSingleton<IRepository<Request>, DbRepositoryBase<Request>>()
-            .AddSingleton<IRepository<Entities.Equipment>, DbRepositoryBase<Entities.Equipment>>()
+            .AddSingleton<IRepository<RequestMovement>, DbRepositoryBase<RequestMovement>>()
             .AddSingleton<IRepository<EquipmentsKit>, DbRepositoryBase<EquipmentsKit>>()
             ;
 

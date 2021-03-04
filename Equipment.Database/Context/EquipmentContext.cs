@@ -11,9 +11,9 @@ namespace Equipment.Database.Context
         public DbSet<Location> Locations { get; set; }
         public DbSet<EquipmentCategory> EquipmentCategories { get; set; }
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
-        public DbSet<RequestStatus> RequestStatuses { get; set; }
+        public DbSet<RequestMovement> RequestMovements { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<Entities.Equipment> Equipments { get; set; }
+        public DbSet<MainEquipment> MainEquipment { get; set; }
         public DbSet<EquipmentsKit> EquipmentsKits { get; set; }
 
         public EquipmentContext(DbContextOptions<EquipmentContext> options) : base(options)

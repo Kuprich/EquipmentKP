@@ -22,9 +22,10 @@ namespace EquipmentKP
         public static IHost Host => __Host ??= Program.CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
         public static IServiceProvider Services => Host.Services;
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
-            .AddDatabase(host.Configuration.GetSection("Database"));
-            //.AddServices()
-            //.AddViewModels();
+            .AddDatabase(host.Configuration.GetSection("Database"))
+            .AddServices()
+            .AddViewModels()
+            ;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
@@ -32,8 +33,8 @@ namespace EquipmentKP
             base.OnStartup(e);
 
             //выделим пространство для инициализации БД
-            //using (var scope = host.Services.CreateScope())
-            //    scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
+            using (var scope = host.Services.CreateScope())
+                scope.ServiceProvider.GetRequiredService<DbInitializer>().InitializeAsync().Wait();
 
             await host.StartAsync();
         }

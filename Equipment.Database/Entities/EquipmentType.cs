@@ -8,6 +8,6 @@ namespace Equipment.Database.Entities
     public class EquipmentType : NamedEntity
     {
         public EquipmentCategory EquipmentCategory { get; set; }
-        public IList<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public IList<MainEquipment> MainEquipments { get; set; } = new List<MainEquipment>();
     }
 }

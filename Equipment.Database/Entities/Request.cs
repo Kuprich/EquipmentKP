@@ -8,7 +8,7 @@ namespace Equipment.Database.Entities
     public class Request : Entity
     {
         public int Number { get; set; }
-        public Equipment Equipment { get; set; }
-        public IList<RequestStatus> RequestStatuses { get; set; } = new List<RequestStatus>();
+        public MainEquipment MainEquipment { get; set; }
+        public IList<RequestMovement> RequestMovement { get; set; } = new List<RequestMovement>();
     }
 }

@@ -11,6 +11,6 @@ namespace Equipment.Database.Entities
         public string Owner { get; set; }
         public DateTime ReceiptDate { get; set; }
         public Location Location { get; set; }
-        public IList<Equipment> Equipments { get; set; } = new List<Equipment>();
+        public IList<MainEquipment> MainEquipments { get; set; } = new List<MainEquipment>();
     }
 }

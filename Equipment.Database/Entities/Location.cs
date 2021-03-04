@@ -10,3 +10,4 @@ namespace Equipment.Database.Entities
         public IList<EquipmentsKit> EquipmentsKits { get; set; } = new List<EquipmentsKit>();
     }
 }
+  

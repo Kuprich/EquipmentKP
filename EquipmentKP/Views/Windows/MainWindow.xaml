@@ -14,108 +14,18 @@
                 <MenuItem Header="Выход" Command="{Binding CloseAplicationCommand}"/>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem>
-                <TextBlock Text="Версия БД: 1.0"/>
-            </StatusBarItem>
-        </StatusBar>
-        <DockPanel DockPanel.Dock="Top">
-            <DockPanel>
-                <TextBlock Text="Место установки:"/>
-                <CheckBox/>
-                <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Location}"></ComboBox>
-            </DockPanel>
-        </DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Width="4" Margin="-2"></GridSplitter>
-            <TabControl>
-                <TabItem Header="Оборудование основное">
-                    <DockPanel>
-                        <DockPanel DockPanel.Dock="Top">
-                            <TextBlock Text="Тип оборудования"/>
-                            <ComboBox ItemsSource="{Binding MainEquipmentType }">
-                                
-                            </ComboBox>
-                        </DockPanel>
-                        <Button DockPanel.Dock="Bottom">Показать быстрые фильтры</Button>
-                        <StatusBar DockPanel.Dock="Bottom">
-                            <StatusBarItem>
-                                <TextBlock Text="Всего записей:"/>
-                            </StatusBarItem>
-                            <StatusBarItem>
-                                <TextBlock Text="{Binding EquipmentsCount}"/>
-                            </StatusBarItem>
-                        </StatusBar>
-                        <DataGrid ItemsSource="{Binding CollectionVMainEquipment}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedMainEquipment}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Код объекта" Width="80" Binding="{Binding Location.CodeName}"/>
-                                <DataGridTextColumn Header="Имя" Width="*" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="Тип оборудования" Width="*" Binding="{Binding MainEquipmentType.Name}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        
-                    </DockPanel>
-                </TabItem>
-                <TabItem Header="Оборудование периферийное">
-
-                </TabItem>
-            </TabControl>
-            <TabControl Grid.Column="1">
-                <TabItem Header="Info и интерфесы">
-                    <DockPanel>
-                        <GroupBox Header="Основные данные" DockPanel.Dock="Top">
-                            <StackPanel Orientation="Vertical">
-                                <DockPanel>
-                                    <TextBlock Text="Серийный №:"/>
-                                    <TextBox IsReadOnly="True" Text="{Binding SelectedMainEquipment.SerialNo}"/> 
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock Text="Инвентарный №:"/>
-                                    <TextBox IsEnabled="False" Text="{Binding SelectedMainEquipment.InvNo}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Учетные данные" DockPanel.Dock="Top">
-                            <StackPanel Orientation="Vertical">
-                                <DockPanel>
-                                    <TextBlock Text="Владелец:"/>
-                                    <TextBox IsEnabled="False" Text="{Binding SelectedMainEquipment.Owner}"/>
-                                </DockPanel>
-
-                                <DockPanel>
-                                    <TextBlock Text="Место установки:"/>
-                                    <TextBox IsEnabled="False" Text="{Binding SelectedMainEquipment.Location.Name}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Header="Характеристики">
-                            <StackPanel Orientation="Vertical">
-                                <DockPanel>
-                                    <TextBlock Text="Операционная система:"/>
-                                    <TextBox IsEnabled="False" Text="{Binding SelectedMainEquipment.OperationSystem}"/>
-                                </DockPanel>
-
-                                <DockPanel>
-                                    <TextBlock Text="Сетевое имя:"/>
-                                    <TextBox IsEnabled="False" Text="{Binding SelectedMainEquipment.NetworkName}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </GroupBox>
-                    </DockPanel>
-                </TabItem>
-                <TabItem Header="Периферия (раб. места)">
-                    <DataGrid ItemsSource="{Binding SelectedMainEquipment.SubEquipments}" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Имя" Width="130" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Тип оборудования" Width="*" Binding="{Binding SubEquipmentType.Name}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-            </TabControl>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="4" Margin="-2" VerticalAlignment="Stretch"/>
+            
+            <DataGrid AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="VNCode"/>
+                </DataGrid.Columns>                
+            </DataGrid>
         </Grid>
     </DockPanel>
 </Window>

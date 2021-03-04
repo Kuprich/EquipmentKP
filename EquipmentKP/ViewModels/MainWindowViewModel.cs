@@ -4,6 +4,7 @@ using EquipmentKP.Infrastructure.Command;
 using EquipmentKP.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,10 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        //private ObservableCollection<EquipmentsKit> equipmentsKits;
+
+        public ObservableCollection<EquipmentsKit> EquipmentsKits => (ObservableCollection<EquipmentsKit>)EquipmentsKitRep.Items;
+
 
         #endregion
 
@@ -48,6 +53,7 @@ namespace EquipmentKP.ViewModels
         private ICommand _TestAsyncCommand;
         public ICommand TestAsyncCommand => _TestAsyncCommand ??= new LambdaCommandAsync(OnTestAsyncCommandExecuted);
         private DateTime _Time;
+        private readonly IRepository<EquipmentsKit> EquipmentsKitRep;
 
         public DateTime Time
         {
@@ -65,9 +71,10 @@ namespace EquipmentKP.ViewModels
         #endregion 
         #endregion
 
-        public MainWindowViewModel( )
+        public MainWindowViewModel(IRepository<EquipmentsKit> EquipmentsKitRep)
         {
-            
+            this.EquipmentsKitRep = EquipmentsKitRep;
+            //EquipmentsKits = (ObservableCollection<EquipmentsKit>) EquipmentsKitRep.Items;
         }
     }
 }
