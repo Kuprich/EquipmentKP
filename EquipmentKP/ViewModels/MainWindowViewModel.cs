@@ -41,6 +41,8 @@ namespace EquipmentKP.ViewModels
             set => Set(ref equipmentsKit, value);
         }
 
+        public EquipmentsKit ek = new EquipmentsKit();
+
         private EquipmentsKit selectedKit;
         public EquipmentsKit SelectedKit
         {

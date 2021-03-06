@@ -6,7 +6,10 @@
         xmlns:l="clr-namespace:EquipmentKP"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:entities="clr-namespace:Equipment.Database.Entities;assembly=Equipment.Database"
-
+        
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        
+        d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewModel}, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainWindowVM, Source={StaticResource Locator}}"
         
         Title="{Binding Title}" Height="450" Width="800">
@@ -44,9 +47,11 @@
                 </DataGrid.Columns>                
             </DataGrid>
 
-            <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedKit}">
+            <DataGrid ItemsSource="{Binding SelectedKit.MainEquipments}" Grid.Column="1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>
+                    <DataGridTextColumn Header="SerialNumber" Binding="{Binding SerialNumber}" Width="100"/>
+                    <DataGridTextColumn Header="EquipmentType" Binding="{Binding EquipmentType.Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
