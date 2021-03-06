@@ -46,7 +46,7 @@
 
             <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedKit}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding se}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

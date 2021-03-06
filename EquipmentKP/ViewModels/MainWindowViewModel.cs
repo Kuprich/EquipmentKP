@@ -85,7 +85,8 @@ namespace EquipmentKP.ViewModels
 
         public MainWindowViewModel()
         {
-
+            if (!App.IsDesignTime)
+                throw new InvalidOperationException("Данный конструктор не предназначен для использования вне дизайнера VisualStudio");
         }
     }
 }
