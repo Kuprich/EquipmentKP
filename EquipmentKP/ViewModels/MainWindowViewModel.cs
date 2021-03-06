@@ -21,7 +21,7 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
-        private IRepository<EquipmentsKit> EquipmentsKitRep;
+        private IRepository<MainEquipment> EquipmentsRep;
 
         #region string Title - заголовок окна
         private string _Title = "ИАЦ: Движение оборудования";
@@ -34,21 +34,22 @@ namespace EquipmentKP.ViewModels
         #endregion
 
 
-        private ObservableCollection<EquipmentsKit> equipmentsKit;
-        public ObservableCollection<EquipmentsKit> EquipmentsKits
+        private ObservableCollection<MainEquipment> equipments;
+        public ObservableCollection<MainEquipment> Equipments
         {
-            get => equipmentsKit;
-            set => Set(ref equipmentsKit, value);
-        }
+            get => equipments;
+            set
+            {
+                if (!Set(ref equipments, value)) return;
 
-        public EquipmentsKit ek = new EquipmentsKit();
+                equpmentsViewSource = new CollectionViewSource { Source = value };
 
-        private EquipmentsKit selectedKit;
-        public EquipmentsKit SelectedKit
-        {
-            get => selectedKit;
-            set => Set(ref selectedKit, value);
+                equpmentsViewSource.View.Refresh();
+                OnPropertyChanged(nameof(EquipmentsView));
+            }
         }
+        private CollectionViewSource equpmentsViewSource;
+        public ICollectionView EquipmentsView => equpmentsViewSource?.View;
 
 
 
@@ -70,15 +71,18 @@ namespace EquipmentKP.ViewModels
         public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
-            EquipmentsKits = new ObservableCollection<EquipmentsKit>(await EquipmentsKitRep.Items.ToArrayAsync());
+            Equipments = new ObservableCollection<MainEquipment>(await EquipmentsRep.Items.ToArrayAsync());
         }
 
         #endregion
 
-        public MainWindowViewModel(IRepository<EquipmentsKit> EquipmentsKitRep)
+        public MainWindowViewModel(IRepository<MainEquipment> EquipmentsRep)
         {
-            this.EquipmentsKitRep = EquipmentsKitRep;
-            
+            this.EquipmentsRep = EquipmentsRep;
+            equpmentsViewSource = new CollectionViewSource { Source = Equipments };
+
+
+
             //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
 
             //EquipmentsKitRep.Add(kit);
