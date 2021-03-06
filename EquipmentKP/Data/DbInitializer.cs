@@ -82,9 +82,9 @@ namespace EquipmentKP.Data
         private async Task Init_RequestState()
         {
             requestStates[0] = new RequestState { Name = "Получена" };
-            requestStates[1] = new RequestState { Name = "Заявка - 1" };
-            requestStates[2] = new RequestState { Name = "Заявка - 2" };
-            requestStates[3] = new RequestState { Name = "Заявка - 3" };
+            requestStates[1] = new RequestState { Name = "Состояние - 1" };
+            requestStates[2] = new RequestState { Name = "Состояние - 2" };
+            requestStates[3] = new RequestState { Name = "Состояние - 3" };
             requestStates[4] = new RequestState { Name = "Исполнена" };
             await context.AddRangeAsync(requestStates);
             await context.SaveChangesAsync();

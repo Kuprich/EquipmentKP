@@ -4,27 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l="clr-namespace:EquipmentKP"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:entities="clr-namespace:Equipment.Database.Entities;assembly=Equipment.Database"
-        DataContext="{Binding MainVindovVM, Source={StaticResource Locator}}"
-        Title="{Binding Title}" Height="450" Width="800">
 
+        DataContext="{Binding MainWindowVM, Source={StaticResource Locator}}"
+        
+        Title="{Binding Title}" Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" Command="{Binding CloseAplicationCommand}"/>
             </MenuItem>
         </Menu>
+        
+        <TextBlock Text="{Binding EquipmentsKits.Count, StringFormat='кол-во комплектов:{0}'}" DockPanel.Dock="Bottom"/>
+        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="4" Margin="-2" VerticalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
             
-            <DataGrid AutoGenerateColumns="False">
+            <DataGrid ItemsSource="{Binding EquipmentsKits}" SelectedItem="{Binding SelectedKit}">
+                
+                <!--<DataGrid.Resources>
+                    <CollectionViewSource x:Key="EquipmentsView" Source="{Binding EquipmentsKits}"/>
+                </DataGrid.Resources>-->
+                
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="VNCode"/>
+                    <DataGridTextColumn Header="VNCode" Binding="{Binding Location.CodeName}"/>
+                    <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNum}"/>
+                    <DataGridTextColumn Header="Дата получения:" Binding="{Binding ReceiptDate, StringFormat='dd:MM:yyyy'}" Width="*"/>
                 </DataGrid.Columns>                
+            </DataGrid>
+
+            <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedKit}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding se}"/>
+                </DataGrid.Columns>
             </DataGrid>
         </Grid>
     </DockPanel>

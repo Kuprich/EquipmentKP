@@ -2,6 +2,7 @@
 using Equipment.Interfaces;
 using EquipmentKP.Infrastructure.Command;
 using EquipmentKP.ViewModels.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
+        private IRepository<EquipmentsKit> EquipmentsKitRep;
+
         #region string Title - заголовок окна
         private string _Title = "ИАЦ: Движение оборудования";
 
@@ -30,9 +33,21 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        //private ObservableCollection<EquipmentsKit> equipmentsKits;
 
-        public ObservableCollection<EquipmentsKit> EquipmentsKits => (ObservableCollection<EquipmentsKit>)EquipmentsKitRep.Items;
+        private ObservableCollection<EquipmentsKit> equipmentsKit;
+        public ObservableCollection<EquipmentsKit> EquipmentsKits
+        {
+            get => equipmentsKit;
+            set => Set(ref equipmentsKit, value);
+        }
+
+        private EquipmentsKit selectedKit;
+        public EquipmentsKit SelectedKit
+        {
+            get => selectedKit;
+            set => Set(ref selectedKit, value);
+        }
+
 
 
         #endregion
@@ -49,32 +64,28 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
-        #region TestAsyncCommand - пример асинхронной команды
-        private ICommand _TestAsyncCommand;
-        public ICommand TestAsyncCommand => _TestAsyncCommand ??= new LambdaCommandAsync(OnTestAsyncCommandExecuted);
-        private DateTime _Time;
-        private readonly IRepository<EquipmentsKit> EquipmentsKitRep;
-
-        public DateTime Time
+        private ICommand _LoadDataCommand;
+        public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
+        private async Task OnLoadDataCommandExecuted()
         {
-            get => _Time;
-            set => Set(ref _Time, value);
+            EquipmentsKits = new ObservableCollection<EquipmentsKit>(await EquipmentsKitRep.Items.ToArrayAsync());
         }
 
-        private async Task OnTestAsyncCommandExecuted(object p) => await Task.Run(TestAsyncMethod);
-
-        private void TestAsyncMethod()
-        {
-            Thread.Sleep(5000);
-            Time = DateTime.Now;
-        }
-        #endregion 
         #endregion
 
         public MainWindowViewModel(IRepository<EquipmentsKit> EquipmentsKitRep)
         {
             this.EquipmentsKitRep = EquipmentsKitRep;
-            //EquipmentsKits = (ObservableCollection<EquipmentsKit>) EquipmentsKitRep.Items;
+            
+            //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
+
+            //EquipmentsKitRep.Add(kit);
+            //{ InventoryNum = "021384123", Location = locations[2], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
+        }
+
+        public MainWindowViewModel()
+        {
+
         }
     }
 }

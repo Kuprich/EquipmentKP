@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Equipment.Database.Entities
 {
-    public class EquipmentsKit : Entity
+    public class EquipmentsKit : NamedEntity
     {
         public string InventoryNum { get; set; }
         public string Owner { get; set; }

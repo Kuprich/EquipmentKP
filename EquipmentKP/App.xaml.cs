@@ -29,6 +29,7 @@ namespace EquipmentKP
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+
             var host = Host;
             base.OnStartup(e);
 

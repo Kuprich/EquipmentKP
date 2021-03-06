@@ -7,6 +7,6 @@ namespace EquipmentKP.ViewModels
 {
     class ViewModelLocator
     {
-        public MainWindowViewModel MainVindovVM => App.Services.GetRequiredService<MainWindowViewModel>();
+        public MainWindowViewModel MainWindowVM => App.Services.GetRequiredService<MainWindowViewModel>();
     }
 }

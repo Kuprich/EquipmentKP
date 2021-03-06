@@ -11,13 +11,16 @@ namespace Equipment.Database.Repositories
     public static class RepositoriesRegistrator
     {
         public static IServiceCollection AddDbRepositories(this IServiceCollection services) => services
-            .AddSingleton<IRepository<Location>, DbRepositoryBase<Location>>()
-            .AddSingleton<IRepository<EquipmentCategory>, DbRepositoryBase<EquipmentCategory>>()
-            .AddSingleton<IRepository<EquipmentType>, DbRepositoryBase<EquipmentType>>()
-            .AddSingleton<IRepository<MainEquipment>, DbRepositoryBase<MainEquipment>>()
-            .AddSingleton<IRepository<Request>, DbRepositoryBase<Request>>()
-            .AddSingleton<IRepository<RequestMovement>, DbRepositoryBase<RequestMovement>>()
-            .AddSingleton<IRepository<EquipmentsKit>, DbRepositoryBase<EquipmentsKit>>()
+
+            .AddSingleton<IRepository<EquipmentCategory>,   DbRepositoryBase<EquipmentCategory>>()
+            .AddSingleton<IRepository<EquipmentType>,       DbRepositoryBase<EquipmentType>>()
+            .AddSingleton<IRepository<Location>,            DbRepositoryBase<Location>>()
+            .AddSingleton<IRepository<EquipmentsKit>,       DbRepositoryBase<EquipmentsKit>>()
+            .AddSingleton<IRepository<MainEquipment>,       DbRepositoryBase<MainEquipment>>()
+            .AddSingleton<IRepository<Request>,             DbRepositoryBase<Request>>()
+            .AddSingleton<IRepository<RequestState>,        DbRepositoryBase<RequestState>>()
+            .AddSingleton<IRepository<RequestMovement>,     DbRepositoryBase<RequestMovement>>()
+
             ;
 
     }
