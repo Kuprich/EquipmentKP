@@ -23,8 +23,32 @@ namespace EquipmentKP.ViewModels
 
         private IRepository<MainEquipment> EquipmentsRep;
 
-        private CollectionViewSource equpmentsViewSource;
-        public ICollectionView EquipmentsView => equpmentsViewSource?.View;
+        #region String InventoryNo - поле для фильтра
+        private String inventoryNoFilter;
+
+        public String InventoryNoFilter
+        {
+            get => inventoryNoFilter;
+            set
+            {
+                if (!Set(ref inventoryNoFilter, value)) return;
+
+                equipmentsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region View & ViewSource equipments (А так же фильтр)
+        private CollectionViewSource equipmentsViewSource;
+        public ICollectionView EquipmentsView => equipmentsViewSource?.View;
+        private void EquipmentsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if ( !(e.Item is MainEquipment equipment) || string.IsNullOrEmpty(InventoryNoFilter) ) return;
+
+            if ( !equipment.EquipmentsKit.InventoryNo.Contains(InventoryNoFilter.Trim(), StringComparison.OrdinalIgnoreCase) )
+                e.Accepted = false;
+        } 
+        #endregion
 
         #region string Title - заголовок окна
         private string _Title = "ИАЦ: Движение оборудования";
@@ -36,15 +60,6 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        private String inventoryNoText;
-
-        public String MyProperty
-        {
-            get { return inventoryNoText; }
-            set { inventoryNoText = value; }
-        }
-
-
         #region ObservableCollection<MainEquipment> Equipments - оборудование
         private ObservableCollection<MainEquipment> equipments;
         public ObservableCollection<MainEquipment> Equipments
@@ -54,9 +69,9 @@ namespace EquipmentKP.ViewModels
             {
                 if (!Set(ref equipments, value)) return;
 
-                equpmentsViewSource = new CollectionViewSource { Source = value };
+                equipmentsViewSource = new CollectionViewSource { Source = value };
 
-                equpmentsViewSource.View.Refresh();
+                equipmentsViewSource.View.Refresh();
                 OnPropertyChanged(nameof(EquipmentsView));
             }
         } 
@@ -79,12 +94,15 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region LoadDataCommand - Команда загрузки данных из репозитория
-        private ICommand _LoadDataCommand;
-        public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
+        private ICommand loadDataCommand;
+        public ICommand LoadDataCommand => loadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
             Equipments = new ObservableCollection<MainEquipment>(await EquipmentsRep.Items.ToArrayAsync());
-            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription("EquipmentsKit.InventoryNo"));
+
+            equipmentsViewSource.Filter += EquipmentsViewSource_Filter;
+            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
+
         }
         #endregion
 
@@ -94,7 +112,7 @@ namespace EquipmentKP.ViewModels
         private void OnGroupingCammandExecute()
         {
             EquipmentsView.GroupDescriptions.Clear();
-            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription("EquipmentsKit.InventoryNo"));
+            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
         }
         #endregion
 
@@ -112,7 +130,11 @@ namespace EquipmentKP.ViewModels
         public MainWindowViewModel(IRepository<MainEquipment> EquipmentsRep)
         {
             this.EquipmentsRep = EquipmentsRep;
-            equpmentsViewSource = new CollectionViewSource { Source = Equipments };
+            equipmentsViewSource = new CollectionViewSource { Source = Equipments };
+
+            //equipmentsViewSource.Filter += EquipmentsViewSource_Filter;
+            OnPropertyChanged(nameof(EquipmentsView));
+            
 
             //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
 
