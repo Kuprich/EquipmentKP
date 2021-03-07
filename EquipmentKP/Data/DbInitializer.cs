@@ -102,26 +102,26 @@ namespace EquipmentKP.Data
         }
         private async Task Init_MainEquipment()
         {
-            mainEquipments[0] = new MainEquipment { SerialNumber = "888 999 777", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.1", Name = "Системный блок 1", NetworkName = "sysblock - 1", OperationSystem = "windows 7" };
-            mainEquipments[1] = new MainEquipment { SerialNumber = "888 999 888", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[1], Name = "Монитор 1"};
-            mainEquipments[2] = new MainEquipment { SerialNumber = "888 999 999", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[2], Name = "ИБП 1"};
+            mainEquipments[0] = new MainEquipment { SerialNo = "110", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.1", Name = "Системный блок 1", NetworkName = "sysblock - 1", OperationSystem = "windows 7" };
+            mainEquipments[1] = new MainEquipment { SerialNo = "111", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[1], Name = "Монитор 1"};
+            mainEquipments[2] = new MainEquipment { SerialNo = "112", EquipmentsKit = equipmentsKits[0], EquipmentType = equipmentTypes[2], Name = "ИБП 1"};
 
-            mainEquipments[3] = new MainEquipment { SerialNumber = "111 222 333", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.2", Name = "Системный блок 2", NetworkName = "sysblock - 2", OperationSystem = "windows 10" };
-            mainEquipments[4] = new MainEquipment { SerialNumber = "111 222 444", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[1], Name = "Монитор 2" };
-            mainEquipments[5] = new MainEquipment { SerialNumber = "111 222 555", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[2], Name = "ИБП 2" };
+            mainEquipments[3] = new MainEquipment { SerialNo = "440", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.2", Name = "Системный блок 2", NetworkName = "sysblock - 2", OperationSystem = "windows 10" };
+            mainEquipments[4] = new MainEquipment { SerialNo = "441", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[1], Name = "Монитор 2" };
+            mainEquipments[5] = new MainEquipment { SerialNo = "442", EquipmentsKit = equipmentsKits[1], EquipmentType = equipmentTypes[2], Name = "ИБП 2" };
 
-            mainEquipments[6] = new MainEquipment { SerialNumber = "222 777 555", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.3", Name = "Системный блок 3", NetworkName = "sysblock - 3", OperationSystem = "windows xp" };
-            mainEquipments[7] = new MainEquipment { SerialNumber = "222 777 333", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[1], Name = "Монитор 3" };
-            mainEquipments[8] = new MainEquipment { SerialNumber = "222 777 666", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[2], Name = "ИБП 3" };
+            mainEquipments[6] = new MainEquipment { SerialNo = "220", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[0], IpAddress = "192.168.0.3", Name = "Системный блок 3", NetworkName = "sysblock - 3", OperationSystem = "windows xp" };
+            mainEquipments[7] = new MainEquipment { SerialNo = "221", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[1], Name = "Монитор 3" };
+            mainEquipments[8] = new MainEquipment { SerialNo = "222", EquipmentsKit = equipmentsKits[2], EquipmentType = equipmentTypes[2], Name = "ИБП 3" };
 
             await context.MainEquipment.AddRangeAsync(mainEquipments);
             await context.SaveChangesAsync();
         }
         private async Task Init_EquipmentsKit()
         {
-            equipmentsKits[0] = new EquipmentsKit { InventoryNum = "456777333", Location = locations[0], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("10.01.2015") };
-            equipmentsKits[1] = new EquipmentsKit { InventoryNum = "736123123", Location = locations[1], Owner = "Филиал ФГБУ ИАЦ в РМ", ReceiptDate = DateTime.Parse("20.05.2011") };
-            equipmentsKits[2] = new EquipmentsKit { InventoryNum = "021384123", Location = locations[2], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
+            equipmentsKits[0] = new EquipmentsKit { InventoryNo = "456777333", Location = locations[0], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("10.01.2015") };
+            equipmentsKits[1] = new EquipmentsKit { InventoryNo = "736123123", Location = locations[1], Owner = "Филиал ФГБУ ИАЦ в РМ", ReceiptDate = DateTime.Parse("20.05.2011") };
+            equipmentsKits[2] = new EquipmentsKit { InventoryNo = "021384123", Location = locations[2], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
             
             await context.AddRangeAsync(equipmentsKits);
             await context.SaveChangesAsync();
@@ -153,112 +153,6 @@ namespace EquipmentKP.Data
             await context.EquipmentTypes.AddRangeAsync(equipmentTypes);
             await context.SaveChangesAsync();
         }
-
-
-
-        //#region Init_MainEquipmentTypes - инициализация типов основного оборудования
-        //private async Task Init_MainEquipmentTypes()
-        //{
-        //    mainEquipmentTypes = new MainEquipmentType[2];
-        //    mainEquipmentTypes[0] = new MainEquipmentType { Name = "Сервер общего назначения" };
-        //    mainEquipmentTypes[1] = new MainEquipmentType { Name = "Рабочая станция" };
-
-        //    await context.MainEquipmentTypes.AddRangeAsync(mainEquipmentTypes);
-        //    await context.SaveChangesAsync();
-        //}
-        //#endregion
-
-        //#region Init_SubEquipmentTypes - инициализация типов периферийного оборудования
-        //private async Task Init_SubEquipmentTypes()
-        //{
-        //    subEquipmentTypes = new SubEquipmentType[3];
-        //    subEquipmentTypes[0] = new SubEquipmentType { Name = "Монитор" };
-        //    subEquipmentTypes[1] = new SubEquipmentType { Name = "Принтер" };
-        //    subEquipmentTypes[2] = new SubEquipmentType { Name = "ИБП" };
-
-        //    await context.SubEquipmentTypes.AddRangeAsync(subEquipmentTypes);
-        //    await context.SaveChangesAsync();
-        //}
-        //#endregion
-
-        //#region Init_Locations - инициализация мест установки оборудования
-        //private async Task Init_Locations()
-        //{
-        //    locations = new Location[3];
-        //    locations[0] = new Location { CodeName = "13RS0011", Name = "Зубово-Полянский районный суд РМ" };
-        //    locations[1] = new Location { CodeName = "13RS0020", Name = "Темниковский районный суд РМ" };
-        //    locations[2] = new Location { CodeName = "13RS0021", Name = "Теньгушевский районный суд РМ" };
-
-        //    await context.Locations.AddRangeAsync(locations);
-        //    await context.SaveChangesAsync();
-        //}
-        //#endregion
-
-        //#region Init_MainEquipments - инициализация основного оборудования
-        //private async Task Init_MainEquipments()
-        //{
-        //    mainEquipments = new MainEquipment[3];
-
-        //    mainEquipments[0] = new MainEquipment
-        //    {
-        //        InvNo = "1234567890",
-        //        SerialNo = "18273812738",
-        //        Name = "крафтвей экспресс",
-        //        Owner = "УСД по РМ",
-        //        MainEquipmentType = mainEquipmentTypes[0],
-        //        Location = locations[0],
-        //        NetworkName = "serverNew",
-        //        OperationSystem = "Windows Server 2012R2"
-        //    };
-        //    mainEquipments[1] = new MainEquipment
-        //    {
-        //        InvNo = "10954323490",
-        //        SerialNo = "18902340123123",
-        //        Name = "крафтвей экспресс E155",
-        //        Owner = "УСД по РМ",
-        //        MainEquipmentType = mainEquipmentTypes[0],
-        //        Location = locations[1],
-        //        NetworkName = "serverak",
-        //        OperationSystem = "Windows Server 2012R2"
-        //    };
-        //    mainEquipments[2] = new MainEquipment
-        //    {
-        //        InvNo = "10923849012",
-        //        SerialNo = "049258690342",
-        //        Name = "Asus prime 123",
-        //        Owner = "Зубова поляна",
-        //        MainEquipmentType = mainEquipmentTypes[1],
-        //        Location = locations[2],
-        //        NetworkName = "serverak",
-        //        OperationSystem = "Windows 7"
-        //    };
-
-        //    await context.MainEquipments.AddRangeAsync(mainEquipments);
-        //    await context.SaveChangesAsync();
-        //}
-        //#endregion
-
-        //#region Init_SubEquipments - инициализация периферийного оборудования
-        //private async Task Init_SubEquipments()
-        //{
-        //    subEquipments = new SubEquipment[9];
-
-        //    subEquipments[0] = new SubEquipment { MainEquipment = mainEquipments[0], SubEquipmentType = subEquipmentTypes[0], Name = "LG 1234", SerialNo = "8912349782" };
-        //    subEquipments[1] = new SubEquipment { MainEquipment = mainEquipments[0], SubEquipmentType = subEquipmentTypes[1], Name = "Canon 1234", SerialNo = "123461234" };
-        //    subEquipments[2] = new SubEquipment { MainEquipment = mainEquipments[0], SubEquipmentType = subEquipmentTypes[2], Name = "ИБП 1234", SerialNo = "10923481234" };
-
-        //    subEquipments[3] = new SubEquipment { MainEquipment = mainEquipments[1], SubEquipmentType = subEquipmentTypes[0], Name = "LG 345", SerialNo = "2334342545" };
-        //    subEquipments[4] = new SubEquipment { MainEquipment = mainEquipments[1], SubEquipmentType = subEquipmentTypes[1], Name = "Canon 345", SerialNo = "1234612312344" };
-        //    subEquipments[5] = new SubEquipment { MainEquipment = mainEquipments[1], SubEquipmentType = subEquipmentTypes[2], Name = "ИБП 345", SerialNo = "1091233434" };
-
-        //    subEquipments[6] = new SubEquipment { MainEquipment = mainEquipments[2], SubEquipmentType = subEquipmentTypes[0], Name = "LG 4356", SerialNo = "243334456" };
-        //    subEquipments[7] = new SubEquipment { MainEquipment = mainEquipments[2], SubEquipmentType = subEquipmentTypes[1], Name = "Canon 4356", SerialNo = "345444554" };
-        //    subEquipments[8] = new SubEquipment { MainEquipment = mainEquipments[2], SubEquipmentType = subEquipmentTypes[2], Name = "ИБП 4356", SerialNo = "109123123465434" };
-
-        //    await context.SubEquipments.AddRangeAsync(subEquipments);
-        //    await context.SaveChangesAsync();
-        //} 
-        //#endregion
 
     }
 

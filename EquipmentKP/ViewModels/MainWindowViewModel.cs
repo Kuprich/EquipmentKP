@@ -23,6 +23,9 @@ namespace EquipmentKP.ViewModels
 
         private IRepository<MainEquipment> EquipmentsRep;
 
+        private CollectionViewSource equpmentsViewSource;
+        public ICollectionView EquipmentsView => equpmentsViewSource?.View;
+
         #region string Title - заголовок окна
         private string _Title = "ИАЦ: Движение оборудования";
 
@@ -33,7 +36,16 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        private String inventoryNoText;
 
+        public String MyProperty
+        {
+            get { return inventoryNoText; }
+            set { inventoryNoText = value; }
+        }
+
+
+        #region ObservableCollection<MainEquipment> Equipments - оборудование
         private ObservableCollection<MainEquipment> equipments;
         public ObservableCollection<MainEquipment> Equipments
         {
@@ -47,15 +59,14 @@ namespace EquipmentKP.ViewModels
                 equpmentsViewSource.View.Refresh();
                 OnPropertyChanged(nameof(EquipmentsView));
             }
-        }
-        private CollectionViewSource equpmentsViewSource;
-        public ICollectionView EquipmentsView => equpmentsViewSource?.View;
-
+        } 
+        #endregion
 
 
         #endregion
 
         #region КОМАНДЫ
+
         #region CloseAplicationCommand - Команда закрытия окна
         private ICommand _CloseAplicationCommand;
         public ICommand CloseAplicationCommand => _CloseAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
@@ -67,12 +78,34 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region LoadDataCommand - Команда загрузки данных из репозитория
         private ICommand _LoadDataCommand;
         public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
             Equipments = new ObservableCollection<MainEquipment>(await EquipmentsRep.Items.ToArrayAsync());
+            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription("EquipmentsKit.InventoryNo"));
         }
+        #endregion
+
+        #region GroupingCammand - Группировать (тестовая команда)
+        private ICommand groupingCommand;
+        public ICommand GroupingCammand => groupingCommand ?? new LambdaCommand(OnGroupingCammandExecute);
+        private void OnGroupingCammandExecute()
+        {
+            EquipmentsView.GroupDescriptions.Clear();
+            EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription("EquipmentsKit.InventoryNo"));
+        }
+        #endregion
+
+        #region UnGroupingCammand - Разгруппировать
+        private ICommand unGroupingCommand;
+        public ICommand UnGroupingCammand => unGroupingCommand ?? new LambdaCommand(OnUnGroupingCammandExecute);
+        private void OnUnGroupingCammandExecute()
+        {
+            EquipmentsView.GroupDescriptions.Clear();
+        } 
+        #endregion
 
         #endregion
 
@@ -80,8 +113,6 @@ namespace EquipmentKP.ViewModels
         {
             this.EquipmentsRep = EquipmentsRep;
             equpmentsViewSource = new CollectionViewSource { Source = Equipments };
-
-
 
             //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
 

@@ -34,19 +34,60 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
-            <DataGrid ItemsSource="{Binding EquipmentsView}" AutoGenerateColumns="True">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="3">
+                    <TextBlock Text="Фильтр по инвентарнику:  "/>
+                    <TextBox/>
+                </DockPanel>
+                <UniformGrid DockPanel.Dock="Top" Rows="1">
+                    <Button Content="Сгруппировать" Command="{Binding GroupingCammand}"/>
+                    <Button Content="Разгруппировать" Command="{Binding UnGroupingCammand}"/>
+                </UniformGrid>
+                <DataGrid ItemsSource="{Binding EquipmentsView}" AutoGenerateColumns="True">
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
 
-                
-                <!--<DataGrid.Resources>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+
+                                                <Expander IsExpanded="True" 
+                                                          BorderThickness="0,0,0,1" 
+                                                          BorderBrush="#ff002255"
+                                                          Background="Tan"
+                                                          Style="{DynamicResource MyExpanderStyle}">
+                                                    <Expander.Header>
+                                                        <Label Content="{Binding}"/>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                                
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    
+
+
+                    <!--<DataGrid.Resources>
                     <CollectionViewSource x:Key="EquipmentsView" Source="{Binding EquipmentsKits}"/>
                 </DataGrid.Resources>-->
-                
-                <!--<DataGrid.Columns>
+
+                    <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="VNCode" Binding="{Binding Location.CodeName}"/>
                     <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNum}"/>
                     <DataGridTextColumn Header="Дата получения:" Binding="{Binding ReceiptDate, StringFormat='dd:MM:yyyy'}" Width="*"/>
-                </DataGrid.Columns>-->                
-            </DataGrid>
+                </DataGrid.Columns>-->
+                </DataGrid>
+            </DockPanel>
+            
 
         </Grid>
     </DockPanel>
