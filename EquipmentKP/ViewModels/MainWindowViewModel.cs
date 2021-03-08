@@ -84,8 +84,19 @@ namespace EquipmentKP.ViewModels
         {
             get => selectedEquipment;
             set => Set(ref selectedEquipment, value);
+        }
+        #endregion
+
+        #region Request SelectedRequest - выбранная заявка
+        private Request selectedRequest;
+
+        public Request SelectedRequest
+        {
+            get => selectedRequest;
+            set => Set(ref selectedRequest, value);
         } 
         #endregion
+
 
         #endregion
 

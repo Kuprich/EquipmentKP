@@ -9,6 +9,6 @@ namespace Equipment.Database.Entities
     {
         public int Number                   { get; set; }
         public MainEquipment MainEquipment  { get; set; }
-        public IList<RequestMovement> RequestMovement { get; set; } = new List<RequestMovement>();
+        public IList<RequestMovement> RequestMovements { get; set; } = new List<RequestMovement>();
     }
 }
