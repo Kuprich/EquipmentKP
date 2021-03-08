@@ -1,6 +1,7 @@
 ﻿using Equipment.Database.Entities;
 using Equipment.Interfaces;
 using EquipmentKP.Infrastructure.Command;
+using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +18,12 @@ using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
 {
-    class MainWindowViewModel : ViewModelBase
+    class MainViewModel : ViewModelBase
     {
         #region ПОЛЯ И СВОЙСТВА
 
         private IRepository<MainEquipment> EquipmentsRep;
+        private readonly IUserDialog UserDialog;
 
         #region String InventoryNo - поле для фильтра
         private String inventoryNoFilter;
@@ -103,8 +105,8 @@ namespace EquipmentKP.ViewModels
         #region КОМАНДЫ
 
         #region CloseAplicationCommand - Команда закрытия окна
-        private ICommand _CloseAplicationCommand;
-        public ICommand CloseAplicationCommand => _CloseAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
+        private ICommand closeAplicationCommand = null;
+        public ICommand CloseAplicationCommand => closeAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
         //private bool CanCloseAplicationCommandExecute() => true; // если этого параметра нет, то всегда разрешено выполнение данной команды
         private void OnCloseAplicationCommandExecuted()
         {
@@ -114,7 +116,7 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region LoadDataCommand - Команда загрузки данных из репозитория
-        private ICommand loadDataCommand;
+        private ICommand loadDataCommand = null;
         public ICommand LoadDataCommand => loadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
@@ -127,7 +129,7 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region GroupingCammand - Группировать (тестовая команда)
-        private ICommand groupingCommand;
+        private ICommand groupingCommand = null;
         public ICommand GroupingCammand => groupingCommand ?? new LambdaCommand(OnGroupingCammandExecute);
         private void OnGroupingCammandExecute()
         {
@@ -137,19 +139,41 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region UnGroupingCammand - Разгруппировать
-        private ICommand unGroupingCommand;
+        private ICommand unGroupingCommand = null;
         public ICommand UnGroupingCammand => unGroupingCommand ?? new LambdaCommand(OnUnGroupingCammandExecute);
         private void OnUnGroupingCammandExecute()
         {
             EquipmentsView.GroupDescriptions.Clear();
+        }
+        #endregion
+
+        #region EditEquipmentCommand - редактирование оборудования
+        private ICommand editEquipmentCommand = null;
+        public ICommand EditEquipmentCommand => editEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
+        public bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
+        public void OnEditEquipmentCommandExecuted(object p)
+        {
+            var equipment = (MainEquipment)p;
+            if (UserDialog.Edit(equipment))
+            {
+                // сохраннение информации в БД
+            }
+            else
+            {
+                // иниые действия
+            }
         } 
         #endregion
 
         #endregion
 
-        public MainWindowViewModel(IRepository<MainEquipment> EquipmentsRep)
+        public MainViewModel(
+            IRepository<MainEquipment> EquipmentsRep,
+            IUserDialog UserDialog
+            )
         {
             this.EquipmentsRep = EquipmentsRep;
+            this.UserDialog = UserDialog;
             equipmentsViewSource = new CollectionViewSource { Source = Equipments };
 
             OnPropertyChanged(nameof(EquipmentsView));
@@ -161,7 +185,7 @@ namespace EquipmentKP.ViewModels
             //{ InventoryNum = "021384123", Location = locations[2], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
         }
 
-        public MainWindowViewModel()
+        public MainViewModel()
         {
             if (!App.IsDesignTime)
                 throw new InvalidOperationException("Данный конструктор не предназначен для использования вне дизайнера VisualStudio");

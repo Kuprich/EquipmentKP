@@ -8,8 +8,8 @@
         xmlns:entities="clr-namespace:Equipment.Database.Entities;assembly=Equipment.Database"
         
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels" xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
-        d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewModel}, IsDesignTimeCreatable=True}"
-        DataContext="{Binding MainWindowVM, Source={StaticResource Locator}}"
+        d:DataContext="{d:DesignInstance {x:Type vm:MainViewModel}, IsDesignTimeCreatable=True}"
+        DataContext="{Binding MainVM, Source={StaticResource Locator}}"
         
         Title="{Binding Title}" Height="450" Width="800">
     <i:Interaction.Triggers>
@@ -25,6 +25,11 @@
             <MenuItem Header="Комплекты оборудования">
                 <MenuItem Header="Добавить"/>
                 <MenuItem Header="Редактировать"/>
+            </MenuItem>
+
+            <MenuItem Header="Оборудование">
+                <MenuItem Header="Добавить"/>
+                <MenuItem Header="Редактировать" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
             </MenuItem>
         </Menu>
 
