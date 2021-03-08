@@ -7,8 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:entities="clr-namespace:Equipment.Database.Entities;assembly=Equipment.Database"
         
-        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
-        
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels" xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:MainWindowViewModel}, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainWindowVM, Source={StaticResource Locator}}"
         
@@ -44,9 +43,11 @@
                     <Button Content="Разгруппировать" Command="{Binding UnGroupingCammand}"/>
                 </UniformGrid>
                 <DataGrid ItemsSource="{Binding EquipmentsView}" SelectedItem="{Binding SelectedEquipment}">
+                    <DataGrid.Resources>
+                        <c:EquipmentGroupItemsToLocationName x:Key="GroupItemsConveter"/>
+                    </DataGrid.Resources>
                     <DataGrid.GroupStyle>
                         <GroupStyle>
-
                             <GroupStyle.ContainerStyle>
                                 <Style TargetType="{x:Type GroupItem}">
                                     <Setter Property="Template">
@@ -67,7 +68,7 @@
                                                             <TextBlock Text="{Binding ItemCount}"/>
 
                                                             <TextBlock Text="Место установки:"/>
-                                                            <TextBlock Text="{Binding Item.Location.Name}"/>
+                                                            <TextBlock Text="{Binding Items, Converter={StaticResource GroupItemsConveter}}" />
                                                         </StackPanel>
                                                     </Expander.Header>
                                                     <Expander.Content>
