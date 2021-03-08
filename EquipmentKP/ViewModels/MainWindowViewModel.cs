@@ -74,9 +74,18 @@ namespace EquipmentKP.ViewModels
                 equipmentsViewSource.View.Refresh();
                 OnPropertyChanged(nameof(EquipmentsView));
             }
-        } 
+        }
         #endregion
 
+        #region MainEquipment SelectedEquipment - выбранное оборудование
+        private MainEquipment selectedEquipment;
+
+        public MainEquipment SelectedEquipment
+        {
+            get => selectedEquipment;
+            set => Set(ref selectedEquipment, value);
+        } 
+        #endregion
 
         #endregion
 
@@ -132,7 +141,6 @@ namespace EquipmentKP.ViewModels
             this.EquipmentsRep = EquipmentsRep;
             equipmentsViewSource = new CollectionViewSource { Source = Equipments };
 
-            //equipmentsViewSource.Filter += EquipmentsViewSource_Filter;
             OnPropertyChanged(nameof(EquipmentsView));
             
 

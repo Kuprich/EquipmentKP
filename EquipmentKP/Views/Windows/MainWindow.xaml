@@ -43,7 +43,7 @@
                     <Button Content="Сгруппировать" Command="{Binding GroupingCammand}"/>
                     <Button Content="Разгруппировать" Command="{Binding UnGroupingCammand}"/>
                 </UniformGrid>
-                <DataGrid ItemsSource="{Binding EquipmentsView}" AutoGenerateColumns="True">
+                <DataGrid ItemsSource="{Binding EquipmentsView}" SelectedItem="{Binding SelectedEquipment}">
                     <DataGrid.GroupStyle>
                         <GroupStyle>
 
@@ -59,7 +59,16 @@
                                                           Background="WhiteSmoke"
                                                           Style="{DynamicResource MyExpanderStyle}">
                                                     <Expander.Header>
-                                                        <Label Content="{Binding}"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Инв. №: "/>
+                                                            <TextBlock Text="{Binding Name}"/>
+
+                                                            <TextBlock Text="Кол-во: "/>
+                                                            <TextBlock Text="{Binding ItemCount}"/>
+
+                                                            <TextBlock Text="Место установки:"/>
+                                                            <TextBlock Text="{Binding Item.Location.Name}"/>
+                                                        </StackPanel>
                                                     </Expander.Header>
                                                     <Expander.Content>
                                                         <ItemsPresenter />
@@ -73,18 +82,32 @@
                             </GroupStyle.ContainerStyle>
                         </GroupStyle>
                     </DataGrid.GroupStyle>
-
-                    <!--<DataGrid.Resources>
-                    <CollectionViewSource x:Key="EquipmentsView" Source="{Binding EquipmentsKits}"/>
-                </DataGrid.Resources>-->
-
-                    <!--<DataGrid.Columns>
-                    <DataGridTextColumn Header="VNCode" Binding="{Binding Location.CodeName}"/>
-                    <DataGridTextColumn Header="Инв. номер" Binding="{Binding InventoryNum}"/>
-                    <DataGridTextColumn Header="Дата получения:" Binding="{Binding ReceiptDate, StringFormat='dd:MM:yyyy'}" Width="*"/>
-                </DataGrid.Columns>-->
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Серийный №" Binding="{Binding SerialNo}" />
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Тип оборудования" Binding="{Binding EquipmentType.Name}"/>
+                    </DataGrid.Columns>
                 </DataGrid>
                 
+            </DockPanel>
+
+            <DockPanel Grid.Column="1">
+                <GroupBox Header="Основная информация">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Владелец" Grid.Column="0" Grid.Row="0"/>
+                        <TextBox IsEnabled="False" Grid.Column="1" Grid.Row="0"/>
+                        
+                    </Grid>
+                </GroupBox>
             </DockPanel>
 
 
