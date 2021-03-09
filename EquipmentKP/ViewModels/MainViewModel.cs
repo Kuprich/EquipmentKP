@@ -22,27 +22,27 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
-        private IRepository<MainEquipment> EquipmentsRep;
-        private readonly IUserDialog UserDialog;
+        private IRepository<MainEquipment> _EquipmentsRep;
+        private readonly IUserDialog _UserDialog;
 
         #region String InventoryNo - поле для фильтра
-        private String inventoryNoFilter;
+        private String _InventoryNoFilter;
 
         public String InventoryNoFilter
         {
-            get => inventoryNoFilter;
+            get => _InventoryNoFilter;
             set
             {
-                if (!Set(ref inventoryNoFilter, value)) return;
+                if (!Set(ref _InventoryNoFilter, value)) return;
 
-                equipmentsViewSource.View.Refresh();
+                _EquipmentsViewSource.View.Refresh();
             }
         }
         #endregion
 
         #region View & ViewSource equipments (А так же фильтр)
-        private CollectionViewSource equipmentsViewSource;
-        public ICollectionView EquipmentsView => equipmentsViewSource?.View;
+        private CollectionViewSource _EquipmentsViewSource;
+        public ICollectionView EquipmentsView => _EquipmentsViewSource?.View;
         private void EquipmentsViewSource_Filter(object sender, FilterEventArgs e)
         {
             if ( !(e.Item is MainEquipment equipment) || string.IsNullOrEmpty(InventoryNoFilter) ) return;
@@ -63,39 +63,39 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region ObservableCollection<MainEquipment> Equipments - оборудование
-        private ObservableCollection<MainEquipment> equipments;
+        private ObservableCollection<MainEquipment> _Equipments;
         public ObservableCollection<MainEquipment> Equipments
         {
-            get => equipments;
+            get => _Equipments;
             set
             {
-                if (!Set(ref equipments, value)) return;
+                if (!Set(ref _Equipments, value)) return;
 
-                equipmentsViewSource = new CollectionViewSource { Source = value };
+                _EquipmentsViewSource = new CollectionViewSource { Source = value };
 
-                equipmentsViewSource.View.Refresh();
+                _EquipmentsViewSource.View.Refresh();
                 OnPropertyChanged(nameof(EquipmentsView));
             }
         }
         #endregion
 
         #region MainEquipment SelectedEquipment - выбранное оборудование
-        private MainEquipment selectedEquipment;
+        private MainEquipment _SelectedEquipment;
 
         public MainEquipment SelectedEquipment
         {
-            get => selectedEquipment;
-            set => Set(ref selectedEquipment, value);
+            get => _SelectedEquipment;
+            set => Set(ref _SelectedEquipment, value);
         }
         #endregion
 
         #region Request SelectedRequest - выбранная заявка
-        private Request selectedRequest;
+        private Request _SelectedRequest;
 
         public Request SelectedRequest
         {
-            get => selectedRequest;
-            set => Set(ref selectedRequest, value);
+            get => _SelectedRequest;
+            set => Set(ref _SelectedRequest, value);
         } 
         #endregion
 
@@ -105,8 +105,8 @@ namespace EquipmentKP.ViewModels
         #region КОМАНДЫ
 
         #region CloseAplicationCommand - Команда закрытия окна
-        private ICommand closeAplicationCommand = null;
-        public ICommand CloseAplicationCommand => closeAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
+        private ICommand _CloseAplicationCommand = null;
+        public ICommand CloseAplicationCommand => _CloseAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
         //private bool CanCloseAplicationCommandExecute() => true; // если этого параметра нет, то всегда разрешено выполнение данной команды
         private void OnCloseAplicationCommandExecuted()
         {
@@ -116,21 +116,21 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region LoadDataCommand - Команда загрузки данных из репозитория
-        private ICommand loadDataCommand = null;
-        public ICommand LoadDataCommand => loadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
+        private ICommand _LoadDataCommand = null;
+        public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
-            Equipments = new ObservableCollection<MainEquipment>(await EquipmentsRep.Items.ToArrayAsync());
+            Equipments = new ObservableCollection<MainEquipment>(await _EquipmentsRep.Items.ToArrayAsync());
 
-            equipmentsViewSource.Filter += EquipmentsViewSource_Filter;
+            _EquipmentsViewSource.Filter += EquipmentsViewSource_Filter;
             EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
 
         }
         #endregion
 
         #region GroupingCammand - Группировать (тестовая команда)
-        private ICommand groupingCommand = null;
-        public ICommand GroupingCammand => groupingCommand ?? new LambdaCommand(OnGroupingCammandExecute);
+        private ICommand _GroupingCommand = null;
+        public ICommand GroupingCammand => _GroupingCommand ?? new LambdaCommand(OnGroupingCammandExecute);
         private void OnGroupingCammandExecute()
         {
             EquipmentsView.GroupDescriptions.Clear();
@@ -139,8 +139,8 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region UnGroupingCammand - Разгруппировать
-        private ICommand unGroupingCommand = null;
-        public ICommand UnGroupingCammand => unGroupingCommand ?? new LambdaCommand(OnUnGroupingCammandExecute);
+        private ICommand _UnGroupingCommand = null;
+        public ICommand UnGroupingCammand => _UnGroupingCommand ?? new LambdaCommand(OnUnGroupingCammandExecute);
         private void OnUnGroupingCammandExecute()
         {
             EquipmentsView.GroupDescriptions.Clear();
@@ -148,13 +148,13 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         #region EditEquipmentCommand - редактирование оборудования
-        private ICommand editEquipmentCommand = null;
-        public ICommand EditEquipmentCommand => editEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
+        private ICommand _EditEquipmentCommand = null;
+        public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
         public bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
         public void OnEditEquipmentCommandExecuted(object p)
         {
             var equipment = (MainEquipment)p;
-            if (UserDialog.Edit(equipment))
+            if (_UserDialog.Edit(equipment))
             {
                 // сохраннение информации в БД
             }
@@ -172,9 +172,9 @@ namespace EquipmentKP.ViewModels
             IUserDialog UserDialog
             )
         {
-            this.EquipmentsRep = EquipmentsRep;
-            this.UserDialog = UserDialog;
-            equipmentsViewSource = new CollectionViewSource { Source = Equipments };
+            _EquipmentsRep = EquipmentsRep;
+            _UserDialog = UserDialog;
+            _EquipmentsViewSource = new CollectionViewSource { Source = Equipments };
 
             OnPropertyChanged(nameof(EquipmentsView));
             

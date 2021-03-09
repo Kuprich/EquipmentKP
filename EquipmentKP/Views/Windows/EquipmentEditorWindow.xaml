@@ -8,7 +8,38 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance {x:Type vm:EquipmentEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Bottom">
+            <DockPanel.Resources>
+                <Style TargetType="Button" >
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Padding" Value="4"/>
+                </Style>
+            </DockPanel.Resources>
+            <Button Content="Восстановить значения" HorizontalAlignment="Left"/>
+            <UniformGrid HorizontalAlignment="Right" Rows="1">
+                <Button Content="Ок"/>
+                <Button Content="Отменить "/>
+            </UniformGrid>
+        </DockPanel>
+
+        <DockPanel>
+            <GroupBox Header="Сведения о комплекте по текущему оборудованию">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Инвентарный №"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"/>
+
+                </Grid>
+            </GroupBox>
+        </DockPanel>
+    </DockPanel>
 </Window>

@@ -10,16 +10,16 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
-        private readonly MainEquipment equipment;
+        private readonly MainEquipment _Equipment;
 
         #region string Title - заголовок окна
 
-        private string title = "Заголовок окна";
+        private string _Title = "Заголовок окна";
     
         public string Title
         {
-            get => title;
-            set => Set(ref title, value);
+            get => _Title;
+            set => Set(ref _Title, value);
         }
         #endregion
 
@@ -27,7 +27,7 @@ namespace EquipmentKP.ViewModels
 
         public EquipmentEditorViewModel(MainEquipment Equipment)
         {
-            equipment = Equipment;
+            _Equipment = Equipment;
         }
 
         public EquipmentEditorViewModel() : this(new MainEquipment())
