@@ -11,26 +11,8 @@ using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
 {
-    class EquipmentEditorViewModel : ViewModelBase
+    class EquipmentEditorViewModel : EditorViewModelBase
     {
-        public event EventHandler<EventArgs<bool>> Complete;
-
-        private readonly Dictionary<string, object> _Values = new Dictionary<string, object>();
-        protected virtual bool SetValue(object value, [CallerMemberName] string Property = null)
-        {
-            if (_Values.TryGetValue(Property, out var old_value) && Equals(value, old_value))
-                return false;
-            _Values[Property] = value;
-            OnPropertyChanged(Property);
-            return true;
-        }
-        protected virtual T GetValue<T>(T Default, [CallerMemberName] string Property = null)
-        {
-            if (_Values.TryGetValue(Property, out var value))
-                return (T)value;
-            return Default;
-        }
-
 
         #region ПОЛЯ И СВОЙСТВА
 
@@ -54,44 +36,6 @@ namespace EquipmentKP.ViewModels
             get => _Title;
             set => Set(ref _Title, value);
         }
-        #endregion
-
-        #endregion
-
-        #region КОМАНДЫ
-
-        #region CancelCommand - Отмена изменений
-        private ICommand _CancelCommand = null;
-        public ICommand CancelCommand => _CancelCommand ??
-            new LambdaCommand(OnCancelCommandExecuted);
-        private void OnCancelCommandExecuted()
-        {
-            Reject();
-            Complete?.Invoke(this, false);
-        }
-        #endregion
-
-        #region RejectCommand - Сброс изменений
-        private ICommand _RejectCommand = null;
-        public ICommand RejectCommand => _RejectCommand ??
-            new LambdaCommand(OnRejectCommandExecuted, CanRejectCommandExecute);
-        private bool CanRejectCommandExecute(object p) => _Values.Count > 0;
-        private void OnRejectCommandExecuted(object p)
-        {
-            Reject();
-        }
-        #endregion
-
-        #region CommitCommand - Примение изменений
-        private ICommand _CommitCommand = null;
-        public ICommand CommitCommand => _CommitCommand ??
-            new LambdaCommand(OnCommitCommandExecuted, CanCommitCommandExecute);
-        private bool CanCommitCommandExecute(object p) => true;
-        private void OnCommitCommandExecuted(object p)
-        {
-            Commit();
-            Complete?.Invoke(this, false);
-        } 
         #endregion
 
         #endregion
