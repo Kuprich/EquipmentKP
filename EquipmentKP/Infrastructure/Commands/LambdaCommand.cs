@@ -1,9 +1,9 @@
-﻿using EquipmentKP.Infrastructure.Command.Base;
+﻿using EquipmentKP.Infrastructure.Commands.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EquipmentKP.Infrastructure.Command
+namespace EquipmentKP.Infrastructure.Commands
 {
     class LambdaCommand : CommandBase
     {

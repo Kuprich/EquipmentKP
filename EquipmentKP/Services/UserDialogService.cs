@@ -28,8 +28,12 @@ namespace EquipmentKP.Services
 
         private bool EditEquipment(MainEquipment equipment)
         {
-            var viewModel = new EquipmentEditorViewModel(equipment);
-            var view = new EquipmentEditorWindow
+            var viewModel = new EquipmentEditorViewModel(equipment)
+            {
+                InventoryNo = equipment.EquipmentsKit.InventoryNo
+            };
+
+            var window = new EquipmentEditorWindow
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,
@@ -37,7 +41,12 @@ namespace EquipmentKP.Services
                 
             };
 
-            return view.ShowDialog() ?? false;
+            if (window.ShowDialog() != true) return false;
+
+            equipment.EquipmentsKit.InventoryNo = viewModel.InventoryNo;
+
+            return true;
+            //return window.ShowDialog() ?? false;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Equipment.Database.Entities;
 using EquipmentKP.Infrastructure;
-using EquipmentKP.Infrastructure.Command;
+using EquipmentKP.Infrastructure.Commands;
 using EquipmentKP.ViewModels.Base;
 using System;
 using System.Collections.Generic;
@@ -11,21 +11,12 @@ using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
 {
-    class EquipmentEditorViewModel : EditorViewModelBase
+    class EquipmentEditorViewModel : ViewModelBase
     {
 
         #region ПОЛЯ И СВОЙСТВА
 
         private readonly MainEquipment _Equipment;
-
-        #region string InventoryNo - Комплект оборудования --> Серийный номер
-
-        public string InventoryNo
-        {
-            get => GetValue(_Equipment.EquipmentsKit.InventoryNo);
-            set => SetValue(value);
-        } 
-        #endregion
 
         #region string Title - заголовок окна
 
@@ -38,36 +29,25 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        // один из вариантов
+        //public string InventoryNo { get => _Equipment.EquipmentsKit.InventoryNo; set => _Equipment.EquipmentsKit.InventoryNo = value; }
+
+        #region string InventoryNo - инвентарный номер оборудования
+        private string _InventoryNo;
+
+        public string InventoryNo
+        {
+            get => _InventoryNo;
+            set => Set(ref _InventoryNo, value);
+        } 
+        #endregion
+
+
         #endregion
 
         public EquipmentEditorViewModel(MainEquipment Equipment)
         {
             _Equipment = Equipment;
-        }
-
-        public void Commit()
-        {
-            var type = _Equipment.GetType();
-
-            foreach (var (propertyName, value) in _Values)
-            {
-                var property = type.GetProperty(propertyName);
-                if (property is null || property.CanWrite) continue;
-
-                property.SetValue(_Equipment, value);
-            }
-
-            _Values.Clear();
-        }
-        public void Reject()
-        {
-            var properties = _Values.Keys.ToArray();
-            _Values.Clear();
-
-            foreach (var property in properties)
-            {
-                OnPropertyChanged(property);
-            }
         }
 
         public EquipmentEditorViewModel() : this(new MainEquipment())

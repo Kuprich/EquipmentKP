@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace EquipmentKP.Infrastructure.Command.Base
+namespace EquipmentKP.Infrastructure.Commands.Base
 {
     abstract class CommandBase : ICommand
     {

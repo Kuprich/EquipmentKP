@@ -1,6 +1,6 @@
 ﻿using Equipment.Database.Entities;
 using Equipment.Interfaces;
-using EquipmentKP.Infrastructure.Command;
+using EquipmentKP.Infrastructure.Commands;
 using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
 using Microsoft.EntityFrameworkCore;
@@ -73,8 +73,10 @@ namespace EquipmentKP.ViewModels
 
                 _EquipmentsViewSource = new CollectionViewSource { Source = value };
 
-                _EquipmentsViewSource.View.Refresh();
                 OnPropertyChanged(nameof(EquipmentsView));
+
+                _EquipmentsViewSource.View.Refresh();
+
             }
         }
         #endregion
@@ -154,13 +156,16 @@ namespace EquipmentKP.ViewModels
         public void OnEditEquipmentCommandExecuted(object p)
         {
             var equipment = (MainEquipment)p;
+
             if (_UserDialog.Edit(equipment))
             {
-                // сохраннение информации в БД
-            }
-            else
-            {
-                // иниые действия
+                _EquipmentsRep.Update(equipment);
+
+                //_Equipments[_Equipments.IndexOf(_SelectedEquipment)] = equipment;
+               // OnPropertyChanged(nameof(_Equipments));
+
+
+                //_EquipmentsViewSource.View.Refresh();
             }
         } 
         #endregion

@@ -7,9 +7,13 @@
     <Application.Resources>
         
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="Infrastructure/Commands/AppCommands.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Main.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/MyExpanderStyle.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
             
             <vm:ViewModelLocator x:Key="Locator"/>
