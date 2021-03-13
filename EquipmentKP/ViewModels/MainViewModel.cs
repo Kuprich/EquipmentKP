@@ -74,7 +74,6 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsViewSource = new CollectionViewSource { Source = value };
 
                 OnPropertyChanged(nameof(EquipmentsView));
-
                 _EquipmentsViewSource.View.Refresh();
 
             }
@@ -161,11 +160,8 @@ namespace EquipmentKP.ViewModels
             {
                 _EquipmentsRep.Update(equipment);
 
-                //_Equipments[_Equipments.IndexOf(_SelectedEquipment)] = equipment;
-               // OnPropertyChanged(nameof(_Equipments));
-
-
-                //_EquipmentsViewSource.View.Refresh();
+                Equipments[Equipments.IndexOf(SelectedEquipment)] = equipment;
+                _EquipmentsViewSource.View.Refresh();
             }
         } 
         #endregion
@@ -179,9 +175,9 @@ namespace EquipmentKP.ViewModels
         {
             _EquipmentsRep = EquipmentsRep;
             _UserDialog = UserDialog;
-            _EquipmentsViewSource = new CollectionViewSource { Source = Equipments };
+            //_EquipmentsViewSource = new CollectionViewSource { Source = Equipments };
 
-            OnPropertyChanged(nameof(EquipmentsView));
+            //OnPropertyChanged(nameof(EquipmentsView));
             
 
             //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
