@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Equipment.Database.Migrations
 {
     [DbContext(typeof(EquipmentContext))]
-    [Migration("20210305003312_KitName")]
-    partial class KitName
+    [Migration("20210314123232_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,7 +63,7 @@ namespace Equipment.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("InventoryNum")
+                    b.Property<string>("InventoryNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("LocationId")
@@ -72,8 +72,8 @@ namespace Equipment.Database.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Owner")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("OwnerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReceiptDate")
                         .HasColumnType("datetime2");
@@ -81,6 +81,8 @@ namespace Equipment.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("EquipmentsKits");
                 });
@@ -131,7 +133,7 @@ namespace Equipment.Database.Migrations
                     b.Property<string>("OperationSystem")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SerialNumber")
+                    b.Property<string>("SerialNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -141,6 +143,33 @@ namespace Equipment.Database.Migrations
                     b.HasIndex("EquipmentsKitId");
 
                     b.ToTable("MainEquipment");
+                });
+
+            modelBuilder.Entity("Equipment.Database.Entities.Owner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chief")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.Request", b =>
@@ -200,7 +229,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RequestState");
+                    b.ToTable("RequestStates");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.EquipmentType", b =>
@@ -218,7 +247,13 @@ namespace Equipment.Database.Migrations
                         .WithMany("EquipmentsKits")
                         .HasForeignKey("LocationId");
 
+                    b.HasOne("Equipment.Database.Entities.Owner", "Owner")
+                        .WithMany("EquipmentsKits")
+                        .HasForeignKey("OwnerId");
+
                     b.Navigation("Location");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.MainEquipment", b =>
@@ -248,7 +283,7 @@ namespace Equipment.Database.Migrations
             modelBuilder.Entity("Equipment.Database.Entities.RequestMovement", b =>
                 {
                     b.HasOne("Equipment.Database.Entities.Request", "Request")
-                        .WithMany("RequestMovement")
+                        .WithMany("RequestMovements")
                         .HasForeignKey("RequestId");
 
                     b.HasOne("Equipment.Database.Entities.RequestState", "RequestState")
@@ -285,9 +320,14 @@ namespace Equipment.Database.Migrations
                     b.Navigation("Requests");
                 });
 
+            modelBuilder.Entity("Equipment.Database.Entities.Owner", b =>
+                {
+                    b.Navigation("EquipmentsKits");
+                });
+
             modelBuilder.Entity("Equipment.Database.Entities.Request", b =>
                 {
-                    b.Navigation("RequestMovement");
+                    b.Navigation("RequestMovements");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.RequestState", b =>

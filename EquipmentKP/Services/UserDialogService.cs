@@ -22,7 +22,7 @@ namespace EquipmentKP.Services
             )
         {
             // при необоходимости передавать репозитории и сохранять их в приватные поля
-            _Owners = OwnersRep.Items; 
+            _Owners = OwnersRep.Items;
             _Locations = LocationsRep.Items;
         }
 

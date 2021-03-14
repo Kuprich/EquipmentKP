@@ -36,7 +36,24 @@ namespace Equipment.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestState",
+                name: "Owners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Chief = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Owners", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestStates",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -45,7 +62,7 @@ namespace Equipment.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestState", x => x.Id);
+                    table.PrimaryKey("PK_RequestStates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,10 +91,11 @@ namespace Equipment.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InventoryNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InventoryNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerId = table.Column<int>(type: "int", nullable: true),
                     ReceiptDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: true)
+                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,6 +104,12 @@ namespace Equipment.Database.Migrations
                         name: "FK_EquipmentsKits_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EquipmentsKits_Owners_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Owners",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -99,7 +123,7 @@ namespace Equipment.Database.Migrations
                     IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NetworkName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OperationSystem = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SerialNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EquipmentsKitId = table.Column<int>(type: "int", nullable: true),
                     EquipmentTypeId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -161,9 +185,9 @@ namespace Equipment.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RequestMovements_RequestState_RequestStateId",
+                        name: "FK_RequestMovements_RequestStates_RequestStateId",
                         column: x => x.RequestStateId,
-                        principalTable: "RequestState",
+                        principalTable: "RequestStates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -172,6 +196,11 @@ namespace Equipment.Database.Migrations
                 name: "IX_EquipmentsKits_LocationId",
                 table: "EquipmentsKits",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EquipmentsKits_OwnerId",
+                table: "EquipmentsKits",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EquipmentTypes_EquipmentCategoryId",
@@ -213,7 +242,7 @@ namespace Equipment.Database.Migrations
                 name: "Requests");
 
             migrationBuilder.DropTable(
-                name: "RequestState");
+                name: "RequestStates");
 
             migrationBuilder.DropTable(
                 name: "MainEquipment");
@@ -226,6 +255,9 @@ namespace Equipment.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Owners");
 
             migrationBuilder.DropTable(
                 name: "EquipmentCategories");

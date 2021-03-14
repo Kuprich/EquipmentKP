@@ -227,7 +227,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RequestState");
+                    b.ToTable("RequestStates");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.EquipmentType", b =>
