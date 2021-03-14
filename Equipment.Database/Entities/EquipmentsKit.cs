@@ -7,8 +7,8 @@ namespace Equipment.Database.Entities
 {
     public class EquipmentsKit : NamedEntity
     {
-        public string InventoryNo  { get; set; }
-        public string Owner         { get; set; }
+        public string InventoryNo   { get; set; }
+        public Owner Owner          { get; set; }
         public DateTime ReceiptDate { get; set; }
         public Location Location    { get; set; }
         public IList<MainEquipment> MainEquipments { get; set; } = new List<MainEquipment>();

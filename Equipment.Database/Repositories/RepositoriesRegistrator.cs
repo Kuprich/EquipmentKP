@@ -15,6 +15,7 @@ namespace Equipment.Database.Repositories
             .AddSingleton<IRepository<EquipmentCategory>,   DbRepositoryBase<EquipmentCategory>>()
             .AddSingleton<IRepository<EquipmentType>,       DbRepositoryBase<EquipmentType>>()
             .AddSingleton<IRepository<Location>,            DbRepositoryBase<Location>>()
+            .AddSingleton<IRepository<Owner>,               DbRepositoryBase<Owner>>()
             .AddSingleton<IRepository<EquipmentsKit>,       DbRepositoryBase<EquipmentsKit>>()
             .AddSingleton<IRepository<MainEquipment>,       DbRepositoryBase<MainEquipment>>()
             .AddSingleton<IRepository<Request>,             DbRepositoryBase<Request>>()
