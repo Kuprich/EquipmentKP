@@ -39,7 +39,9 @@ namespace EquipmentKP.Services
 
             var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
             {
-                Title = "Добавление оборудования"
+                Title = "Добавление комплекта оборудования",
+                Owners = new List<Owner>(_Owners),
+                Locations = new List<Location>(_Locations)
             };
 
             var window = new EquipmentsKitEditorWindow
@@ -52,6 +54,9 @@ namespace EquipmentKP.Services
             if (window.ShowDialog() != true) return false;
 
             // присвоение данных
+            equipmentsKit.InventoryNo = viewModel.InventoryNo;
+            equipmentsKit.Location = viewModel.SelectedLocation;
+            equipmentsKit.Owner = viewModel.SelectedOwner;
 
             return true;
         }

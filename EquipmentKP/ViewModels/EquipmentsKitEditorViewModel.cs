@@ -3,6 +3,7 @@ using EquipmentKP.ViewModels.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EquipmentKP.ViewModels
@@ -21,6 +22,7 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+
         #region string InventoryNo - инвентарный номер оборудования
         private string _InventoryNo;
 
@@ -30,7 +32,7 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _InventoryNo, value);
         }
         #endregion
-
+        public IList<Owner> Owners { get; set; }
         #region Owner SelectedOwner - выбранный владелец оборудования
         private Owner _SelectedOwner;
         public Owner SelectedOwner
@@ -39,8 +41,15 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _SelectedOwner, value);
         }
         #endregion
-        public readonly IEnumerable Owners;
-
+        public IList<Location> Locations { get; set; }
+        #region Owner SelectedLocation - выбранный владелец оборудования
+        private Location _SelectedLocation;
+        public Location SelectedLocation
+        {
+            get => _SelectedLocation;
+            set => Set(ref _SelectedLocation, value);
+        }
+        #endregion
         #region DateTime ReceiptDate - дата получения оборудования
         private DateTime _ReceiptDate;
         public DateTime ReceiptDate

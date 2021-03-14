@@ -23,6 +23,7 @@ namespace EquipmentKP.ViewModels
         #region ПОЛЯ И СВОЙСТВА
 
         private IRepository<MainEquipment> _EquipmentsRep;
+        private readonly IRepository<EquipmentsKit> _EquipmentsKitRep;
         private readonly IUserDialog _UserDialog;
 
         #region String InventoryNo - поле для фильтра
@@ -158,6 +159,9 @@ namespace EquipmentKP.ViewModels
             if (_UserDialog.Add(equipmentsKit))
             {
                 _UserDialog.ShowInformation("успех");
+                _EquipmentsKitRep.Add(equipmentsKit);
+                
+
             }
             else
                 _UserDialog.ShowInformation("неуадча");
@@ -187,10 +191,12 @@ namespace EquipmentKP.ViewModels
 
         public MainViewModel(
             IRepository<MainEquipment> EquipmentsRep,
+            IRepository<EquipmentsKit> EquipmentsKitRep,
             IUserDialog UserDialog
             )
         {
             _EquipmentsRep = EquipmentsRep;
+            _EquipmentsKitRep = EquipmentsKitRep;
             _UserDialog = UserDialog;
             //_EquipmentsViewSource = new CollectionViewSource { Source = Equipments };
 
