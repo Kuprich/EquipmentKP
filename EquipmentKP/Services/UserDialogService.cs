@@ -66,10 +66,31 @@ namespace EquipmentKP.Services
 
             return item switch
             {
-                MainEquipment equipment => EditEquipment(equipment),
+                MainEquipment equipment     => EditEquipment(equipment),
+                EquipmentsKit equipmentsKit => EditEquipmentsKit(equipmentsKit),
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
         }
+
+        private bool EditEquipmentsKit(EquipmentsKit equipmentsKit)
+        {
+            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
+            {
+                Title = "Редактирование комплекта"
+            };
+
+            var window = new EquipmentEditorWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            if (window.ShowDialog() != true) return false;
+
+            return true;
+        }
+
         private bool EditEquipment(MainEquipment equipment)
         {
             var viewModel = new EquipmentEditorViewModel(equipment)
