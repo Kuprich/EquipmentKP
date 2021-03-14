@@ -8,7 +8,9 @@ namespace EquipmentKP.ViewModels
     static class ViewModelsRegistrator
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
-                    .AddSingleton<MainViewModel>()
+            .AddSingleton<MainViewModel>()
+            .AddTransient<EquipmentEditorViewModel>()
+            .AddTransient<EquipmentsKitEditorViewModel>()
             ;
     }
 }

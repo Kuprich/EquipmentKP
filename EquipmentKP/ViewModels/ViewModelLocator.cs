@@ -9,5 +9,6 @@ namespace EquipmentKP.ViewModels
     {
         public MainViewModel MainVM => App.Services.GetRequiredService<MainViewModel>();
         public EquipmentEditorViewModel EquipmentEditorVM => App.Services.GetRequiredService<EquipmentEditorViewModel>();
+        public EquipmentsKitEditorViewModel EquipmentsKitEditorVM => App.Services.GetRequiredService<EquipmentsKitEditorViewModel>();
     }
 }

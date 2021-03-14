@@ -1,0 +1,29 @@
+﻿<Window x:Class="EquipmentKP.Views.Windows.EquipmentsKitEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EquipmentKP.Views.Windows" 
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        d:DataContext="{d:DesignInstance {x:Type vm:EquipmentsKitEditorViewModel}, IsDesignTimeCreatable=True}"
+        Title="{Binding Title}" Height="450" Width="800">
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <DockPanel.Resources>
+                <Style TargetType="Button" >
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Padding" Value="4"/>
+                </Style>
+            </DockPanel.Resources>
+            <UniformGrid HorizontalAlignment="Right" Rows="1">
+                <Button Content="Отменить" Command="{StaticResource DialogResultCommand}" CommandParameter="false"/>
+                <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true"/>
+            </UniformGrid>
+        </DockPanel>
+
+        <GroupBox Header="Редактирование оборудования">
+        </GroupBox>
+    </DockPanel>
+    
+</Window>

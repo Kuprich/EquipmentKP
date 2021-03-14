@@ -18,8 +18,8 @@
             </DockPanel.Resources>
             <Button Content="Восстановить значения" HorizontalAlignment="Left"/>
             <UniformGrid HorizontalAlignment="Right" Rows="1">
-                <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true"/>
                 <Button Content="Отменить" Command="{StaticResource DialogResultCommand}" CommandParameter="false"/>
+                <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true"/>
             </UniformGrid>
         </DockPanel>
 

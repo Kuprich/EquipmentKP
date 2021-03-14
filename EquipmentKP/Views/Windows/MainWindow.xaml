@@ -23,7 +23,7 @@
                 <MenuItem Header="Выход" Command="{Binding CloseAplicationCommand}"/>
             </MenuItem>
             <MenuItem Header="Комплекты оборудования">
-                <MenuItem Header="Добавить"/>
+                <MenuItem Header="Добавить" Command="{Binding AddEquipmentsKitCommand}"/>
                 <MenuItem Header="Редактировать"/>
             </MenuItem>
 

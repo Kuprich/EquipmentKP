@@ -148,11 +148,27 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        #region EditEquipmentCommand - редактирование оборудования
+        #region AddEquipmentsKitCommand - Добавление оборудования
+        private ICommand _AddEquipmentsKitCommand = null;
+        public ICommand AddEquipmentsKitCommand => _AddEquipmentsKitCommand ?? new LambdaCommand(OnAddEquipmentsKitCommandExecuted);
+        private void OnAddEquipmentsKitCommandExecuted()
+        {
+            var equipmentsKit = new EquipmentsKit();
+
+            if (_UserDialog.Add(equipmentsKit))
+            {
+                _UserDialog.ShowInformation("успех");
+            }
+            else
+                _UserDialog.ShowInformation("неуадча");
+        }
+        #endregion
+
+        #region EditEquipmentCommand - Редактирование оборудования
         private ICommand _EditEquipmentCommand = null;
         public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
-        public bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
-        public void OnEditEquipmentCommandExecuted(object p)
+        private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
+        private void OnEditEquipmentCommandExecuted(object p)
         {
             var equipment = (MainEquipment)p;
 
@@ -165,6 +181,7 @@ namespace EquipmentKP.ViewModels
             }
         } 
         #endregion
+
 
         #endregion
 
