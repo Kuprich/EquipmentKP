@@ -33,15 +33,13 @@ namespace EquipmentKP.ViewModels
         // один из вариантов
         //public string InventoryNo { get => _Equipment.EquipmentsKit.InventoryNo; set => _Equipment.EquipmentsKit.InventoryNo = value; }
 
-        #region string InventoryNo - инвентарный номер оборудования
-        private string _InventoryNo;
 
-        public string InventoryNo
-        {
-            get => _InventoryNo;
-            set => Set(ref _InventoryNo, value);
-        }
-        #endregion
+        public string InventoryNo => _Equipment.EquipmentsKit.InventoryNo;
+        public string Owner => _Equipment.EquipmentsKit.Owner.Name;
+        public DateTime ReceiptDate => _Equipment.EquipmentsKit.ReceiptDate;
+        public string Location => _Equipment.EquipmentsKit.Location.Name;
+        
+
 
         #region  string SerialNo - Серийный номер оборудования
         private string _SerialNo;

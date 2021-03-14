@@ -26,17 +26,59 @@
         <DockPanel>
             <GroupBox Header="Сведения о комплекте по текущему оборудованию" DockPanel.Dock="Top">
                 <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Margin" Value="2"/>
+                        </Style>
+                    </Grid.Resources>
+                    
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Инвентарный №:"
-                               Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InventoryNo}" IsEnabled="False"/>
+
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Инвентарный №:"
+                               Grid.Row="0" Grid.Column="0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InventoryNo, Mode=OneWay}"/>
+
+                        <TextBlock Text="Место установки:"
+                               Grid.Row="1" Grid.Column="0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Location, Mode=OneWay}"/>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Владелец:"
+                               Grid.Row="0" Grid.Column="0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Owner, Mode=OneWay}"/>
+
+                        <TextBlock Text="Дата получения:"
+                               Grid.Row="1" Grid.Column="0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ReceiptDate, Mode=OneWay}"/>
+                    </Grid>
+
 
                 </Grid>
             </GroupBox>
@@ -45,15 +87,16 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="110*"/>
+                        <ColumnDefinition Width="581*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Серийный №:"
-                               Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SerialNo, UpdateSourceTrigger=PropertyChanged}"/>
+                               Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
+                    <TextBox Grid.Row="0" Text="{Binding SerialNo, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="76,0,0,0" Grid.RowSpan="2"/>
 
                 </Grid>
             </GroupBox>

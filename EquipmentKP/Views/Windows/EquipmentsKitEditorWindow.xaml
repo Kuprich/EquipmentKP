@@ -59,7 +59,7 @@
                         <Button Content="e" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                     </UniformGrid>
                 </DockPanel>
-                <DataGrid ItemsSource="{Binding Equipments}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedEquipment}">
+                <DataGrid ItemsSource="{Binding EquipmentsView}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedEquipment}">
                 </DataGrid>
             </DockPanel>
         </GroupBox>

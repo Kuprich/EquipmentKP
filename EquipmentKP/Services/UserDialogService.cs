@@ -5,6 +5,7 @@ using EquipmentKP.ViewModels;
 using EquipmentKP.Views.Windows;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 
@@ -80,7 +81,7 @@ namespace EquipmentKP.Services
                 Locations = new List<Location>(_Locations),
                 SelectedLocation = equipmentsKit.Location,
                 SelectedOwner = equipmentsKit.Owner,
-                Equipments = equipmentsKit.MainEquipments
+                Equipments = new ObservableCollection<MainEquipment>(equipmentsKit.MainEquipments)
             };
 
             var window = new EquipmentsKitEditorWindow
@@ -97,6 +98,7 @@ namespace EquipmentKP.Services
             equipmentsKit.Location = viewModel.SelectedLocation;
             equipmentsKit.Owner = viewModel.SelectedOwner;
             equipmentsKit.ReceiptDate = viewModel.ReceiptDate;
+            equipmentsKit.MainEquipments = viewModel.Equipments;
 
             return true;
         }
@@ -105,7 +107,7 @@ namespace EquipmentKP.Services
             var viewModel = new EquipmentEditorViewModel(equipment)
             {
                 Title = "Редактирование оборудования",
-                InventoryNo = equipment.EquipmentsKit.InventoryNo,
+                //InventoryNo = equipment.EquipmentsKit.InventoryNo,
                 SerialNo = equipment.SerialNo
             };
 

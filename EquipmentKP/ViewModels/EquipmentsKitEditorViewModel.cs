@@ -6,8 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
@@ -29,7 +33,28 @@ namespace EquipmentKP.ViewModels
         public EquipmentsKit _EquipmentsKit { get; }
         public IList<Owner> Owners { get; set; }
         public IList<Location> Locations { get; set; }
-        public IList<MainEquipment> Equipments { get; set; }
+
+        #region ObservableCollection<MainEquipment> Equipments - оборудование, входящее в состав комплекта
+        private ObservableCollection<MainEquipment> _Equipments;
+        public ObservableCollection<MainEquipment> Equipments
+        {
+            get => _Equipments;
+            set
+            {
+                if (!Set(ref _Equipments, value)) return;
+
+                _EquipmentsViewSource = new CollectionViewSource { Source = value };
+
+                OnPropertyChanged(nameof(EquipmentsView));
+                _EquipmentsViewSource.View.Refresh();
+            }
+        } 
+        #endregion
+
+        #region View & ViewSource equipments (А так же фильтр)
+        private CollectionViewSource _EquipmentsViewSource;
+        public ICollectionView EquipmentsView => _EquipmentsViewSource?.View;
+        #endregion
 
         #region string InventoryNo - инвентарный номер оборудования
         private string _InventoryNo;
@@ -76,8 +101,6 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _SelectedEquipment, value);
         } 
         #endregion
-
-
         #endregion
 
         #region EditEquipmentCommand - Редактирование оборудования
@@ -96,10 +119,10 @@ namespace EquipmentKP.ViewModels
             {
                 // Equipments.Add(equipment);
                 Equipments[Equipments.IndexOf(SelectedEquipment)] = equipment;
-                OnPropertyChanged(nameof(Equipments));
+                
                 //_EquipmentsRep.Update(equipment);
 
-                //_EquipmentsViewSource.View.Refresh();
+                _EquipmentsViewSource.View.Refresh();
             }
         }
         #endregion

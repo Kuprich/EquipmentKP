@@ -174,7 +174,9 @@ namespace EquipmentKP.ViewModels
 
             if (_UserDialog.Edit(equipmentsKit))
             {
-                _UserDialog.ShowInformation("успешное редактирование");
+                _EquipmentsKitRep.Update(equipmentsKit);
+                OnPropertyChanged(nameof(SelectedEquipment));
+                _EquipmentsViewSource.View.Refresh();
             }
         }
         #endregion
@@ -191,7 +193,8 @@ namespace EquipmentKP.ViewModels
             {
                 _EquipmentsRep.Update(equipment);
 
-                Equipments[Equipments.IndexOf(SelectedEquipment)] = equipment;
+                OnPropertyChanged(nameof(SelectedEquipment));
+
                 _EquipmentsViewSource.View.Refresh();
             }
         } 
