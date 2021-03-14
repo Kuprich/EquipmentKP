@@ -44,17 +44,95 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="328,0,0,0"/>
 
             <DockPanel Grid.ColumnSpan="2">
-                <DockPanel DockPanel.Dock="Top" Margin="3">
-                    <TextBlock Text="Фильтр по инвентарнику:  "/>
-                    <TextBox Text="{Binding InventoryNoFilter, UpdateSourceTrigger=PropertyChanged}"/>
-                </DockPanel>
+
                 <UniformGrid DockPanel.Dock="Top" Rows="1">
                     <Button Content="Сгруппировать" Command="{Binding GroupingCammand}"/>
                     <Button Content="Разгруппировать" Command="{Binding UnGroupingCammand}"/>
                 </UniformGrid>
+                <Expander Header="Быстрые фильтры" DockPanel.Dock="Bottom" ExpandDirection="Up">
+                    <Expander.Resources>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="2"/>
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                        
+                    </Expander.Resources>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Инв. №:" 
+                                       Grid.Column="0" Grid.Row="0"/>
+                            <TextBox Grid.Column="1" Grid.Row="0"
+                                     Text="{Binding InventoryNoFilter, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Text="Место уст.:" 
+                                       Grid.Column="0" Grid.Row="1"/>
+                            <TextBox Grid.Column="1" Grid.Row="1"/>
+
+                            <TextBlock Text="Владелец.:" 
+                                       Grid.Column="0" Grid.Row="2"/>
+                            <TextBox Grid.Column="1" Grid.Row="2"/>
+
+                        </Grid>
+                        
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Серийный №:" 
+                                       Grid.Column="0" Grid.Row="0"/>
+                            <TextBox Grid.Column="1" Grid.Row="0"/>
+
+                            <TextBlock Text="IP адрес:" 
+                                       Grid.Column="0" Grid.Row="1"/>
+                            <TextBox Grid.Column="1" Grid.Row="1"/>
+
+                            <TextBlock Text="Сетевой имя:" 
+                                       Grid.Column="0" Grid.Row="2"/>
+                            <TextBox Grid.Column="1" Grid.Row="2"/>
+
+                        </Grid>
+
+                    </Grid>
+                </Expander>
                 <DataGrid ItemsSource="{Binding EquipmentsView}" SelectedItem="{Binding SelectedEquipment}">
                     <DataGrid.Resources>
-                        <c:EquipmentGroupItemsToLocationName x:Key="GroupItemsConveter"/>
+                        <c:EquipmentGroupItemsToLocationName x:Key="GroupItemsConveterLocationName"/>
+                        <c:EquipmentGroupItemsToCodeName x:Key="GroupItemsConveterCodeName"/>
+                        <Style x:Key="CodeName" TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="#555"/>
+                            <Setter Property="Margin" Value="0 0 10 0"/>
+                        </Style>
+                        <Style x:Key="inventoryNo" TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="#222"/>
+                            <Setter Property="Margin" Value="0 0 10 0"/>
+                        </Style>
                     </DataGrid.Resources>
                     <DataGrid.GroupStyle>
                         <GroupStyle>
@@ -71,14 +149,16 @@
                                                           Style="{DynamicResource MyExpanderStyle}">
                                                     <Expander.Header>
                                                         <StackPanel Orientation="Horizontal">
+
+                                                            <TextBlock Text="{Binding Items, Converter={StaticResource GroupItemsConveterCodeName}}"
+                                                                       Style="{StaticResource CodeName}"/>
+
                                                             <TextBlock Text="Инв. №: "/>
-                                                            <TextBlock Text="{Binding Name}"/>
+                                                            <TextBlock Text="{Binding Name}" 
+                                                                       Style="{StaticResource inventoryNo}"/>
+                                                            <!--<TextBlock Text="{Binding ItemCount}"/>-->
 
-                                                            <TextBlock Text="Кол-во: "/>
-                                                            <TextBlock Text="{Binding ItemCount}"/>
-
-                                                            <TextBlock Text="Место установки:"/>
-                                                            <TextBlock Text="{Binding Items, Converter={StaticResource GroupItemsConveter}}" />
+                                                            <TextBlock Text="{Binding Items, Converter={StaticResource GroupItemsConveterLocationName}}" />
                                                         </StackPanel>
                                                     </Expander.Header>
                                                     <Expander.Content>
