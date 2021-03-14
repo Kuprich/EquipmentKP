@@ -43,6 +43,17 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        #region  string SerialNo - Серийный номер оборудования
+        private string _SerialNo;
+
+        public string SerialNo
+        {
+            get => _SerialNo;
+            set => Set(ref _SerialNo, value);
+        } 
+        #endregion
+
+
 
         #endregion
 

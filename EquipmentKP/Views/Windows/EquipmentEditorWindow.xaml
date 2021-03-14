@@ -24,7 +24,7 @@
         </DockPanel>
 
         <DockPanel>
-            <GroupBox Header="Сведения о комплекте по текущему оборудованию">
+            <GroupBox Header="Сведения о комплекте по текущему оборудованию" DockPanel.Dock="Top">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -34,12 +34,30 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Инвентарный №"
+                    <TextBlock Text="Инвентарный №:"
                                Grid.Row="0" Grid.Column="0"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InventoryNo, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding InventoryNo}" IsEnabled="False"/>
 
                 </Grid>
             </GroupBox>
+
+            <GroupBox Header="Редактирование основных свойств оборудования" DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Серийный №:"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SerialNo, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </Grid>
+            </GroupBox>
+
         </DockPanel>
     </DockPanel>
 </Window>

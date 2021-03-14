@@ -197,7 +197,6 @@ namespace EquipmentKP.ViewModels
         } 
         #endregion
 
-
         #endregion
 
         public MainViewModel(

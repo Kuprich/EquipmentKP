@@ -22,7 +22,7 @@
             </UniformGrid>
         </DockPanel>
 
-        <GroupBox Header="Редактирование оборудования">
+        <GroupBox Header="Редактирование оборудования" DockPanel.Dock="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -49,6 +49,21 @@
                     Grid.Column="1" Grid.Row="2"/>
             </Grid>
         </GroupBox>
+
+        <GroupBox Header="Оборудование, входящее в состав комплекта" DockPanel.Dock="Top">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Right">
+                    <UniformGrid Rows="3" VerticalAlignment="Top" Width="20" Margin="5">
+                        <Button Content="+" Margin="0 0 0 5"/>
+                        <Button Content="-" Margin="0 0 0 5"/>
+                        <Button Content="e" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                    </UniformGrid>
+                </DockPanel>
+                <DataGrid ItemsSource="{Binding Equipments}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedEquipment}">
+                </DataGrid>
+            </DockPanel>
+        </GroupBox>
+        
     </DockPanel>
     
 </Window>

@@ -25,7 +25,6 @@ namespace EquipmentKP.Services
             _Owners = OwnersRep.Items;
             _Locations = LocationsRep.Items;
         }
-
         public bool Add<T>(T item)
         {
             return item switch
@@ -36,8 +35,7 @@ namespace EquipmentKP.Services
         }
         private bool AddEquipmentsKit(EquipmentsKit equipmentsKit)
         {
-
-            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
+            var viewModel = new EquipmentsKitEditorViewModel()
             {
                 Title = "Добавление комплекта оборудования",
                 Owners = new List<Owner>(_Owners),
@@ -57,6 +55,7 @@ namespace EquipmentKP.Services
             equipmentsKit.InventoryNo = viewModel.InventoryNo;
             equipmentsKit.Location = viewModel.SelectedLocation;
             equipmentsKit.Owner = viewModel.SelectedOwner;
+            equipmentsKit.ReceiptDate = viewModel.ReceiptDate;
 
             return true;
         }
@@ -71,15 +70,20 @@ namespace EquipmentKP.Services
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
         }
-
         private bool EditEquipmentsKit(EquipmentsKit equipmentsKit)
         {
-            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
+            var viewModel = new EquipmentsKitEditorViewModel()
             {
-                Title = "Редактирование комплекта"
+                Title = "Редактирование комплекта",
+                InventoryNo = equipmentsKit.InventoryNo,
+                Owners = new List<Owner>(_Owners),
+                Locations = new List<Location>(_Locations),
+                SelectedLocation = equipmentsKit.Location,
+                SelectedOwner = equipmentsKit.Owner,
+                Equipments = equipmentsKit.MainEquipments
             };
 
-            var window = new EquipmentEditorWindow
+            var window = new EquipmentsKitEditorWindow
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,
@@ -88,15 +92,21 @@ namespace EquipmentKP.Services
 
             if (window.ShowDialog() != true) return false;
 
+            // присвоение данных
+            equipmentsKit.InventoryNo = viewModel.InventoryNo;
+            equipmentsKit.Location = viewModel.SelectedLocation;
+            equipmentsKit.Owner = viewModel.SelectedOwner;
+            equipmentsKit.ReceiptDate = viewModel.ReceiptDate;
+
             return true;
         }
-
         private bool EditEquipment(MainEquipment equipment)
         {
             var viewModel = new EquipmentEditorViewModel(equipment)
             {
                 Title = "Редактирование оборудования",
-                InventoryNo = equipment.EquipmentsKit.InventoryNo
+                InventoryNo = equipment.EquipmentsKit.InventoryNo,
+                SerialNo = equipment.SerialNo
             };
 
             var window = new EquipmentEditorWindow
@@ -108,11 +118,12 @@ namespace EquipmentKP.Services
 
             if (window.ShowDialog() != true) return false;
 
-            equipment.EquipmentsKit.InventoryNo = viewModel.InventoryNo;
+            equipment.SerialNo = viewModel.SerialNo;
 
             return true;
             //return window.ShowDialog() ?? false;
         }
+
         public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
     }
 }

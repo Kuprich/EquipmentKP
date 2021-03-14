@@ -1,16 +1,20 @@
 ﻿using Equipment.Database.Entities;
+using EquipmentKP.Infrastructure.Commands;
+using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
 {
     class EquipmentsKitEditorViewModel : ViewModelBase
     {
-        private readonly EquipmentsKit _EquipmentsKit;
+        #region СВОЙСТВА
 
         #region string Title - заголовко окна
         private string _Title = "Комплект оборудования";
@@ -22,6 +26,10 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        public EquipmentsKit _EquipmentsKit { get; }
+        public IList<Owner> Owners { get; set; }
+        public IList<Location> Locations { get; set; }
+        public IList<MainEquipment> Equipments { get; set; }
 
         #region string InventoryNo - инвентарный номер оборудования
         private string _InventoryNo;
@@ -32,7 +40,7 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _InventoryNo, value);
         }
         #endregion
-        public IList<Owner> Owners { get; set; }
+
         #region Owner SelectedOwner - выбранный владелец оборудования
         private Owner _SelectedOwner;
         public Owner SelectedOwner
@@ -41,8 +49,8 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _SelectedOwner, value);
         }
         #endregion
-        public IList<Location> Locations { get; set; }
-        #region Owner SelectedLocation - выбранный владелец оборудования
+
+        #region Location SelectedLocation - выбранный владелец оборудования
         private Location _SelectedLocation;
         public Location SelectedLocation
         {
@@ -50,6 +58,7 @@ namespace EquipmentKP.ViewModels
             set => Set(ref _SelectedLocation, value);
         }
         #endregion
+
         #region DateTime ReceiptDate - дата получения оборудования
         private DateTime _ReceiptDate;
         public DateTime ReceiptDate
@@ -59,14 +68,40 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        public EquipmentsKitEditorViewModel(EquipmentsKit EquipmentsKit)
+        #region MainEquipment SelectedEquipment - выбранное оборудование
+        private MainEquipment _SelectedEquipment;
+        public MainEquipment SelectedEquipment
         {
-            _EquipmentsKit = EquipmentsKit;
-        }
+            get => _SelectedEquipment;
+            set => Set(ref _SelectedEquipment, value);
+        } 
+        #endregion
 
-        public EquipmentsKitEditorViewModel()
+
+        #endregion
+
+        #region EditEquipmentCommand - Редактирование оборудования
+        private ICommand _EditEquipmentCommand = null;
+
+        public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
+        private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
+        private void OnEditEquipmentCommandExecuted(object p)
         {
-            if (!App.IsDesignTime) throw new InvalidOperationException("Даный конструктор не предназначен для использования вне дизайнера VisualStudio");
+            var equipment = (MainEquipment)p;
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Edit(equipment))
+            {
+                // Equipments.Add(equipment);
+                Equipments[Equipments.IndexOf(SelectedEquipment)] = equipment;
+                OnPropertyChanged(nameof(Equipments));
+                //_EquipmentsRep.Update(equipment);
+
+                //_EquipmentsViewSource.View.Refresh();
+            }
         }
+        #endregion
     }
 }
