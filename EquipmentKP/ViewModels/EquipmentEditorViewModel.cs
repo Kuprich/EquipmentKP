@@ -3,6 +3,7 @@ using EquipmentKP.Infrastructure;
 using EquipmentKP.Infrastructure.Commands;
 using EquipmentKP.ViewModels.Base;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -39,7 +40,7 @@ namespace EquipmentKP.ViewModels
         {
             get => _InventoryNo;
             set => Set(ref _InventoryNo, value);
-        } 
+        }
         #endregion
 
 

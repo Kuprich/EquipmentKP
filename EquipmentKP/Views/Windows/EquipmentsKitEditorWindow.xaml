@@ -23,6 +23,24 @@
         </DockPanel>
 
         <GroupBox Header="Редактирование оборудования">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Инвентарный номер комплекта"
+                           Grid.Column="0" Grid.Row="0"/>
+                <TextBox Text="{Binding InventoryNo}" 
+                    Grid.Column="1" Grid.Row="0"/>
+
+                <TextBlock Text="Владелец"
+                           Grid.Column="0" Grid.Row="1"/>
+                
+            </Grid>
         </GroupBox>
     </DockPanel>
     
