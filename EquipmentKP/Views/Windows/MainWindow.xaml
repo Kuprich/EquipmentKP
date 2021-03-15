@@ -28,7 +28,7 @@
             </MenuItem>
 
             <MenuItem Header="Оборудование">
-                <MenuItem Header="Добавить"/>
+                <MenuItem Header="Добавить" Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                 <MenuItem Header="Редактировать" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
             </MenuItem>
         </Menu>

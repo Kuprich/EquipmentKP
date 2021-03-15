@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace EquipmentKP.ViewModels
 {
@@ -124,9 +125,9 @@ namespace EquipmentKP.ViewModels
         {
             Equipments = new ObservableCollection<MainEquipment>(await _EquipmentsRep.Items.ToArrayAsync());
 
+
             _EquipmentsViewSource.Filter += EquipmentsViewSource_Filter;
             EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
-
         }
         #endregion
 
@@ -175,7 +176,11 @@ namespace EquipmentKP.ViewModels
             if (_UserDialog.Edit(equipmentsKit))
             {
                 _EquipmentsKitRep.Update(equipmentsKit);
+
+                _ = OnLoadDataCommandExecuted();
+
                 OnPropertyChanged(nameof(SelectedEquipment));
+
                 _EquipmentsViewSource.View.Refresh();
             }
         }
@@ -197,7 +202,28 @@ namespace EquipmentKP.ViewModels
 
                 _EquipmentsViewSource.View.Refresh();
             }
-        } 
+        }
+        #endregion
+
+        #region AddEquipmentCommand - Добавление оборудования
+        private ICommand _AddEquipmentCommand = null;
+        public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted, CanAddEquipmentCommandExecute);
+        private bool CanAddEquipmentCommandExecute(object p) => p is MainEquipment;
+        private void OnAddEquipmentCommandExecuted(object p)
+        {
+            var equipment = new MainEquipment
+            {
+                EquipmentsKit = SelectedEquipment.EquipmentsKit
+            };
+
+            if (_UserDialog.Add(equipment))
+            {
+                Equipments.Add(_EquipmentsRep.Add(equipment));
+                SelectedEquipment = equipment;
+                //OnPropertyChanged(nameof(SelectedEquipment));
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
         #endregion
 
         #endregion

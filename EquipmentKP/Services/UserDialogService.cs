@@ -31,12 +31,35 @@ namespace EquipmentKP.Services
             return item switch
             {
                 EquipmentsKit equipmentsKit => AddEquipmentsKit(equipmentsKit),
+                MainEquipment equipment     => AddEquipment(equipment),
                 _ => throw new NotSupportedException($"Добавление объекта типа: {item.GetType()} не поддеживается"),
             };
         }
+
+        private bool AddEquipment(MainEquipment equipment)
+        {
+            var viewModel = new EquipmentEditorViewModel(equipment.EquipmentsKit)
+            {
+                Title = "Редактирование оборудования",
+                SerialNo = equipment.SerialNo
+            };
+
+            var window = new EquipmentEditorWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            if (window.ShowDialog() != true) return false;
+
+            equipment.SerialNo = viewModel.SerialNo;
+
+            return true;
+        }
         private bool AddEquipmentsKit(EquipmentsKit equipmentsKit)
         {
-            var viewModel = new EquipmentsKitEditorViewModel()
+            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
             {
                 Title = "Добавление комплекта оборудования",
                 Owners = new List<Owner>(_Owners),
@@ -73,7 +96,7 @@ namespace EquipmentKP.Services
         }
         private bool EditEquipmentsKit(EquipmentsKit equipmentsKit)
         {
-            var viewModel = new EquipmentsKitEditorViewModel()
+            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
             {
                 Title = "Редактирование комплекта",
                 InventoryNo = equipmentsKit.InventoryNo,
@@ -104,7 +127,7 @@ namespace EquipmentKP.Services
         }
         private bool EditEquipment(MainEquipment equipment)
         {
-            var viewModel = new EquipmentEditorViewModel(equipment)
+            var viewModel = new EquipmentEditorViewModel(equipment.EquipmentsKit)
             {
                 Title = "Редактирование оборудования",
                 //InventoryNo = equipment.EquipmentsKit.InventoryNo,

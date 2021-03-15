@@ -105,7 +105,6 @@ namespace EquipmentKP.ViewModels
 
         #region EditEquipmentCommand - Редактирование оборудования
         private ICommand _EditEquipmentCommand = null;
-
         public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
         private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
         private void OnEditEquipmentCommandExecuted(object p)
@@ -117,14 +116,44 @@ namespace EquipmentKP.ViewModels
 
             if (_UserDialog.Edit(equipment))
             {
-                // Equipments.Add(equipment);
                 Equipments[Equipments.IndexOf(SelectedEquipment)] = equipment;
-                
-                //_EquipmentsRep.Update(equipment);
-
                 _EquipmentsViewSource.View.Refresh();
             }
         }
         #endregion
+
+        #region AddEquipmentCommand - Добавление оборудования
+        private ICommand _AddEquipmentCommand = null;
+        private readonly EquipmentsKit equipmentsKit;
+
+        public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted);
+        private void OnAddEquipmentCommandExecuted()
+        {
+            var equipment = new MainEquipment 
+            { 
+                EquipmentsKit = _EquipmentsKit
+            };
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Add(equipment))
+            {
+                Equipments.Add(equipment);
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+
+        public EquipmentsKitEditorViewModel(EquipmentsKit EquipmentsKit)
+        {
+            _EquipmentsKit = EquipmentsKit;
+        }
+        public EquipmentsKitEditorViewModel()
+        {
+
+        }
+
     }
 }

@@ -54,7 +54,7 @@
             <DockPanel>
                 <DockPanel DockPanel.Dock="Right">
                     <UniformGrid Rows="3" VerticalAlignment="Top" Width="20" Margin="5">
-                        <Button Content="+" Margin="0 0 0 5"/>
+                        <Button Content="+" Margin="0 0 0 5" Command="{Binding AddEquipmentCommand}"/>
                         <Button Content="-" Margin="0 0 0 5"/>
                         <Button Content="e" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                     </UniformGrid>

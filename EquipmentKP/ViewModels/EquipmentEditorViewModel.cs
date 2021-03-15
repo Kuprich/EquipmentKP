@@ -17,7 +17,7 @@ namespace EquipmentKP.ViewModels
 
         #region ПОЛЯ И СВОЙСТВА
 
-        private readonly MainEquipment _Equipment;
+        private readonly EquipmentsKit _EquipmentsKit;
 
         #region string Title - заголовок окна
 
@@ -30,17 +30,11 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        // один из вариантов
-        //public string InventoryNo { get => _Equipment.EquipmentsKit.InventoryNo; set => _Equipment.EquipmentsKit.InventoryNo = value; }
-
-
-        public string InventoryNo => _Equipment.EquipmentsKit.InventoryNo;
-        public string Owner => _Equipment.EquipmentsKit.Owner.Name;
-        public DateTime ReceiptDate => _Equipment.EquipmentsKit.ReceiptDate;
-        public string Location => _Equipment.EquipmentsKit.Location.Name;
+        public string InventoryNo => _EquipmentsKit.InventoryNo;
+        public string Owner => _EquipmentsKit.Owner.Name;
+        public DateTime ReceiptDate => _EquipmentsKit.ReceiptDate;
+        public string Location => _EquipmentsKit.Location.Name;
         
-
-
         #region  string SerialNo - Серийный номер оборудования
         private string _SerialNo;
 
@@ -52,18 +46,15 @@ namespace EquipmentKP.ViewModels
         #endregion
 
 
-
         #endregion
 
-        public EquipmentEditorViewModel(MainEquipment Equipment)
+        public EquipmentEditorViewModel(EquipmentsKit EquipmentsKit)
         {
-            _Equipment = Equipment;
+            _EquipmentsKit = EquipmentsKit;
         }
-
-        public EquipmentEditorViewModel() : this(new MainEquipment())
+        public EquipmentEditorViewModel()
         {
-            if (!App.IsDesignTime)
-                throw new NotSupportedException("Данный конструктор не предназначен для использования вне дизайнера visual Studio");
+
         }
 
     }
