@@ -156,12 +156,21 @@ namespace EquipmentKP.ViewModels
         private void OnAddEquipmentsKitCommandExecuted()
         {
             var equipmentsKit = new EquipmentsKit();
+            _EquipmentsKitRep.Add(equipmentsKit);
 
             if (_UserDialog.Add(equipmentsKit))
             {
-                _UserDialog.ShowInformation("успешное добавление");
-                _EquipmentsKitRep.Add(equipmentsKit);
+                _EquipmentsKitRep.Update(equipmentsKit);
+
+                _ = OnLoadDataCommandExecuted();
+
+                OnPropertyChanged(nameof(SelectedEquipment));
+
+                _EquipmentsViewSource.View.Refresh();
             }
+            else
+                _EquipmentsKitRep.Remove(equipmentsKit);
+
         }
         #endregion
 

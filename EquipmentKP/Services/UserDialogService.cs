@@ -40,7 +40,7 @@ namespace EquipmentKP.Services
         {
             var viewModel = new EquipmentEditorViewModel(equipment.EquipmentsKit)
             {
-                Title = "Редактирование оборудования",
+                Title = "Добавление оборудования",
                 SerialNo = equipment.SerialNo
             };
 
@@ -54,32 +54,6 @@ namespace EquipmentKP.Services
             if (window.ShowDialog() != true) return false;
 
             equipment.SerialNo = viewModel.SerialNo;
-
-            return true;
-        }
-        private bool AddEquipmentsKit(EquipmentsKit equipmentsKit)
-        {
-            var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
-            {
-                Title = "Добавление комплекта оборудования",
-                Owners = new List<Owner>(_Owners),
-                Locations = new List<Location>(_Locations)
-            };
-
-            var window = new EquipmentsKitEditorWindow
-            {
-                DataContext = viewModel,
-                Owner = App.CurrentWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-
-            if (window.ShowDialog() != true) return false;
-
-            // присвоение данных
-            equipmentsKit.InventoryNo = viewModel.InventoryNo;
-            equipmentsKit.Location = viewModel.SelectedLocation;
-            equipmentsKit.Owner = viewModel.SelectedOwner;
-            equipmentsKit.ReceiptDate = viewModel.ReceiptDate;
 
             return true;
         }
@@ -98,7 +72,7 @@ namespace EquipmentKP.Services
         {
             var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
             {
-                Title = "Редактирование комплекта",
+                Title = "Комплект оборудования",
                 InventoryNo = equipmentsKit.InventoryNo,
                 Owners = new List<Owner>(_Owners),
                 Locations = new List<Location>(_Locations),

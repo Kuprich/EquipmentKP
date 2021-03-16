@@ -31,9 +31,9 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         public string InventoryNo => _EquipmentsKit.InventoryNo;
-        public string Owner => _EquipmentsKit.Owner.Name;
+        public string Owner => _EquipmentsKit.Owner?.Name;
         public DateTime ReceiptDate => _EquipmentsKit.ReceiptDate;
-        public string Location => _EquipmentsKit.Location.Name;
+        public string Location => _EquipmentsKit.Location?.Name;
         
         #region  string SerialNo - Серийный номер оборудования
         private string _SerialNo;

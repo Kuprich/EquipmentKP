@@ -30,7 +30,7 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        public EquipmentsKit _EquipmentsKit { get; }
+        public EquipmentsKit EquipmentsKit { get; }
         public IList<Owner> Owners { get; set; }
         public IList<Location> Locations { get; set; }
 
@@ -62,7 +62,12 @@ namespace EquipmentKP.ViewModels
         public string InventoryNo
         {
             get => _InventoryNo;
-            set => Set(ref _InventoryNo, value);
+            set
+            {
+                if (!Set(ref _InventoryNo, value)) return;
+                EquipmentsKit.InventoryNo = value;
+            }
+                
         }
         #endregion
 
@@ -71,7 +76,11 @@ namespace EquipmentKP.ViewModels
         public Owner SelectedOwner
         {
             get => _SelectedOwner;
-            set => Set(ref _SelectedOwner, value);
+            set
+            {
+                if (!Set(ref _SelectedOwner, value)) return;
+                EquipmentsKit.Owner = value;
+            }
         }
         #endregion
 
@@ -80,7 +89,11 @@ namespace EquipmentKP.ViewModels
         public Location SelectedLocation
         {
             get => _SelectedLocation;
-            set => Set(ref _SelectedLocation, value);
+            set
+            {
+                if (!Set(ref _SelectedLocation, value)) return;
+                EquipmentsKit.Location = value;
+            }
         }
         #endregion
 
@@ -89,7 +102,11 @@ namespace EquipmentKP.ViewModels
         public DateTime ReceiptDate
         {
             get => _ReceiptDate;
-            set => Set(ref _ReceiptDate, value);
+            set
+            {
+                if (!Set(ref _ReceiptDate, value)) return;
+                EquipmentsKit.ReceiptDate = value;
+            }
         }
         #endregion
 
@@ -124,14 +141,12 @@ namespace EquipmentKP.ViewModels
 
         #region AddEquipmentCommand - Добавление оборудования
         private ICommand _AddEquipmentCommand = null;
-        private readonly EquipmentsKit equipmentsKit;
-
         public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted);
         private void OnAddEquipmentCommandExecuted()
         {
             var equipment = new MainEquipment 
             { 
-                EquipmentsKit = _EquipmentsKit
+                EquipmentsKit = EquipmentsKit
             };
 
             using var scope = App.Host.Services.CreateScope();
@@ -148,7 +163,7 @@ namespace EquipmentKP.ViewModels
 
         public EquipmentsKitEditorViewModel(EquipmentsKit EquipmentsKit)
         {
-            _EquipmentsKit = EquipmentsKit;
+            this.EquipmentsKit = EquipmentsKit;
         }
         public EquipmentsKitEditorViewModel()
         {
