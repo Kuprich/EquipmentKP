@@ -120,6 +120,11 @@
                     </Grid>
                 </Expander>
                 <DataGrid ItemsSource="{Binding EquipmentsView}" SelectedItem="{Binding SelectedEquipment}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Resources>
                         <c:EquipmentGroupItemsToLocationName x:Key="GroupItemsConveterLocationName"/>
                         <c:EquipmentGroupItemsToCodeName x:Key="GroupItemsConveterCodeName"/>
@@ -173,7 +178,6 @@
                             </GroupStyle.ContainerStyle>
                         </GroupStyle>
                     </DataGrid.GroupStyle>
-
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Серийный №" Binding="{Binding SerialNo}" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
@@ -231,7 +235,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="IP адрес:"  

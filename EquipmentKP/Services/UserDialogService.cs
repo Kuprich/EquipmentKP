@@ -26,37 +26,6 @@ namespace EquipmentKP.Services
             _Owners = OwnersRep.Items;
             _Locations = LocationsRep.Items;
         }
-        public bool Add<T>(T item)
-        {
-            return item switch
-            {
-                EquipmentsKit equipmentsKit => AddEquipmentsKit(equipmentsKit),
-                MainEquipment equipment     => AddEquipment(equipment),
-                _ => throw new NotSupportedException($"Добавление объекта типа: {item.GetType()} не поддеживается"),
-            };
-        }
-
-        private bool AddEquipment(MainEquipment equipment)
-        {
-            var viewModel = new EquipmentEditorViewModel(equipment.EquipmentsKit)
-            {
-                Title = "Добавление оборудования",
-                SerialNo = equipment.SerialNo
-            };
-
-            var window = new EquipmentEditorWindow
-            {
-                DataContext = viewModel,
-                Owner = App.CurrentWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-
-            if (window.ShowDialog() != true) return false;
-
-            equipment.SerialNo = viewModel.SerialNo;
-
-            return true;
-        }
         public bool Edit<T>(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));

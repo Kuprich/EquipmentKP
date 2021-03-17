@@ -1,4 +1,5 @@
 ﻿using Equipment.Database.Entities;
+using Equipment.Interfaces;
 using EquipmentKP.Infrastructure.Commands;
 using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
@@ -31,6 +32,7 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         public EquipmentsKit EquipmentsKit { get; }
+
         public IList<Owner> Owners { get; set; }
         public IList<Location> Locations { get; set; }
 
@@ -148,15 +150,19 @@ namespace EquipmentKP.ViewModels
             { 
                 EquipmentsKit = EquipmentsKit
             };
+            Equipments.Add(equipment);
+
 
             using var scope = App.Host.Services.CreateScope();
             var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
 
-            if (_UserDialog.Add(equipment))
+            if (_UserDialog.Edit(equipment))
             {
-                Equipments.Add(equipment);
+                Equipments[Equipments.IndexOf(equipment)] = equipment;
                 _EquipmentsViewSource.View.Refresh();
             }
+            else
+                Equipments.Remove(equipment);
         }
         #endregion
 
@@ -167,7 +173,7 @@ namespace EquipmentKP.ViewModels
         }
         public EquipmentsKitEditorViewModel()
         {
-
+           
         }
 
     }

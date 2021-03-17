@@ -158,7 +158,7 @@ namespace EquipmentKP.ViewModels
             var equipmentsKit = new EquipmentsKit();
             _EquipmentsKitRep.Add(equipmentsKit);
 
-            if (_UserDialog.Add(equipmentsKit))
+            if (_UserDialog.Edit(equipmentsKit))
             {
                 _EquipmentsKitRep.Update(equipmentsKit);
 
@@ -225,12 +225,21 @@ namespace EquipmentKP.ViewModels
                 EquipmentsKit = SelectedEquipment.EquipmentsKit
             };
 
-            if (_UserDialog.Add(equipment))
+            _EquipmentsRep.Add(equipment);
+
+            if (_UserDialog.Edit(equipment))
             {
-                Equipments.Add(_EquipmentsRep.Add(equipment));
-                SelectedEquipment = equipment;
-                //OnPropertyChanged(nameof(SelectedEquipment));
+                _EquipmentsRep.Update(equipment);
+
+                _ = OnLoadDataCommandExecuted();
+
+                OnPropertyChanged(nameof(SelectedEquipment));
+
                 _EquipmentsViewSource.View.Refresh();
+            }
+            else
+            {
+                _EquipmentsRep.Remove(equipment);
             }
         }
         #endregion
@@ -246,15 +255,6 @@ namespace EquipmentKP.ViewModels
             _EquipmentsRep = EquipmentsRep;
             _EquipmentsKitRep = EquipmentsKitRep;
             _UserDialog = UserDialog;
-            //_EquipmentsViewSource = new CollectionViewSource { Source = Equipments };
-
-            //OnPropertyChanged(nameof(EquipmentsView));
-            
-
-            //var kit = new EquipmentsKit { InventoryNum = "000111000111", Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
-
-            //EquipmentsKitRep.Add(kit);
-            //{ InventoryNum = "021384123", Location = locations[2], Owner = "УСД в Республике Мордовия", ReceiptDate = DateTime.Parse("30.08.2017") };
         }
 
         public MainViewModel()
