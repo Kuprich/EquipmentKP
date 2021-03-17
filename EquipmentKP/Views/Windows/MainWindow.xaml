@@ -31,6 +31,9 @@
                 <MenuItem Header="Добавить" Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                 <MenuItem Header="Редактировать" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
             </MenuItem>
+            <MenuItem Header="Заявки">
+                <MenuItem Header="Просмотр заявкок"/>
+            </MenuItem>
         </Menu>
 
         <!--<TextBlock Text="{Binding EquipmentsKits.Count, StringFormat='кол-во комплектов:{0}'}" DockPanel.Dock="Bottom"/>-->
@@ -260,6 +263,18 @@
                 </GroupBox>
                 <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" IsExpanded="True">
                     <DockPanel>
+                        <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="Margin" Value="2"/>
+                                    <Setter Property="Height" Value="18"/>
+                                    <Setter Property="Width" Value="18"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button Content="+"/>
+                            <Button Content="e"/>
+                            <Button Content="-"/>
+                        </StackPanel>
                         <DataGrid ItemsSource="{Binding SelectedEquipment.Requests}" SelectedItem="{Binding SelectedRequest}" DockPanel.Dock="Top">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
@@ -267,7 +282,7 @@
                                 <DataGridCheckBoxColumn Header="Исп."/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <ListView />
+                        
                     </DockPanel>
                    
                 </Expander>
