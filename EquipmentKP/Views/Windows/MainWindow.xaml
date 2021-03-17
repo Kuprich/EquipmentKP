@@ -32,7 +32,7 @@
                 <MenuItem Header="Редактировать" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
             </MenuItem>
             <MenuItem Header="Заявки">
-                <MenuItem Header="Просмотр заявкок"/>
+                <MenuItem Header="Просмотр заявкок" Command="{Binding ShowRequestsWindow}"/>
             </MenuItem>
         </Menu>
 

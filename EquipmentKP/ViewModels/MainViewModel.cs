@@ -244,6 +244,20 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        private ICommand _ShowRequestsWindow = null;
+        public ICommand ShowRequestsWindow => _ShowRequestsWindow ?? new LambdaCommand(OnShowRequestsWindowExecuted);
+        private void OnShowRequestsWindowExecuted()
+        {
+            var viewModel = new RequestsViewModel();
+            var window = new Window
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+
+            };
+            window.ShowDialog();
+        }
+
         #endregion
 
         public MainViewModel(
