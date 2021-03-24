@@ -3,6 +3,7 @@ using Equipment.Interfaces;
 using EquipmentKP.Infrastructure.Commands;
 using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
+using EquipmentKP.Views.Windows;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ namespace EquipmentKP.ViewModels
         #region ПОЛЯ И СВОЙСТВА
 
         private IRepository<MainEquipment> _EquipmentsRep;
-        private readonly IRepository<EquipmentsKit> _EquipmentsKitRep;
+        private readonly IRepository<EquipmentsKit> _EquipmentsKitsRep;
+        private readonly IRepository<Request> _RequestsRep;
         private readonly IUserDialog _UserDialog;
 
         #region String InventoryNo - поле для фильтра
@@ -156,11 +158,11 @@ namespace EquipmentKP.ViewModels
         private void OnAddEquipmentsKitCommandExecuted()
         {
             var equipmentsKit = new EquipmentsKit();
-            _EquipmentsKitRep.Add(equipmentsKit);
+            _EquipmentsKitsRep.Add(equipmentsKit);
 
             if (_UserDialog.Edit(equipmentsKit))
             {
-                _EquipmentsKitRep.Update(equipmentsKit);
+                _EquipmentsKitsRep.Update(equipmentsKit);
 
                 _ = OnLoadDataCommandExecuted();
 
@@ -169,7 +171,7 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsViewSource.View.Refresh();
             }
             else
-                _EquipmentsKitRep.Remove(equipmentsKit);
+                _EquipmentsKitsRep.Remove(equipmentsKit);
 
         }
         #endregion
@@ -184,7 +186,7 @@ namespace EquipmentKP.ViewModels
 
             if (_UserDialog.Edit(equipmentsKit))
             {
-                _EquipmentsKitRep.Update(equipmentsKit);
+                _EquipmentsKitsRep.Update(equipmentsKit);
 
                 _ = OnLoadDataCommandExecuted();
 
@@ -244,30 +246,33 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
+        #region ShowRequestsWindow - Показать окно "Заявки"
         private ICommand _ShowRequestsWindow = null;
         public ICommand ShowRequestsWindow => _ShowRequestsWindow ?? new LambdaCommand(OnShowRequestsWindowExecuted);
         private void OnShowRequestsWindowExecuted()
         {
-            var viewModel = new RequestsViewModel();
-            var window = new Window
+            var viewModel = new RequestsViewModel(_RequestsRep);
+            var window = new RequestsWindow
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,
-
             };
             window.ShowDialog();
-        }
+        } 
+        #endregion
 
         #endregion
 
         public MainViewModel(
             IRepository<MainEquipment> EquipmentsRep,
-            IRepository<EquipmentsKit> EquipmentsKitRep,
+            IRepository<EquipmentsKit> EquipmentsKitsRep,
+            IRepository<Request> RequestsRep,
             IUserDialog UserDialog
             )
         {
             _EquipmentsRep = EquipmentsRep;
-            _EquipmentsKitRep = EquipmentsKitRep;
+            _EquipmentsKitsRep = EquipmentsKitsRep;
+            _RequestsRep = RequestsRep;
             _UserDialog = UserDialog;
         }
 

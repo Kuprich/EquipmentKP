@@ -1,14 +1,41 @@
 ﻿<Window x:Class="EquipmentKP.Views.Windows.RequestsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
-        mc:Ignorable="d"
-        Title="RequestsWindow" Height="450" Width="800">
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        
+        d:DataContext="{d:DesignInstance {x:Type vm:RequestsViewModel}, IsDesignTimeCreatable=True}"
+        Title="RequestsWindow" Height="364" Width="591">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+
+    </i:Interaction.Triggers>
     <DockPanel>
-        <GroupBox Header="Список поступивших заявок">
-            
+        <GroupBox Header="Список поступивших заявок" DockPanel.Dock="Top">
+            <DataGrid ItemsSource="{Binding Requests}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№ заявки" Binding="{Binding Number}"/>
+                    <DataGridTextColumn Header="Дата регитрации"/>
+                    <DataGridTextColumn Header="Объект автоматизации" Binding="{Binding MainEquipment.EquipmentsKit.Location.Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </GroupBox>
+        <TabControl>
+            
+            <TabItem Header="Общая информация">
+                
+            </TabItem>
+            
+            <TabItem Header="Движение заявки">
+                
+            </TabItem>
+            
+        </TabControl>
     </DockPanel>
 </Window>
