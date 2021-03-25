@@ -26,14 +26,14 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <Expander ExpandDirection="Up" DockPanel.Dock="Bottom" Header="Сведения по текущей заявке">
+        <Expander ExpandDirection="Up" DockPanel.Dock="Bottom" Header="Сведения по текущей заявке" IsExpanded="True">
             <TabControl >
 
                 <TabItem Header="Общая информация">
                 
                 </TabItem>
 
-                <TabItem Header="Движение заявки" IsSelected="True">
+                <TabItem Header="Движение заявки">
                     <DataGrid ItemsSource="{Binding SelectedRequest.RequestMovements}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate}"/>

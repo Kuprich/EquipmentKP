@@ -18,8 +18,10 @@ namespace Equipment.Database.Context
         public DbSet<RequestMovement>   RequestMovements    { get; set; }
         public DbSet<RequestState>      RequestStates       { get; set; }
         public DbSet<Request>           Requests            { get; set; }
-        
-        
+
+        public DbSet<Document>          Documents           { get; set; }
+
+
 
         public EquipmentContext(DbContextOptions<EquipmentContext> options) : base(options)
         {

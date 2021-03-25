@@ -27,7 +27,9 @@ namespace EquipmentKP.Data
         private MainEquipment       [] mainEquipments       = new MainEquipment[10];
         private Request             [] requests             = new Request[5];
         private RequestState        [] requestStates        = new RequestState[5];
-        private RequestMovement     [] requestMovements     = new RequestMovement[8]; 
+        private RequestMovement     [] requestMovements     = new RequestMovement[8];
+
+        private Document            [] documents            = new Document[5];
 
         public DbInitializer(EquipmentContext context, ILogger<DbInitializer> logger)
         {
@@ -62,6 +64,20 @@ namespace EquipmentKP.Data
             await Init_RequestState();
             await Init_RequestMovement();
 
+            await Init_Document();
+
+        }
+
+        private async Task Init_Document()
+        {
+            documents[0] = new Document { Name = "Приказ № 1-02-227 Об утв. Метод. рукомендаций по проведению проверок", Number = "1-02-227", CreationDate = DateTime.Parse("12.05.2016") };
+            documents[1] = new Document { Name = "Приказ  №113 от 13.07.2018 Об утверждении устава ФГБУ ИАЦ", Number = "113", CreationDate = DateTime.Parse("13.07.2018") };
+            documents[2] = new Document { Name = "Приказ № 1-02-43 Об утв. Поручения филиалам на 2018 год", Number = "1-02-43", CreationDate = DateTime.Parse("03.02.2002") };
+            documents[3] = new Document { Name = "Приказ № 1-02-269 Об утверждении Регламента взаимодействия ФГБУ ИАЦ с филиалами", Number = "№ 1-02-269", CreationDate = DateTime.Parse("22.08.2019") };
+            documents[4] = new Document { Name = "положение об антикорруп политике", CreationDate = DateTime.Parse("01.03.2019") };
+
+            await context.AddRangeAsync(documents);
+            await context.SaveChangesAsync();
         }
 
         private async Task Init_RequestMovement()
