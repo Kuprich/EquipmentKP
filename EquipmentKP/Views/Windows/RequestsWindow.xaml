@@ -18,24 +18,31 @@
     </i:Interaction.Triggers>
     <DockPanel>
         <GroupBox Header="Список поступивших заявок" DockPanel.Dock="Top">
-            <DataGrid ItemsSource="{Binding Requests}">
+            <DataGrid ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№ заявки" Binding="{Binding Number}"/>
-                    <DataGridTextColumn Header="Дата регитрации"/>
+                    <DataGridTextColumn Header="Дата регитрации" Binding="{Binding ReceiptDate}"/>
                     <DataGridTextColumn Header="Объект автоматизации" Binding="{Binding MainEquipment.EquipmentsKit.Location.Name}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <TabControl>
-            
-            <TabItem Header="Общая информация">
+        <Expander ExpandDirection="Up" DockPanel.Dock="Bottom" Header="Сведения по текущей заявке">
+            <TabControl >
+
+                <TabItem Header="Общая информация">
                 
-            </TabItem>
-            
-            <TabItem Header="Движение заявки">
-                
-            </TabItem>
-            
-        </TabControl>
+                </TabItem>
+
+                <TabItem Header="Движение заявки" IsSelected="True">
+                    <DataGrid ItemsSource="{Binding SelectedRequest.RequestMovements}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate}"/>
+                            <DataGridTextColumn Header="Статус заявки" Binding="{Binding RequestState.Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+
+            </TabControl>
+        </Expander>
     </DockPanel>
 </Window>
