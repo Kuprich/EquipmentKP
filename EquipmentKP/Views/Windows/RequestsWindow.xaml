@@ -14,8 +14,8 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
-
     </i:Interaction.Triggers>
+    
     <DockPanel>
         <GroupBox Header="Список поступивших заявок" DockPanel.Dock="Top">
             <DataGrid ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">

@@ -1,0 +1,30 @@
+﻿<Window x:Class="EquipmentKP.Views.Windows.DocumentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
+        
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        
+        d:DataContext="{d:DesignInstance {x:Type vm:DocumentsViewModel}, IsDesignTimeCreatable=True}"
+        Title="DocumentsWindow" Height="450" Width="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <DockPanel>
+        <GroupBox Header="Список имеющихся документов" DockPanel.Dock="Top">
+            <DataGrid ItemsSource="{Binding DocumentsView}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedDocument}">
+
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Сведения по текущему документу">
+            
+        </GroupBox>
+    </DockPanel>
+</Window>

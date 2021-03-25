@@ -22,6 +22,8 @@ namespace Equipment.Database.Repositories
             .AddSingleton<IRepository<RequestState>,        DbRepositoryBase<RequestState>>()
             .AddSingleton<IRepository<RequestMovement>,     DbRepositoryBase<RequestMovement>>()
 
+            .AddSingleton<IRepository<Document>,            DbRepositoryBase<Document>>()
+
             ;
 
     }

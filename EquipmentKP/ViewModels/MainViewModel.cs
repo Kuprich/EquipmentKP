@@ -27,6 +27,7 @@ namespace EquipmentKP.ViewModels
         private IRepository<MainEquipment> _EquipmentsRep;
         private readonly IRepository<EquipmentsKit> _EquipmentsKitsRep;
         private readonly IRepository<Request> _RequestsRep;
+        private readonly IRepository<Document> _DocumentsRep;
         private readonly IUserDialog _UserDialog;
 
         #region String InventoryNo - поле для фильтра
@@ -258,7 +259,22 @@ namespace EquipmentKP.ViewModels
                 Owner = App.CurrentWindow,
             };
             window.ShowDialog();
-        } 
+        }
+        #endregion
+
+        #region ShowDocumentsWindow - Показать окно "Документы"
+        private ICommand _ShowDocumentsWindow = null;
+        public ICommand ShowDocumentsWindow => _ShowDocumentsWindow ?? new LambdaCommand(OnShowDocumentsWindowExecuted);
+        private void OnShowDocumentsWindowExecuted()
+        {
+            var viewModel = new DocumentsViewModel(_DocumentsRep);
+            var window = new DocumentsWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+            };
+            window.ShowDialog();
+        }
         #endregion
 
         #endregion
@@ -267,12 +283,14 @@ namespace EquipmentKP.ViewModels
             IRepository<MainEquipment> EquipmentsRep,
             IRepository<EquipmentsKit> EquipmentsKitsRep,
             IRepository<Request> RequestsRep,
+            IRepository<Document> DocumentsRep,
             IUserDialog UserDialog
             )
         {
             _EquipmentsRep = EquipmentsRep;
             _EquipmentsKitsRep = EquipmentsKitsRep;
             _RequestsRep = RequestsRep;
+            _DocumentsRep = DocumentsRep;
             _UserDialog = UserDialog;
         }
 

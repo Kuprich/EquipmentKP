@@ -11,5 +11,6 @@ namespace EquipmentKP.ViewModels
         public EquipmentEditorViewModel     EquipmentEditorVM       => App.Services.GetRequiredService<EquipmentEditorViewModel>();
         public EquipmentsKitEditorViewModel EquipmentsKitEditorVM   => App.Services.GetRequiredService<EquipmentsKitEditorViewModel>();
         public RequestsViewModel            RequestsVM              => App.Services.GetRequiredService<RequestsViewModel>();
+        public DocumentsViewModel           DocumentsVM             => App.Services.GetRequiredService<DocumentsViewModel>();
     }
 }
