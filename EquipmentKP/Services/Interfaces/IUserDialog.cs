@@ -8,6 +8,6 @@ namespace EquipmentKP.Services.Interfaces
     {
         bool Edit<T>(T item);
         void ShowInformation(string Information, string Caption = "Информация");
-
+        bool OpenFile(string filePath);
     }
 }

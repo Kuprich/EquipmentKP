@@ -3,6 +3,7 @@ using Equipment.Interfaces;
 using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels;
 using EquipmentKP.Views.Windows;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,5 +94,10 @@ namespace EquipmentKP.Services
         }
 
         public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
+
+        public bool OpenFile(string filePath)
+        {
+            return false;    
+        }
     }
 }

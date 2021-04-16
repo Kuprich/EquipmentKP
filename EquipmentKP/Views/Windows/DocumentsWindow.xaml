@@ -24,7 +24,15 @@
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Сведения по текущему документу">
-            
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Button Content="Выбрать файл" Command="{Binding UploadFileCommand}"/>
+                    <TextBox Text="путь до файла"/>
+                    <Button Content="Показать файл" Command="{Binding ShowFileCommand}"
+                            CommandParameter="{Binding SelectedDocument}"/>
+                </StackPanel>
+                <StackPanel/>
+            </DockPanel>
         </GroupBox>
     </DockPanel>
 </Window>

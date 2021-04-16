@@ -1,12 +1,17 @@
 ﻿using Equipment.Database.Entities;
 using Equipment.Interfaces;
 using EquipmentKP.Infrastructure.Commands;
+using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
@@ -53,7 +58,6 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-
         #region LoadDataCommand - Команда загрузки данных из репозитория
         private ICommand _LoadDataCommand = null;
         public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
@@ -62,6 +66,39 @@ namespace EquipmentKP.ViewModels
             Documents = new ObservableCollection<Document>(await _DocumentsRep.Items.ToArrayAsync());
         }
         #endregion
+
+        #region UploadFileCommand - Команда загрузки документа из файла
+        private ICommand _UploadFileCommand = null;
+        public ICommand UploadFileCommand => _UploadFileCommand ?? new LambdaCommand(OnUploadFileCommandExecuted);
+        private void OnUploadFileCommandExecuted()
+        {
+            string filePath = null;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                filePath = openFileDialog.FileName;
+
+        }
+        #endregion
+
+        private ICommand _ShowFileCommand = null;
+        public ICommand ShowFileCommand => _ShowFileCommand ?? new LambdaCommand(OnShowFileCommandExecuted);
+
+        private bool CanShowFileCommandExecute(object p) => p is Document; 
+        private void OnShowFileCommandExecuted(object p)
+        {
+            if (p is Document document)
+            {
+                string fileName = "tmp.pdf";
+                string dirPath = Environment.CurrentDirectory;
+                DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+                if (!dirInfo.Exists)
+                    dirInfo.Create();
+                File.WriteAllBytes(dirPath+fileName, document.Content);
+
+                new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
+            }
+        }
+
 
         public DocumentsViewModel()
         {
