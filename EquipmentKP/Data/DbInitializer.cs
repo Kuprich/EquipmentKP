@@ -29,8 +29,7 @@ namespace EquipmentKP.Data
         private Request             [] requests             = new Request[5];
         private RequestState        [] requestStates        = new RequestState[5];
         private RequestMovement     [] requestMovements     = new RequestMovement[8];
-
-        private Document            [] documents            = new Document[5];
+        private Document            [] documents            = new Document[8];
 
         public DbInitializer(EquipmentContext context, ILogger<DbInitializer> logger)
         {
@@ -69,26 +68,6 @@ namespace EquipmentKP.Data
 
         }
 
-        private async Task Init_Document()
-        {
-            // для записи можно использовать File.WriteAllBytes
-            //тестовые файлы для примера
-            byte[] docContent1 = File.ReadAllBytes(@"D:\test\1.pdf");
-            byte[] docContent2 = File.ReadAllBytes(@"D:\test\2.pdf");
-            byte[] docContent3 = File.ReadAllBytes(@"D:\test\3.pdf");
-            byte[] docContent4 = File.ReadAllBytes(@"D:\test\4.pdf");
-            byte[] docContent5 = File.ReadAllBytes(@"D:\test\5.pdf");
-
-            documents[0] = new Document { Name = "Приказ № 1-02-227 Об утв. Метод. рукомендаций по проведению проверок", Number = "1-02-227", CreationDate = DateTime.Parse("12.05.2016"), Content = docContent1 };
-            documents[1] = new Document { Name = "Приказ №113 от 13.07.2018 Об утверждении устава ФГБУ ИАЦ", Number = "113", CreationDate = DateTime.Parse("13.07.2018"), Content = docContent2 };
-            documents[2] = new Document { Name = "Приказ № 1-02-43 Об утв. Поручения филиалам на 2018 год", Number = "1-02-43", CreationDate = DateTime.Parse("03.02.2002"), Content = docContent3};
-            documents[3] = new Document { Name = "Приказ № 1-02-269 Об утверждении Регламента взаимодействия ФГБУ ИАЦ с филиалами", Number = "№ 1-02-269", CreationDate = DateTime.Parse("22.08.2019"), Content = docContent4};
-            documents[4] = new Document { Name = "положение об антикорруп политике", CreationDate = DateTime.Parse("01.03.2019"), Content = docContent5 };
-
-            await context.AddRangeAsync(documents);
-            await context.SaveChangesAsync();
-        }
-
         private async Task Init_RequestMovement()
         {
             requestMovements[0] = new RequestMovement { Request = requests[1], RegistrationDate = DateTime.Now, RequestState = requestStates[0] };
@@ -117,12 +96,40 @@ namespace EquipmentKP.Data
         }
         private async Task Init_Request()
         {
-            requests[0] = new Request { Number = 1, ReceiptDate = DateTime.Parse("12.12.2015"), MainEquipment = mainEquipments[0] };
-            requests[1] = new Request { Number = 2, ReceiptDate = DateTime.Parse("11.01.2012"), MainEquipment = mainEquipments[0] };
+            requests[0] = new Request { Number = 1, ReceiptDate = DateTime.Parse("12.12.2015"), MainEquipment = mainEquipments[0], Closed = true };
+            requests[1] = new Request { Number = 2, ReceiptDate = DateTime.Parse("11.01.2012"), MainEquipment = mainEquipments[0], Closed = true };
             requests[2] = new Request { Number = 3, ReceiptDate = DateTime.Parse("15.02.2013"), MainEquipment = mainEquipments[0] };
             requests[3] = new Request { Number = 4, ReceiptDate = DateTime.Parse("16.03.2014"), MainEquipment = mainEquipments[3] };
             requests[4] = new Request { Number = 5, ReceiptDate = DateTime.Parse("17.04.2015"), MainEquipment = mainEquipments[4] };
             await context.AddRangeAsync(requests);
+            await context.SaveChangesAsync();
+        }
+        private async Task Init_Document()
+        {
+            //тестовые файлы для примера (Не привязанные к заявке)
+            byte[] docContent1 = File.ReadAllBytes(@"D:\test\1.pdf");
+            byte[] docContent2 = File.ReadAllBytes(@"D:\test\2.pdf");
+            byte[] docContent3 = File.ReadAllBytes(@"D:\test\3.pdf");
+            byte[] docContent4 = File.ReadAllBytes(@"D:\test\4.pdf");
+            byte[] docContent5 = File.ReadAllBytes(@"D:\test\5.pdf");
+
+            documents[0] = new Document { Name = "Приказ № 1-02-227 Об утв. Метод. рукомендаций по проведению проверок", Number = "1-02-227", CreationDate = DateTime.Parse("12.05.2016"), Content = docContent1 };
+            documents[1] = new Document { Name = "Приказ №113 от 13.07.2018 Об утверждении устава ФГБУ ИАЦ", Number = "113", CreationDate = DateTime.Parse("13.07.2018"), Content = docContent2 };
+            documents[2] = new Document { Name = "Приказ № 1-02-43 Об утв. Поручения филиалам на 2018 год", Number = "1-02-43", CreationDate = DateTime.Parse("03.02.2002"), Content = docContent3 };
+            documents[3] = new Document { Name = "Приказ № 1-02-269 Об утверждении Регламента взаимодействия ФГБУ ИАЦ с филиалами", Number = "№ 1-02-269", CreationDate = DateTime.Parse("22.08.2019"), Content = docContent4 };
+            documents[4] = new Document { Name = "положение об антикорруп политике", CreationDate = DateTime.Parse("01.03.2019"), Content = docContent5 };
+
+            //тестовые файлы для примера (Привязавнные к заявке)
+            byte[] docContent11 = File.ReadAllBytes(@"D:\test\11.pdf");
+            byte[] docContent22 = File.ReadAllBytes(@"D:\test\22.pdf");
+            byte[] docContent33 = File.ReadAllBytes(@"D:\test\33.pdf");
+
+            documents[5] = new Document { Name = "СР-130064-2020", CreationDate = DateTime.Parse("03.05.2020"), Number = "1231", Content = docContent11, Request = requests[0]};
+            documents[6] = new Document { Name = "ТС-130064-2020", CreationDate = DateTime.Parse("04.05.2020"), Number = "1232", Content = docContent22, Request = requests[0]};
+            documents[7] = new Document { Name = "СР-343322-2020", CreationDate = DateTime.Parse("05.05.2020"), Number = "1242", Content = docContent33, Request = requests[1]};
+
+
+            await context.AddRangeAsync(documents);
             await context.SaveChangesAsync();
         }
         private async Task Init_MainEquipment()

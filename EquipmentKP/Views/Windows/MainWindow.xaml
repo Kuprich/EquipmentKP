@@ -11,7 +11,7 @@
         d:DataContext="{d:DesignInstance {x:Type vm:MainViewModel}, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainVM, Source={StaticResource Locator}}"
         
-        Title="{Binding Title}" Height="450" Width="800">
+        Title="{Binding Title}" Height="638" Width="1104">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -64,7 +64,7 @@
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Style>
-                        
+
                     </Expander.Resources>
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -98,7 +98,7 @@
                             <TextBox Grid.Column="1" Grid.Row="2"/>
 
                         </Grid>
-                        
+
                         <Grid Grid.Column="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -266,9 +266,8 @@
                                  Grid.Column="1" Grid.Row="2" 
                                  Text="{Binding SelectedEquipment.OperationSystem}"/>
                                 </Grid>
-
                             </GroupBox>
-                            <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" IsExpanded="True">
+                            <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" IsExpanded="True" Style="{DynamicResource MyExpanderStyle}">
                                 <DockPanel>
                                     <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
                                         <StackPanel.Resources>
@@ -282,16 +281,32 @@
                                         <Button Content="e"/>
                                         <Button Content="-"/>
                                     </StackPanel>
-                                    <DataGrid ItemsSource="{Binding SelectedEquipment.Requests}" SelectedItem="{Binding SelectedRequest}" DockPanel.Dock="Top">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
-                                            <DataGridTextColumn Header="Дата регистрации заявки"/>
-                                            <DataGridCheckBoxColumn Header="Исп."/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-
+                                    <DockPanel>
+                                        <Expander DockPanel.Dock="Bottom"
+                                              ExpandDirection="Up"
+                                              IsExpanded="True"
+                                              Header="Прикрепленные документы по текущей заявке">
+                                        <DataGrid ItemsSource="{Binding SelectedRequest.Documents}"
+                                                  MinHeight="150">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
+                                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                                                <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
+                                                
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Expander>
+                                        <DataGrid ItemsSource="{Binding SelectedEquipment.Requests}" 
+                                                  SelectedItem="{Binding SelectedRequest}" 
+                                                  DockPanel.Dock="Top">
+                                            <DataGrid.Columns>
+                                                <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
+                                                <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
+                                                <DataGridTextColumn Header="Дата регистрации заявки" Binding="{Binding ReceiptDate}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </DockPanel>
                                 </DockPanel>
-
                             </Expander>
                         </DockPanel>
                     </TabItem>
@@ -300,9 +315,9 @@
                             <TextBlock Text="Здесь будет выводиться информация по текущему комплекту оборудования"/>
                         </DockPanel>
                     </TabItem>
-                    
+
                 </TabControl>
-                
+
             </DockPanel>
 
 

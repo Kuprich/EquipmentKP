@@ -24,5 +24,10 @@ namespace EquipmentKP
         {
             InitializeComponent();
         }
+
+        private void Expander_Expanded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
