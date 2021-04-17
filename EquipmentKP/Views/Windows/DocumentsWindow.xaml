@@ -19,8 +19,10 @@
     
     <DockPanel>
         <GroupBox Header="Список имеющихся документов" DockPanel.Dock="Top">
-            <DataGrid ItemsSource="{Binding DocumentsView}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedDocument}">
-
+            <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
+                </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Сведения по текущему документу">

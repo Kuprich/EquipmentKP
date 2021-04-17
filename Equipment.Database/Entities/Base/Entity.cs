@@ -7,6 +7,7 @@ namespace Equipment.Database.Entities.Base
 {
     public abstract class Entity : IEntity
     {
+        /// <summary>ID Сущности (всегда уникален)</summary>
         public int Id { get; set; }
     }
 }

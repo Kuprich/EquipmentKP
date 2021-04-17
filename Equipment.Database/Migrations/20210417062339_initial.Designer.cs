@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Equipment.Database.Migrations
 {
     [DbContext(typeof(EquipmentContext))]
-    [Migration("20210325202312_docs")]
-    partial class docs
+    [Migration("20210417062339_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,12 @@ namespace Equipment.Database.Migrations
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RequestId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
 
                     b.ToTable("Documents");
                 });
@@ -203,6 +208,9 @@ namespace Equipment.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Closed")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MainEquipmentId")
                         .HasColumnType("int");
 
@@ -257,6 +265,15 @@ namespace Equipment.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RequestStates");
+                });
+
+            modelBuilder.Entity("Equipment.Database.Entities.Document", b =>
+                {
+                    b.HasOne("Equipment.Database.Entities.Request", "Request")
+                        .WithMany("Documents")
+                        .HasForeignKey("RequestId");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.EquipmentType", b =>
@@ -354,6 +371,8 @@ namespace Equipment.Database.Migrations
 
             modelBuilder.Entity("Equipment.Database.Entities.Request", b =>
                 {
+                    b.Navigation("Documents");
+
                     b.Navigation("RequestMovements");
                 });
 

@@ -6,6 +6,7 @@ namespace Equipment.Database.Entities.Base
 {
     public abstract class NamedEntity : Entity
     {
+        /// <summary>Имя сущности</summary>
         public string Name { get; set; }
     }
 }

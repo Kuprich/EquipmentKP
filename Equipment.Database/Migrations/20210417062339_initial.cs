@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Equipment.Database.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -152,7 +152,9 @@ namespace Equipment.Database.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    MainEquipmentId = table.Column<int>(type: "int", nullable: true)
+                    ReceiptDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MainEquipmentId = table.Column<int>(type: "int", nullable: true),
+                    Closed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,6 +163,29 @@ namespace Equipment.Database.Migrations
                         name: "FK_Requests_MainEquipment_MainEquipmentId",
                         column: x => x.MainEquipmentId,
                         principalTable: "MainEquipment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Documents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    RequestId = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Documents_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -191,6 +216,11 @@ namespace Equipment.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documents_RequestId",
+                table: "Documents",
+                column: "RequestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EquipmentsKits_LocationId",
@@ -235,6 +265,9 @@ namespace Equipment.Database.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Documents");
+
             migrationBuilder.DropTable(
                 name: "RequestMovements");
 
