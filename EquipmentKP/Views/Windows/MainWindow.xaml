@@ -7,7 +7,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:entities="clr-namespace:Equipment.Database.Entities;assembly=Equipment.Database"
         
-        xmlns:vm="clr-namespace:EquipmentKP.ViewModels" xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels" 
+        xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:MainViewModel}, IsDesignTimeCreatable=True}"
         DataContext="{Binding MainVM, Source={StaticResource Locator}}"
         
