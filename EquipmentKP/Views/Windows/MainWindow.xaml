@@ -279,8 +279,8 @@
                                             </Style>
                                         </StackPanel.Resources>
                                         <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
-                                        <Button Content="e"/>
-                                        <Button Content="-" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
+                                        <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
+                                        <Button Content="-"/>
                                     </StackPanel>
                                     <DockPanel>
                                         <Expander DockPanel.Dock="Bottom"
@@ -297,7 +297,7 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Expander>
-                                        <DataGrid ItemsSource="{Binding SelectedEquipment.Requests}" 
+                                        <DataGrid ItemsSource="{Binding SelectedEquipment.Requests, UpdateSourceTrigger=PropertyChanged}"  
                                                   SelectedItem="{Binding SelectedRequest}" 
                                                   DockPanel.Dock="Top">
                                             <DataGrid.Columns>

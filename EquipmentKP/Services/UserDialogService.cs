@@ -46,7 +46,7 @@ namespace EquipmentKP.Services
             {
                 Title = "Окно просмотра и резактирования заявки",
                 Number = request.Number,
-                ReceiptDate = request.ReceiptDate,
+                ReceiptDate = request.ReceiptDate == DateTime.MinValue ? DateTime.Now : request.ReceiptDate,
                 Closed = request.Closed,
                 Documents = new ObservableCollection<Document>(request.Documents),
                 RequestMovements = new ObservableCollection<RequestMovement>(request.RequestMovements)
@@ -61,7 +61,12 @@ namespace EquipmentKP.Services
 
             if (window.ShowDialog() != true) return false;
 
-            // TODO: присвоение данных
+            // присвоение данных
+            request.Number = viewModel.Number;
+            request.ReceiptDate = viewModel.ReceiptDate;
+            request.Closed = viewModel.Closed;
+            request.Documents = viewModel.Documents;
+            request.RequestMovements = viewModel.RequestMovements;
 
             return true;
         }

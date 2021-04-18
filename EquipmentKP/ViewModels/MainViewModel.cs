@@ -101,8 +101,24 @@ namespace EquipmentKP.ViewModels
         public Request SelectedRequest
         {
             get => _SelectedRequest;
-            set => Set(ref _SelectedRequest, value);
-        } 
+            set
+            {
+                if (!Set(ref _SelectedRequest, value)) return;
+
+                Set(ref _SelectedRequest, value);
+            }
+            
+        }
+        #endregion
+
+        #region ObservableCollection<Request> Requests - список заявок
+        private ObservableCollection<Request> _Requests;
+
+        public ObservableCollection<Request> Requests
+        {
+            get => _Requests;
+            set => Set(ref _Requests, value);
+        }
         #endregion
 
 
@@ -263,8 +279,9 @@ namespace EquipmentKP.ViewModels
             if (_UserDialog.Edit(request))
             {
                 _RequestsRep.Update(request);
-                // _ = OnLoadDataCommandExecuted();
-                OnPropertyChanged(nameof(SelectedRequest));
+
+                _EquipmentsViewSource.View.Refresh();
+
             }
             else
             {
@@ -274,7 +291,7 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        #region EditRequestCommand - Добавление заявки к текущему оборудованию
+        #region EditRequestCommand - Редактирование заявки по текущему оборудованию
         private ICommand _EditRequestCommand = null;
         public ICommand EditRequestCommand => _EditRequestCommand ?? new LambdaCommand(OnEditRequestCommandExecuted, CanEditRequestCommandExecute);
         private bool CanEditRequestCommandExecute(object p) => p is Request;
