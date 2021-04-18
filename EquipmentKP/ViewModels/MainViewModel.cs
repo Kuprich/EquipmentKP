@@ -24,13 +24,28 @@ namespace EquipmentKP.ViewModels
     {
         #region ПОЛЯ И СВОЙСТВА
 
-        private IRepository<MainEquipment> _EquipmentsRep;
+        #region IRepository<Entity>                             - Репозитории                               |     
+
+        private readonly IRepository<MainEquipment> _EquipmentsRep;
         private readonly IRepository<EquipmentsKit> _EquipmentsKitsRep;
         private readonly IRepository<Request> _RequestsRep;
         private readonly IRepository<Document> _DocumentsRep;
         private readonly IUserDialog _UserDialog;
 
-        #region String InventoryNo - поле для фильтра
+        #endregion
+
+        #region string Title                                    - Заголовок окна                            |
+
+        private string _Title = "ИАЦ: Движение оборудования";
+        public string Title
+        {
+            get => _Title;
+            set => Set(ref _Title, value);
+        }
+
+        #endregion
+        #region String InventoryNo                              - Поле для фильтра                          |
+
         private String _InventoryNoFilter;
 
         public String InventoryNoFilter
@@ -43,9 +58,11 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsViewSource.View.Refresh();
             }
         }
+
         #endregion
 
-        #region View & ViewSource equipments (А так же фильтр)
+        #region View & ViewSource equipments                    - Просмотр оборудования (А так же фильтр)   |
+
         private CollectionViewSource _EquipmentsViewSource;
         public ICollectionView EquipmentsView => _EquipmentsViewSource?.View;
         private void EquipmentsViewSource_Filter(object sender, FilterEventArgs e)
@@ -54,20 +71,11 @@ namespace EquipmentKP.ViewModels
 
             if ( !equipment.EquipmentsKit.InventoryNo.Contains(InventoryNoFilter.Trim(), StringComparison.OrdinalIgnoreCase) )
                 e.Accepted = false;
-        } 
-        #endregion
-
-        #region string Title - заголовок окна
-        private string _Title = "ИАЦ: Движение оборудования";
-
-        public string Title
-        {
-            get => _Title;
-            set => Set(ref _Title, value);
         }
-        #endregion
 
-        #region ObservableCollection<MainEquipment> Equipments - оборудование
+        #endregion
+        #region ObservableCollection<MainEquipment> Equipments  - Список оборудования                       |
+
         private ObservableCollection<MainEquipment> _Equipments;
         public ObservableCollection<MainEquipment> Equipments
         {
@@ -83,19 +91,52 @@ namespace EquipmentKP.ViewModels
 
             }
         }
+
         #endregion
+        #region MainEquipment SelectedEquipment                 - Выбранное оборудование                    |
 
-        #region MainEquipment SelectedEquipment - выбранное оборудование
         private MainEquipment _SelectedEquipment;
-
         public MainEquipment SelectedEquipment
         {
             get => _SelectedEquipment;
-            set => Set(ref _SelectedEquipment, value);
+            set
+            {
+                if (!Set(ref _SelectedEquipment, value)) return;
+
+                Requests = new ObservableCollection<Request>(SelectedEquipment.Requests);
+                OnPropertyChanged(nameof(Requests));
+            }
         }
+
         #endregion
 
-        #region Request SelectedRequest - выбранная заявка
+        #region View & ViewSource Requests                      - Просмотр заявок                           | 
+
+        private CollectionViewSource _RequestsViewSource;
+        public ICollectionView RequestsView => _RequestsViewSource?.View;
+
+        #endregion
+        #region ObservableCollection<Request> Requests          - Список заявок                             | 
+
+        private ObservableCollection<Request> _Requests;
+
+        public ObservableCollection<Request> Requests
+        {
+            get => _Requests;
+            set
+            {
+                if (!Set(ref _Requests, value)) return;
+
+                _RequestsViewSource = new CollectionViewSource { Source = value };
+
+                OnPropertyChanged(nameof(RequestsView));
+                _RequestsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region Request SelectedRequest                         - Выбранная заявка                          |
+
         private Request _SelectedRequest;
 
         public Request SelectedRequest
@@ -105,28 +146,56 @@ namespace EquipmentKP.ViewModels
             {
                 if (!Set(ref _SelectedRequest, value)) return;
 
-                Set(ref _SelectedRequest, value);
+                Documents = new ObservableCollection<Document>(SelectedRequest.Documents);
             }
-            
+
         }
+
         #endregion
 
-        #region ObservableCollection<Request> Requests - список заявок
-        private ObservableCollection<Request> _Requests;
+        #region View & ViewSource Documents                     - Просмотр документов                       | 
 
-        public ObservableCollection<Request> Requests
+        private CollectionViewSource _DocumentsViewSource;
+        public ICollectionView DocumentsView => _DocumentsViewSource?.View;
+
+        #endregion
+        #region ObservableCollection<Document> Documents        - Список документов                         |
+
+        private ObservableCollection<Document> _Documents;
+
+        public ObservableCollection<Document> Documents
         {
-            get => _Requests;
-            set => Set(ref _Requests, value);
-        }
-        #endregion
+            get => _Documents;
+            set
+            {
+                if (!Set(ref _Documents, value)) return;
 
+                _DocumentsViewSource = new CollectionViewSource { Source = value };
+
+                OnPropertyChanged(nameof(DocumentsView));
+                _RequestsViewSource.View.Refresh();
+            }
+
+        }
+
+        #endregion
+        #region Document SelectedDocument                       - Выбранный документ                        | 
+
+        private Document _SelectedDocument;
+        public Document SelectedDocument
+        {
+            get => _SelectedDocument;
+            set => Set(ref _SelectedDocument, value);
+        }
+
+        #endregion
 
         #endregion
 
         #region КОМАНДЫ
 
-        #region CloseAplicationCommand - Команда закрытия окна
+        #region CloseAplicationCommand      - Закрытие окна                                 |
+
         private ICommand _CloseAplicationCommand = null;
         public ICommand CloseAplicationCommand => _CloseAplicationCommand ??= new LambdaCommand(OnCloseAplicationCommandExecuted);
         //private bool CanCloseAplicationCommandExecute() => true; // если этого параметра нет, то всегда разрешено выполнение данной команды
@@ -136,8 +205,8 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region LoadDataCommand             - Загрузка данных из репозитория                | 
 
-        #region LoadDataCommand - Команда загрузки данных из репозитория
         private ICommand _LoadDataCommand = null;
         public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
@@ -148,9 +217,11 @@ namespace EquipmentKP.ViewModels
             _EquipmentsViewSource.Filter += EquipmentsViewSource_Filter;
             EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
         }
+
         #endregion
 
-        #region GroupingCammand - Группировать (тестовая команда)
+        #region GroupingCammand             - Группировка по инв. номеру (тестовая команда) |
+
         private ICommand _GroupingCommand = null;
         public ICommand GroupingCammand => _GroupingCommand ?? new LambdaCommand(OnGroupingCammandExecute);
         private void OnGroupingCammandExecute()
@@ -158,18 +229,21 @@ namespace EquipmentKP.ViewModels
             EquipmentsView.GroupDescriptions.Clear();
             EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
         }
-        #endregion
 
-        #region UnGroupingCammand - Разгруппировать
+        #endregion
+        #region UnGroupingCammand           - Разгруппировка таблицы "оборудование"         |
+
         private ICommand _UnGroupingCommand = null;
         public ICommand UnGroupingCammand => _UnGroupingCommand ?? new LambdaCommand(OnUnGroupingCammandExecute);
         private void OnUnGroupingCammandExecute()
         {
             EquipmentsView.GroupDescriptions.Clear();
         }
+
         #endregion
 
-        #region AddEquipmentsKitCommand - Добавление комплекта оборудования
+        #region AddEquipmentsKitCommand     - Добавление комплекта оборудования             |
+
         private ICommand _AddEquipmentsKitCommand = null;
         public ICommand AddEquipmentsKitCommand => _AddEquipmentsKitCommand ?? new LambdaCommand(OnAddEquipmentsKitCommandExecuted);
         private void OnAddEquipmentsKitCommandExecuted()
@@ -181,7 +255,7 @@ namespace EquipmentKP.ViewModels
             {
                 _EquipmentsKitsRep.Update(equipmentsKit);
 
-                _ = OnLoadDataCommandExecuted();
+                //_ = OnLoadDataCommandExecuted();
 
                 OnPropertyChanged(nameof(SelectedEquipment));
 
@@ -189,11 +263,11 @@ namespace EquipmentKP.ViewModels
             }
             else
                 _EquipmentsKitsRep.Remove(equipmentsKit);
-
         }
-        #endregion
 
-        #region EditEquipmentsKitCommand - Редактирование комплекта оборудования
+        #endregion
+        #region EditEquipmentsKitCommand    - Редактирование комплекта оборудования         | 
+
         private ICommand _EditEquipmentsKitCommand = null;
         public ICommand EditEquipmentsKitCommand => _EditEquipmentsKitCommand ?? new LambdaCommand(OnEditEquipmentsKitCommandExecuted);
         private bool CanEditEquipmentsKitCommandExecute(object p) => p is EquipmentsKit;
@@ -212,9 +286,11 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsViewSource.View.Refresh();
             }
         }
+
         #endregion
 
-        #region AddEquipmentCommand - Добавление оборудования
+        #region AddEquipmentCommand         - Добавление оборудования                       | 
+
         private ICommand _AddEquipmentCommand = null;
         public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted, CanAddEquipmentCommandExecute);
         private bool CanAddEquipmentCommandExecute(object p) => p is MainEquipment;
@@ -242,9 +318,10 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsRep.Remove(equipment);
             }
         }
-        #endregion
 
-        #region EditEquipmentCommand - Редактирование оборудования
+        #endregion
+        #region EditEquipmentCommand        - Редактирование оборудования                   |
+
         private ICommand _EditEquipmentCommand = null;
         public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
         private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
@@ -261,37 +338,33 @@ namespace EquipmentKP.ViewModels
                 _EquipmentsViewSource.View.Refresh();
             }
         }
+
         #endregion
 
-        #region AddRequestCommand - Добавление заявки к текущему оборудованию
+        #region AddRequestCommand           - Добавление заявки к текущему оборудованию     |   
+
         private ICommand _AddRequestCommand = null;
         public ICommand AddRequestCommand => _AddRequestCommand ?? new LambdaCommand(OnAddRequestCommandExecuted, CanAddRequestCommandExecute);
         private bool CanAddRequestCommandExecute(object p) => p is MainEquipment;
         private void OnAddRequestCommandExecuted(object p)
         {
-            var request = new Request
-            {
-                MainEquipment = SelectedEquipment
-            };
+            var request = new Request { MainEquipment = SelectedEquipment };
 
             _RequestsRep.Add(request);
 
             if (_UserDialog.Edit(request))
             {
                 _RequestsRep.Update(request);
-
-                _EquipmentsViewSource.View.Refresh();
-
+                Requests.Add(request);
+                _RequestsViewSource.View.Refresh();
             }
             else
-            {
                 _RequestsRep.Remove(request);
-            }
-
         }
-        #endregion
 
-        #region EditRequestCommand - Редактирование заявки по текущему оборудованию
+        #endregion
+        #region EditRequestCommand          - Редактирование заявки по текущему оборудованию|
+
         private ICommand _EditRequestCommand = null;
         public ICommand EditRequestCommand => _EditRequestCommand ?? new LambdaCommand(OnEditRequestCommandExecuted, CanEditRequestCommandExecute);
         private bool CanEditRequestCommandExecute(object p) => p is Request;
@@ -302,14 +375,14 @@ namespace EquipmentKP.ViewModels
             if (_UserDialog.Edit(request))
             {
                 _RequestsRep.Update(request);
-                // _ = OnLoadDataCommandExecuted();
-                OnPropertyChanged(nameof(SelectedRequest));
+                _RequestsViewSource.View.Refresh();
             }
-
         }
+
         #endregion
 
-        #region ShowRequestsWindow - Показать окно "Заявки"
+        #region ShowRequestsWindow          - Показать окно "Заявки"                        | 
+
         private ICommand _ShowRequestsWindow = null;
         public ICommand ShowRequestsWindow => _ShowRequestsWindow ?? new LambdaCommand(OnShowRequestsWindowExecuted);
         private void OnShowRequestsWindowExecuted()
@@ -322,9 +395,10 @@ namespace EquipmentKP.ViewModels
             };
             window.ShowDialog();
         }
-        #endregion
 
-        #region ShowDocumentsWindow - Показать окно "Документы"
+        #endregion
+        #region ShowDocumentsWindow         - Показать окно "Документы"                     | 
+
         private ICommand _ShowDocumentsWindow = null;
         public ICommand ShowDocumentsWindow => _ShowDocumentsWindow ?? new LambdaCommand(OnShowDocumentsWindowExecuted);
         private void OnShowDocumentsWindowExecuted()
@@ -337,6 +411,7 @@ namespace EquipmentKP.ViewModels
             };
             window.ShowDialog();
         }
+
         #endregion
 
         #endregion

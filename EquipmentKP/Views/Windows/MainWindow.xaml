@@ -297,7 +297,7 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </Expander>
-                                        <DataGrid ItemsSource="{Binding SelectedEquipment.Requests, UpdateSourceTrigger=PropertyChanged}"  
+                                        <DataGrid ItemsSource="{Binding RequestsView}"  
                                                   SelectedItem="{Binding SelectedRequest}" 
                                                   DockPanel.Dock="Top">
                                             <DataGrid.Columns>
