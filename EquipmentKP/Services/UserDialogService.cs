@@ -35,9 +35,37 @@ namespace EquipmentKP.Services
             {
                 MainEquipment equipment     => EditEquipment(equipment),
                 EquipmentsKit equipmentsKit => EditEquipmentsKit(equipmentsKit),
+                Request       request       => EditRequest(request),
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
         }
+
+        private bool EditRequest(Request request)
+        {
+            var viewModel = new RequestEditorViewModel(request)
+            {
+                Title = "Окно просмотра и резактирования заявки",
+                Number = request.Number,
+                ReceiptDate = request.ReceiptDate,
+                Closed = request.Closed,
+                Documents = new ObservableCollection<Document>(request.Documents),
+                RequestMovements = new ObservableCollection<RequestMovement>(request.RequestMovements)
+            };
+
+            var window = new RequestEditorWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            if (window.ShowDialog() != true) return false;
+
+            // TODO: присвоение данных
+
+            return true;
+        }
+
         private bool EditEquipmentsKit(EquipmentsKit equipmentsKit)
         {
             var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)

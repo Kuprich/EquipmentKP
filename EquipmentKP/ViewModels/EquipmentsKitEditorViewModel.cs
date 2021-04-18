@@ -32,7 +32,6 @@ namespace EquipmentKP.ViewModels
         #endregion
 
         public EquipmentsKit EquipmentsKit { get; }
-
         public IList<Owner> Owners { get; set; }
         public IList<Location> Locations { get; set; }
 
@@ -118,9 +117,11 @@ namespace EquipmentKP.ViewModels
         {
             get => _SelectedEquipment;
             set => Set(ref _SelectedEquipment, value);
-        } 
+        }
         #endregion
         #endregion
+
+        #region КОМАНДЫ
 
         #region EditEquipmentCommand - Редактирование оборудования
         private ICommand _EditEquipmentCommand = null;
@@ -146,8 +147,8 @@ namespace EquipmentKP.ViewModels
         public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted);
         private void OnAddEquipmentCommandExecuted()
         {
-            var equipment = new MainEquipment 
-            { 
+            var equipment = new MainEquipment
+            {
                 EquipmentsKit = EquipmentsKit
             };
             Equipments.Add(equipment);
@@ -164,16 +165,18 @@ namespace EquipmentKP.ViewModels
             else
                 Equipments.Remove(equipment);
         }
-        #endregion
+        #endregion 
 
+        #endregion
 
         public EquipmentsKitEditorViewModel(EquipmentsKit EquipmentsKit)
         {
             this.EquipmentsKit = EquipmentsKit;
         }
+
         public EquipmentsKitEditorViewModel()
         {
-           
+        //TODO: Возможно сделать проверку на isDesignTime  
         }
 
     }

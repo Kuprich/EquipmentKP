@@ -278,9 +278,9 @@
                                                 <Setter Property="Width" Value="18"/>
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Button Content="+"/>
+                                        <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                                         <Button Content="e"/>
-                                        <Button Content="-"/>
+                                        <Button Content="-" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
                                     </StackPanel>
                                     <DockPanel>
                                         <Expander DockPanel.Dock="Bottom"

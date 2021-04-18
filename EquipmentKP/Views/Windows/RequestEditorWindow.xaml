@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
-        DataContext="{d:DesignInstance {x:Type vm:RequestEditorViewModel}, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance {x:Type vm:RequestEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}" Height="338" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,6 +14,11 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="0 2"/>
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -24,6 +29,7 @@
                     <Grid.Resources>
                         <Style TargetType="TextBox">
                             <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Margin" Value="0 2"/>
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
@@ -38,7 +44,8 @@
 
                     <TextBlock Text="Наименование: "
                                Grid.Column="0" Grid.Row="0"/>
-                    <TextBox Grid.Column="1" Grid.Row="0"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" 
+                             Text="{Binding Request.MainEquipment.Name}"/>
 
                     <Grid Grid.Column="0" Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -47,7 +54,8 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="инв.н.:"
                                Grid.Column="0" Grid.Row="0"/>
-                        <TextBox Grid.Column="1" Grid.Row="0"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Margin="0 2 5 2"
+                                 Text="{Binding Request.MainEquipment.EquipmentsKit.InventoryNo}"/>
                     </Grid>
 
                     <Grid Grid.Column="1" Grid.Row="1">
@@ -57,12 +65,14 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="c.н.:"
                                Grid.Column="0" Grid.Row="0"/>
-                        <TextBox Grid.Column="1" Grid.Row="0"/>
+                        <TextBox Grid.Column="1" Grid.Row="0"
+                                 Text="{Binding Request.MainEquipment.SerialNo}"/>
                     </Grid>
 
                     <TextBlock Text="Тип оборудования:"
                                Grid.Column="0" Grid.Row="2"/>
-                    <TextBox Grid.Column="1" Grid.Row="2"/>
+                    <TextBox Grid.Column="1" Grid.Row="2"
+                             Text="{Binding Request.MainEquipment.EquipmentType.Name}"/>
 
                 </Grid>
             </GroupBox>
@@ -81,7 +91,8 @@
                     
                     <TextBlock Text="№ заявки:"
                                Grid.Column="0" Grid.Row="0"/>
-                    <TextBox Grid.Column="1" Grid.Row="0"/>
+                    <TextBox Grid.Column="1" Grid.Row="0"
+                             Text="{Binding Number}"/>
 
                     <TextBlock Text="Дата регистрации:"
                                Grid.Column="0" Grid.Row="1"/>
@@ -114,7 +125,12 @@
                         <Button Content="+"/>
                         <Button Content="-"/>
                     </UniformGrid>
-                    <DataGrid/>
+                    <DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate}"/>
+                            <DataGridTextColumn Header="Состояние заявки" Binding="{Binding RequestState}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </DockPanel>    
             </GroupBox>
             <GroupBox Header="Список прикрепленных к заявке документов"
@@ -131,7 +147,13 @@
                         <Button Content="+"/>
                         <Button Content="-"/>
                     </UniformGrid>
-                    <DataGrid/>
+                    <DataGrid ItemsSource="{Binding Documents}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding CreationDate}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </DockPanel>
             </GroupBox>
         </Grid>

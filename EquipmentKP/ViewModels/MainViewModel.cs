@@ -198,25 +198,6 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        #region EditEquipmentCommand - Редактирование оборудования
-        private ICommand _EditEquipmentCommand = null;
-        public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
-        private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
-        private void OnEditEquipmentCommandExecuted(object p)
-        {
-            var equipment = (MainEquipment)p;
-
-            if (_UserDialog.Edit(equipment))
-            {
-                _EquipmentsRep.Update(equipment);
-
-                OnPropertyChanged(nameof(SelectedEquipment));
-
-                _EquipmentsViewSource.View.Refresh();
-            }
-        }
-        #endregion
-
         #region AddEquipmentCommand - Добавление оборудования
         private ICommand _AddEquipmentCommand = null;
         public ICommand AddEquipmentCommand => _AddEquipmentCommand ?? new LambdaCommand(OnAddEquipmentCommandExecuted, CanAddEquipmentCommandExecute);
@@ -244,6 +225,70 @@ namespace EquipmentKP.ViewModels
             {
                 _EquipmentsRep.Remove(equipment);
             }
+        }
+        #endregion
+
+        #region EditEquipmentCommand - Редактирование оборудования
+        private ICommand _EditEquipmentCommand = null;
+        public ICommand EditEquipmentCommand => _EditEquipmentCommand ?? new LambdaCommand(OnEditEquipmentCommandExecuted, CanEditEquipmentCommandExecute);
+        private bool CanEditEquipmentCommandExecute(object p) => p is MainEquipment;
+        private void OnEditEquipmentCommandExecuted(object p)
+        {
+            var equipment = (MainEquipment)p;
+
+            if (_UserDialog.Edit(equipment))
+            {
+                _EquipmentsRep.Update(equipment);
+
+                OnPropertyChanged(nameof(SelectedEquipment));
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+        #endregion
+
+        #region AddRequestCommand - Добавление заявки к текущему оборудованию
+        private ICommand _AddRequestCommand = null;
+        public ICommand AddRequestCommand => _AddRequestCommand ?? new LambdaCommand(OnAddRequestCommandExecuted, CanAddRequestCommandExecute);
+        private bool CanAddRequestCommandExecute(object p) => p is MainEquipment;
+        private void OnAddRequestCommandExecuted(object p)
+        {
+            var request = new Request
+            {
+                MainEquipment = SelectedEquipment
+            };
+
+            _RequestsRep.Add(request);
+
+            if (_UserDialog.Edit(request))
+            {
+                _RequestsRep.Update(request);
+                // _ = OnLoadDataCommandExecuted();
+                OnPropertyChanged(nameof(SelectedRequest));
+            }
+            else
+            {
+                _RequestsRep.Remove(request);
+            }
+
+        }
+        #endregion
+
+        #region EditRequestCommand - Добавление заявки к текущему оборудованию
+        private ICommand _EditRequestCommand = null;
+        public ICommand EditRequestCommand => _EditRequestCommand ?? new LambdaCommand(OnEditRequestCommandExecuted, CanEditRequestCommandExecute);
+        private bool CanEditRequestCommandExecute(object p) => p is Request;
+        private void OnEditRequestCommandExecuted(object p)
+        {
+            var request = (Request)p;
+
+            if (_UserDialog.Edit(request))
+            {
+                _RequestsRep.Update(request);
+                // _ = OnLoadDataCommandExecuted();
+                OnPropertyChanged(nameof(SelectedRequest));
+            }
+
         }
         #endregion
 
