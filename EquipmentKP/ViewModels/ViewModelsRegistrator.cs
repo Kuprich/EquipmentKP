@@ -12,6 +12,8 @@ namespace EquipmentKP.ViewModels
             .AddTransient<EquipmentEditorViewModel>()
             .AddTransient<EquipmentsKitEditorViewModel>()
             .AddTransient<RequestsViewModel>()
+            .AddTransient<RequestEditorViewModel>()
+            .AddTransient<DocumentsViewModel>()
             ;
     }
 }

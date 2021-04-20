@@ -132,10 +132,10 @@
                                     <Setter Property="Margin" Value="4 0 0 2"/>
                                 </Style>
                             </UniformGrid.Resources>
-                            <Button Content="+"/>
+                            <Button Content="+" Command="{Binding AddRequestMovementCommand}"/>
                             <Button Content="-"/>
                         </UniformGrid>
-                        <DataGrid>
+                        <DataGrid ItemsSource="{Binding RequestMovements}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate}"/>
                                 <DataGridTextColumn Header="Состояние заявки" Binding="{Binding RequestState}" Width="*"/>

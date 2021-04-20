@@ -16,16 +16,19 @@ namespace EquipmentKP.Services
     {
         private readonly IEnumerable<Owner> _Owners;
         private readonly IEnumerable<Location> _Locations;
+        private readonly IRepository<RequestState> _RequestStatesRep;
 
         public UserDialogService
             (
             IRepository<Owner> OwnersRep,
-            IRepository<Location> LocationsRep
+            IRepository<Location> LocationsRep,
+            IRepository<RequestState> RequestStatesRep
             )
         {
             // при необоходимости передавать репозитории и сохранять их в приватные поля
             _Owners = OwnersRep.Items;
             _Locations = LocationsRep.Items;
+            _RequestStatesRep = RequestStatesRep;
         }
         public bool Edit<T>(T item)
         {
@@ -33,13 +36,36 @@ namespace EquipmentKP.Services
 
             return item switch
             {
-                MainEquipment equipment     => EditEquipment(equipment),
-                EquipmentsKit equipmentsKit => EditEquipmentsKit(equipmentsKit),
-                Request       request       => EditRequest(request),
+                MainEquipment   equipment       => EditEquipment(equipment),
+                EquipmentsKit   equipmentsKit   => EditEquipmentsKit(equipmentsKit),
+                Request         request         => EditRequest(request),
+                RequestMovement requestMovement => EditRequestMovement(requestMovement),
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
         }
 
+        private bool EditRequestMovement(RequestMovement requestMovement)
+        {
+            var viewModel = new RequestMovementViewModel(requestMovement)
+            {
+                RegistrationDate = requestMovement.RegistrationDate == DateTime.MinValue ? DateTime.Now : requestMovement.RegistrationDate,
+                RequestStates = new List<RequestState>(_RequestStatesRep.Items),
+                SelectedRequestState = requestMovement.RequestState
+            };
+            var window = new RequestMovementWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+            if (window.ShowDialog() != true) return false;
+
+            // присвоение данных
+            requestMovement.RegistrationDate = viewModel.RegistrationDate;
+            requestMovement.RequestState = viewModel.SelectedRequestState;
+
+            return true;
+        }
         private bool EditRequest(Request request)
         {
             var viewModel = new RequestEditorViewModel(request)
@@ -70,7 +96,6 @@ namespace EquipmentKP.Services
 
             return true;
         }
-
         private bool EditEquipmentsKit(EquipmentsKit equipmentsKit)
         {
             var viewModel = new EquipmentsKitEditorViewModel(equipmentsKit)
@@ -127,7 +152,6 @@ namespace EquipmentKP.Services
         }
 
         public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
-
         public bool OpenFile(string filePath)
         {
             return false;    

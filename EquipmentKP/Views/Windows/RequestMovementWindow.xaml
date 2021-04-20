@@ -1,0 +1,49 @@
+﻿<Window x:Class="EquipmentKP.Views.Windows.RequestMovementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        d:DataContext="{d:DesignInstance {x:Type vm:RequestMovementViewModel}, IsDesignTimeCreatable=True}"
+        Title="{Binding Title}" Height="152" Width="405">
+    <DockPanel Margin="5">
+        <UniformGrid DockPanel.Dock="Bottom" Columns="2" HorizontalAlignment="Right">
+            <UniformGrid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </UniformGrid.Resources>
+            <Button Content="Отмена" Command="{StaticResource DialogResultCommand}" CommandParameter="false" Margin="0 0 10 0"/>
+            <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true" />
+        </UniformGrid>
+
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Дата регистрации состояния: "/>
+            <DatePicker Grid.Column="1" Margin="3" Text="{Binding RegistrationDate}"/>
+
+            <TextBlock Grid.Row="1" Text="Выбор состояния:"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="3"
+                      ItemsSource="{Binding RequestStates}"
+                      SelectedItem="{Binding SelectedRequestState}"
+                      DisplayMemberPath="Name"
+                      />
+
+        </Grid>
+    </DockPanel>
+
+</Window>
