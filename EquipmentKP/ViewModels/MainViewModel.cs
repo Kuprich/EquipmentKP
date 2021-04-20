@@ -176,7 +176,7 @@ namespace EquipmentKP.ViewModels
                 _DocumentsViewSource = new CollectionViewSource { Source = value };
 
                 OnPropertyChanged(nameof(DocumentsView));
-                _RequestsViewSource.View.Refresh();
+                _DocumentsViewSource.View.Refresh();
             }
 
         }
