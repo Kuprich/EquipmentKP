@@ -268,38 +268,48 @@
                                  Text="{Binding SelectedEquipment.OperationSystem}"/>
                                 </Grid>
                             </GroupBox>
-                            <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" IsExpanded="True" Style="{DynamicResource MyExpanderStyle}">
+
+                            <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" 
+                                      IsExpanded="True" Style="{DynamicResource MyExpanderStyle}">
+
                                 <DockPanel>
-                                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                                        <StackPanel.Resources>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Margin" Value="2"/>
-                                                <Setter Property="Height" Value="18"/>
-                                                <Setter Property="Width" Value="18"/>
-                                            </Style>
-                                        </StackPanel.Resources>
-                                        <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
-                                        <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
-                                        <Button Content="-"/>
-                                    </StackPanel>
-                                    <DockPanel>
-                                        <Expander DockPanel.Dock="Bottom"
-                                              ExpandDirection="Up"
-                                              IsExpanded="True"
-                                              Header="Прикрепленные документы по текущей заявке">
-                                        <DataGrid ItemsSource="{Binding SelectedRequest.Documents}"
-                                                  MinHeight="150">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
-                                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
-                                                <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
-                                                
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+                                    <DockPanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Margin" Value="2"/>
+                                            <Setter Property="Height" Value="18"/>
+                                            <Setter Property="Width" Value="18"/>
+                                        </Style>
+                                    </DockPanel.Resources>
+
+                                    <Expander DockPanel.Dock="Bottom"
+                                            ExpandDirection="Up"
+                                            IsExpanded="True"
+                                            Header="Прикрепленные документы по текущей заявке">
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Right">
+                                                <Button Content="V"/>
+                                            </StackPanel>
+                                            <DataGrid ItemsSource="{Binding Documents}"
+                                                      SelectedItem="{Binding SelectedDocument}"
+                                                      MinHeight="150">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
+                                                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                                                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
+
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </DockPanel>
                                     </Expander>
+
+                                    <DockPanel>
+                                        <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                                            <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                                            <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
+                                            <Button Content="-"/>
+                                        </StackPanel>
                                         <DataGrid ItemsSource="{Binding RequestsView}"  
-                                                  SelectedItem="{Binding SelectedRequest}" 
-                                                  DockPanel.Dock="Top">
+                                                  SelectedItem="{Binding SelectedRequest}">
                                             <DataGrid.Columns>
                                                 <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
                                                 <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
@@ -307,7 +317,9 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </DockPanel>
+
                                 </DockPanel>
+                            
                             </Expander>
                         </DockPanel>
                     </TabItem>

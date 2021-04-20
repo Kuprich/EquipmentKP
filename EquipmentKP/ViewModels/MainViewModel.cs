@@ -146,7 +146,10 @@ namespace EquipmentKP.ViewModels
             {
                 if (!Set(ref _SelectedRequest, value)) return;
 
-                Documents = new ObservableCollection<Document>(SelectedRequest.Documents);
+                if (SelectedRequest is null)
+                    Documents = new ObservableCollection<Document>();
+                else 
+                    Documents = new ObservableCollection<Document>(SelectedRequest.Documents);
             }
 
         }
