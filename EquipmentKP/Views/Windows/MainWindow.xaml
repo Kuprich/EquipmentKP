@@ -18,6 +18,10 @@
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Window.Resources>
+        <c:DateConverter x:Key="DateConverter"/>
+    </Window.Resources>
+
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Файл">
@@ -295,7 +299,7 @@
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
                                                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
-                                                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
+                                                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}"/>
 
                                                 </DataGrid.Columns>
                                             </DataGrid>
@@ -313,7 +317,7 @@
                                             <DataGrid.Columns>
                                                 <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
                                                 <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
-                                                <DataGridTextColumn Header="Дата регистрации заявки" Binding="{Binding ReceiptDate}"/>
+                                                <DataGridTextColumn Header="Дата поступления заявки" Binding="{Binding ReceiptDate, Converter={StaticResource DateConverter}}"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </DockPanel>
