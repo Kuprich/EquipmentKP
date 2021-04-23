@@ -52,7 +52,7 @@ namespace EquipmentKP.ViewModels
         } 
         #endregion
 
-        #region View & ViewSource equipments (А так же фильтр)
+        #region View & ViewSource equipments
         private CollectionViewSource _EquipmentsViewSource;
         public ICollectionView EquipmentsView => _EquipmentsViewSource?.View;
         #endregion

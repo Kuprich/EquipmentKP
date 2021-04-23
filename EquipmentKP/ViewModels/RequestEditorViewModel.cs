@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace EquipmentKP.ViewModels
@@ -60,24 +62,52 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region View & ViewSource RequestMovements
+        private CollectionViewSource _RequestMovementsViewSource;
+        public ICollectionView RequestMovementsView => _RequestMovementsViewSource?.View;
+        #endregion
         #region ObservableCollection RequestMovements - движение заявки
 
         private ObservableCollection<RequestMovement> _RequestMovements;
         public ObservableCollection<RequestMovement> RequestMovements
         {
             get => _RequestMovements;
-            set => Set(ref _RequestMovements, value);
+            set
+            {
+                if (!Set(ref _RequestMovements, value)) return;
+
+                _RequestMovementsViewSource = new CollectionViewSource { Source = value };
+
+                OnPropertyChanged(nameof(RequestMovementsView));
+                _RequestMovementsViewSource.View.Refresh();
+            }
+
         }
 
         #endregion
 
+        #region View & ViewSource Documents
+
+        private CollectionViewSource _DocumentsViewSource;
+        public ICollectionView DocumentsView => _DocumentsViewSource?.View;
+
+        #endregion
         #region ObservableCollection Documents - Список документов, принадлежащих заявке
 
         private ObservableCollection<Document> _Documents;
         public ObservableCollection<Document> Documents
         {
             get => _Documents;
-            set => Set(ref _Documents, value);
+            set
+            {
+                if (!Set(ref _Documents, value)) return;
+
+                _DocumentsViewSource = new CollectionViewSource { Source = value };
+
+                OnPropertyChanged(nameof(DocumentsView));
+                _DocumentsViewSource.View.Refresh();
+
+            }
         }
 
         #endregion
@@ -103,6 +133,7 @@ namespace EquipmentKP.ViewModels
             if (_UserDialog.Edit(requestMovement))
             {
                 RequestMovements[RequestMovements.IndexOf(requestMovement)] = requestMovement;
+                _RequestMovementsViewSource?.View.Refresh();
             }
 
             else RequestMovements.Remove(requestMovement);

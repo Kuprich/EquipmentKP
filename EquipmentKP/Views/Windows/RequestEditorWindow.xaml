@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:RequestEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}" Height="338" Width="800">
+    
+    <Window.Resources>
+        <c:DateConverter x:Key="DateConverter"/>
+    </Window.Resources>
+    
     <DockPanel Margin="5">
         <UniformGrid DockPanel.Dock="Bottom" HorizontalAlignment="Right" Rows="1">
             <UniformGrid.Resources>
@@ -135,10 +141,10 @@
                             <Button Content="+" Command="{Binding AddRequestMovementCommand}"/>
                             <Button Content="-"/>
                         </UniformGrid>
-                        <DataGrid ItemsSource="{Binding RequestMovements}">
+                        <DataGrid ItemsSource="{Binding RequestMovementsView}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate}"/>
-                                <DataGridTextColumn Header="Состояние заявки" Binding="{Binding RequestState}" Width="*"/>
+                                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, Converter={StaticResource DateConverter}}"/>
+                                <DataGridTextColumn Header="Состояние заявки" Binding="{Binding RequestState.Name}" Width="*"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>
@@ -157,11 +163,11 @@
                             <Button Content="+"/>
                             <Button Content="-"/>
                         </UniformGrid>
-                        <DataGrid ItemsSource="{Binding Documents}">
+                        <DataGrid ItemsSource="{Binding DocumentsView}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
                                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
-                                <DataGridTextColumn Header="Дата" Binding="{Binding CreationDate}"/>
+                                <DataGridTextColumn Header="Дата" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>
