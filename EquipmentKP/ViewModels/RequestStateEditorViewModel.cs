@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EquipmentKP.ViewModels
 {
-    class RequestMovementViewModel : ViewModelBase
+    class RequestStateEditorViewModel : ViewModelBase
     {
         public RequestMovement RequestMovement { get; }
 
@@ -52,11 +52,11 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
-        public RequestMovementViewModel(RequestMovement RequestMovement)
+        public RequestStateEditorViewModel(RequestMovement RequestMovement)
         {
             this.RequestMovement = RequestMovement;
         }
-        public RequestMovementViewModel()
+        public RequestStateEditorViewModel()
         {
             if (!App.IsDesignTime)
                 throw new InvalidOperationException("Данный конструктор не предназначен для использования вне дизайнера VisualStudio");

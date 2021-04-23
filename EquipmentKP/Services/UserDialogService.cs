@@ -46,13 +46,13 @@ namespace EquipmentKP.Services
 
         private bool EditRequestMovement(RequestMovement requestMovement)
         {
-            var viewModel = new RequestMovementViewModel(requestMovement)
+            var viewModel = new RequestStateEditorViewModel(requestMovement)
             {
                 RegistrationDate = requestMovement.RegistrationDate == DateTime.MinValue ? DateTime.Now : requestMovement.RegistrationDate,
                 RequestStates = new List<RequestState>(_RequestStatesRep.Items),
                 SelectedRequestState = requestMovement.RequestState
             };
-            var window = new RequestMovementWindow
+            var window = new RequestStateEditorWindow
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,

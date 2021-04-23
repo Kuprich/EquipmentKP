@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace EquipmentKP.Views.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для RequestMovementWindow.xaml
+    /// Логика взаимодействия для RequestStateEditorWindow.xaml
     /// </summary>
-    public partial class RequestMovementWindow : Window
+    public partial class RequestStateEditorWindow : Window
     {
-        public RequestMovementWindow()
+        public RequestStateEditorWindow()
         {
             InitializeComponent();
         }
