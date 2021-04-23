@@ -9,7 +9,7 @@ namespace Equipment.Database.Entities
     public class Request : Entity
     {
         /// <summary>Номер заявки</summary>
-        public int Number { get; set; }
+        public string Number { get; set; }
 
         /// <summary>Дата поступления заявки</summary>
         public DateTime ReceiptDate { get; set; }

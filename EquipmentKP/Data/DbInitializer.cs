@@ -96,11 +96,11 @@ namespace EquipmentKP.Data
         }
         private async Task Init_Request()
         {
-            requests[0] = new Request { Number = 1, ReceiptDate = DateTime.Parse("12.12.2015"), MainEquipment = mainEquipments[0], Closed = true };
-            requests[1] = new Request { Number = 2, ReceiptDate = DateTime.Parse("11.01.2012"), MainEquipment = mainEquipments[0], Closed = true };
-            requests[2] = new Request { Number = 3, ReceiptDate = DateTime.Parse("15.02.2013"), MainEquipment = mainEquipments[0] };
-            requests[3] = new Request { Number = 4, ReceiptDate = DateTime.Parse("16.03.2014"), MainEquipment = mainEquipments[3] };
-            requests[4] = new Request { Number = 5, ReceiptDate = DateTime.Parse("17.04.2015"), MainEquipment = mainEquipments[4] };
+            requests[0] = new Request { Number = "1", ReceiptDate = DateTime.Parse("12.12.2015"), MainEquipment = mainEquipments[0], Closed = true };
+            requests[1] = new Request { Number = "2", ReceiptDate = DateTime.Parse("11.01.2012"), MainEquipment = mainEquipments[0], Closed = true };
+            requests[2] = new Request { Number = "3", ReceiptDate = DateTime.Parse("15.02.2013"), MainEquipment = mainEquipments[0] };
+            requests[3] = new Request { Number = "4", ReceiptDate = DateTime.Parse("16.03.2014"), MainEquipment = mainEquipments[3] };
+            requests[4] = new Request { Number = "5", ReceiptDate = DateTime.Parse("17.04.2015"), MainEquipment = mainEquipments[4] };
             await context.AddRangeAsync(requests);
             await context.SaveChangesAsync();
         }

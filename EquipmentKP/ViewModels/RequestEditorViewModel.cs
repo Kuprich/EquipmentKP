@@ -29,10 +29,10 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
-        #region int Number - Номер заявки
+        #region string Number - Номер заявки
 
-        private int _Number;
-        public int Number
+        private string _Number;
+        public string Number
         {
             get => _Number;
             set => Set(ref _Number, value);
