@@ -160,7 +160,7 @@
                                     <Setter Property="Margin" Value="4 0 0 2"/>
                                 </Style>
                             </UniformGrid.Resources>
-                            <Button Content="+"/>
+                            <Button Content="+" Command="{Binding AddDocumentCommand}"/>
                             <Button Content="-"/>
                         </UniformGrid>
                         <DataGrid ItemsSource="{Binding DocumentsView}">

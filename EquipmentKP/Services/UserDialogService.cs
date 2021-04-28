@@ -40,8 +40,36 @@ namespace EquipmentKP.Services
                 EquipmentsKit   equipmentsKit   => EditEquipmentsKit(equipmentsKit),
                 Request         request         => EditRequest(request),
                 RequestMovement requestMovement => EditRequestMovement(requestMovement),
+                Document        document        => EditDocument(document),
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
+        }
+
+        private bool EditDocument(Document document)
+        {
+            var viewModel = new DocumentEditorViewModel(document)
+            {
+                Content = document.Content,
+                CreationDate = document.CreationDate,
+                Name = document.Name,
+                Number = document.Number
+            };
+            var window = new DocumentEditorWindow
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            if (window.ShowDialog() != true) return false;
+
+            // присвоение данных
+            document.Name = viewModel.Name;
+            document.Number = viewModel.Number;
+            document.CreationDate = viewModel.CreationDate;
+            document.Content = viewModel.Content;
+
+            return true;
         }
 
         private bool EditRequestMovement(RequestMovement requestMovement)
@@ -152,6 +180,7 @@ namespace EquipmentKP.Services
         }
 
         public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
+        
         public bool OpenFile(string filePath)
         {
             return false;    

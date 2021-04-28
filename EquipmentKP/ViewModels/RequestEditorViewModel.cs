@@ -18,7 +18,7 @@ namespace EquipmentKP.ViewModels
         #region ПОЛЯ И СВОЙСТВА
         public Request Request { get; }
 
-        #region Заголовок окна
+        #region string Title Заголовок окна
 
         private string _Title = "Заявка";
         public string Title
@@ -116,6 +116,7 @@ namespace EquipmentKP.ViewModels
 
         #region КОМАНДЫ
 
+        #region AddRequestMovementCommand - добавление "движение заявки"
         private ICommand _AddRequestMovementCommand = null;
         public ICommand AddRequestMovementCommand => _AddRequestMovementCommand ?? new LambdaCommand(OnAddRequestMovementCommandExecuted);
         private void OnAddRequestMovementCommandExecuted()
@@ -138,6 +139,34 @@ namespace EquipmentKP.ViewModels
 
             else RequestMovements.Remove(requestMovement);
         }
+        #endregion
+
+        #region AddDocumentCommand - добавление документа
+
+        private ICommand _AddDocumentCommand = null;
+        public ICommand AddDocumentCommand => _AddDocumentCommand ?? new LambdaCommand(OnAddDocumentCommandExecuted);
+        private void OnAddDocumentCommandExecuted()
+        {
+            var document = new Document
+            {
+                Request = Request
+            };
+
+            Documents.Add(document);
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Edit(document))
+            {
+                Documents[Documents.IndexOf(document)] = document;
+                _DocumentsViewSource?.View.Refresh();
+            }
+
+            else Documents.Remove(document);
+        }
+
+        #endregion
 
         #endregion
 
