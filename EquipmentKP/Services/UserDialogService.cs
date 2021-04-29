@@ -50,7 +50,7 @@ namespace EquipmentKP.Services
             var viewModel = new DocumentEditorViewModel(document)
             {
                 Content = document.Content,
-                CreationDate = document.CreationDate,
+                CreationDate = document.CreationDate == DateTime.MinValue ? DateTime.Now : document.CreationDate,
                 Name = document.Name,
                 Number = document.Number
             };

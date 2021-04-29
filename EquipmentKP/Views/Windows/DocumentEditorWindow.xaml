@@ -126,24 +126,26 @@
 
                 <TextBlock Text="Наименование документа"
                    Grid.Column="0" Grid.Row="0"/>
-                <TextBox Grid.Column="1" Grid.Row="0"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
 
                 <TextBlock Text="Номер документа (по базе ИАЦ)"
                    Grid.Column="0" Grid.Row="1"/>
-                <TextBox Grid.Column="1" Grid.Row="1"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Number}"/>
 
                 <TextBlock Text="Дата документа:"
                    Grid.Column="0" Grid.Row="2"/>
-                <DatePicker Grid.Column="1" Grid.Row="2"/>
+                <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding CreationDate}"/>
+                
                 <TextBlock Text="Документ:"
                    Grid.Column="0" Grid.Row="3"/>
                 <DockPanel Grid.Column="1" Grid.Row="3">
                     
                     <Button Content="Прикрепить новый документ" DockPanel.Dock="Right" Command="{Binding UploadFileCommand}"/>
-                    <Button Content="V"/>
+                    <Button Content=" V " Command="{Binding ShowUploadedFileCommand}"/>
                     <TextBlock>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
+                                <Setter Property="Padding" Value="10 0 0 0"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsAttached}" Value="false">
                                         <Setter Property="Text" Value="Не прикреплен"/>

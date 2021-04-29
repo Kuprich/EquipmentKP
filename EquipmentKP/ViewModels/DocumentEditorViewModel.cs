@@ -4,6 +4,7 @@ using EquipmentKP.ViewModels.Base;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -96,12 +97,14 @@ namespace EquipmentKP.ViewModels
         public ICommand UploadFileCommand => _UploadFileCommand ?? new LambdaCommand(OnUploadFileCommandExecuted);
         private void OnUploadFileCommandExecuted()
         {
-            string filePath = null;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
-                filePath = openFileDialog.FileName;
-
-            Content = File.ReadAllBytes(filePath);
+            {
+                string filePath = openFileDialog.FileName;
+                Content = File.ReadAllBytes(filePath);
+                OnPropertyChanged(nameof(IsAttached));
+            }
+            
         }
         #endregion
 
@@ -109,15 +112,17 @@ namespace EquipmentKP.ViewModels
 
         private ICommand _ShowUploadedFileCommand = null;
         public ICommand ShowUploadedFileCommand => _ShowUploadedFileCommand ?? new LambdaCommand(OnShowUploadedFileCommandExecuted, CanShowUploadedFileCommandExecute);
-        private bool CanShowUploadedFileCommandExecute(object p) => Content != null && Content?.Length > 0;
-        private void OnShowUploadedFileCommandExecuted(object p)
+        private bool CanShowUploadedFileCommandExecute() => Content != null && Content?.Length > 0;
+        private void OnShowUploadedFileCommandExecuted()
         {
-            string filePath = null;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-                filePath = openFileDialog.FileName;
+            string fileName = "tmp.pdf";
+            string dirPath = Environment.CurrentDirectory;
+            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+            if (!dirInfo.Exists)
+                dirInfo.Create();
+            File.WriteAllBytes(dirPath + fileName, Content);
 
-            Content = File.ReadAllBytes(filePath);
+            new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
         }
         #endregion
 
