@@ -85,6 +85,17 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region RequestMovement SelectedRequestMovement - выбранное движение заявки
+
+        private RequestMovement _SelectedRequestMovement;
+        public RequestMovement SelectedRequestMovement
+        {
+            get => _SelectedRequestMovement;
+            set => Set(ref _SelectedRequestMovement, value);
+        }
+
+        #endregion
+
 
         #region View & ViewSource Documents
 
@@ -111,12 +122,24 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region Document SelectedDocument - выбранный документ
+
+        private Document _SelectedDocument;
+        public Document SelectedDocument
+        {
+            get => _SelectedDocument;
+            set => Set(ref _SelectedDocument, value);
+        }
+
+        #endregion
+
 
         #endregion
 
         #region КОМАНДЫ
 
         #region AddRequestMovementCommand - добавление "движение заявки"
+
         private ICommand _AddRequestMovementCommand = null;
         public ICommand AddRequestMovementCommand => _AddRequestMovementCommand ?? new LambdaCommand(OnAddRequestMovementCommandExecuted);
         private void OnAddRequestMovementCommandExecuted()
@@ -139,7 +162,32 @@ namespace EquipmentKP.ViewModels
 
             else RequestMovements.Remove(requestMovement);
         }
+
         #endregion
+
+        #region EditRequestMovementCommand - добавление "движение заявки"
+
+        private ICommand _EditRequestMovementCommand = null;
+        public ICommand EditRequestMovementCommand => _EditRequestMovementCommand ?? new LambdaCommand(OnEditRequestMovementCommandExecuted, CanEditRequestMovementCommandExecute);
+        private bool CanEditRequestMovementCommandExecute(object p) => SelectedRequestMovement != null;
+        private void OnEditRequestMovementCommandExecuted(object p)
+        {
+            var requestMovement = (RequestMovement)p;
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Edit(requestMovement))
+            {
+                RequestMovements[RequestMovements.IndexOf(requestMovement)] = requestMovement;
+                _RequestMovementsViewSource?.View.Refresh();
+            }
+
+        }
+
+        #endregion
+
+
 
         #region AddDocumentCommand - добавление документа
 

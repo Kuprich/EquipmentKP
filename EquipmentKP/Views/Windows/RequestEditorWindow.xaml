@@ -139,10 +139,10 @@
                                 </Style>
                             </UniformGrid.Resources>
                             <Button Content="+" Command="{Binding AddRequestMovementCommand}"/>
-                            <Button Content="e"/>
+                            <Button Content="e" Command="{Binding EditRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}"/>
                             <Button Content="-"/>
                         </UniformGrid>
-                        <DataGrid ItemsSource="{Binding RequestMovementsView}">
+                        <DataGrid ItemsSource="{Binding RequestMovementsView}" SelectedItem="{Binding SelectedRequestMovement}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, Converter={StaticResource DateConverter}}"/>
                                 <DataGridTextColumn Header="Состояние заявки" Binding="{Binding RequestState.Name}" Width="*"/>
@@ -165,7 +165,7 @@
                             <Button Content="e"/>
                             <Button Content="-"/>
                         </UniformGrid>
-                        <DataGrid ItemsSource="{Binding DocumentsView}">
+                        <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
                                 <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
