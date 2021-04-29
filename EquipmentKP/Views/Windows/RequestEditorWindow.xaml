@@ -162,7 +162,7 @@
                                 </Style>
                             </UniformGrid.Resources>
                             <Button Content="+" Command="{Binding AddDocumentCommand}"/>
-                            <Button Content="e"/>
+                            <Button Content="e" Command="{Binding EditDocumentCommand}" CommandParameter="{Binding SelectedDocument}"/>
                             <Button Content="-"/>
                         </UniformGrid>
                         <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">

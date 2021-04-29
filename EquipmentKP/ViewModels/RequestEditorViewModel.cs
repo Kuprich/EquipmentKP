@@ -138,7 +138,7 @@ namespace EquipmentKP.ViewModels
 
         #region КОМАНДЫ
 
-        #region AddRequestMovementCommand - добавление "движение заявки"
+        #region AddRequestMovementCommand - добавление записи из таблицы "движение заявки"
 
         private ICommand _AddRequestMovementCommand = null;
         public ICommand AddRequestMovementCommand => _AddRequestMovementCommand ?? new LambdaCommand(OnAddRequestMovementCommandExecuted);
@@ -164,12 +164,11 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
-        #region EditRequestMovementCommand - добавление "движение заявки"
+        #region EditRequestMovementCommand - редактирование записи из таблицы "движение заявки"
 
         private ICommand _EditRequestMovementCommand = null;
         public ICommand EditRequestMovementCommand => _EditRequestMovementCommand ?? new LambdaCommand(OnEditRequestMovementCommandExecuted, CanEditRequestMovementCommandExecute);
-        private bool CanEditRequestMovementCommandExecute(object p) => SelectedRequestMovement != null;
+        private bool CanEditRequestMovementCommandExecute(object p) => p != null;
         private void OnEditRequestMovementCommandExecuted(object p)
         {
             var requestMovement = (RequestMovement)p;
@@ -186,7 +185,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
 
 
         #region AddDocumentCommand - добавление документа
@@ -212,6 +210,27 @@ namespace EquipmentKP.ViewModels
             }
 
             else Documents.Remove(document);
+        }
+
+        #endregion
+        #region EditDocumentCommand - добавление документа
+
+        private ICommand _EditDocumentCommand = null;
+        public ICommand EditDocumentCommand => _EditDocumentCommand ?? new LambdaCommand(OnEditDocumentCommandExecuted, CanEditDocumentCommandExecute);
+        private bool CanEditDocumentCommandExecute(object p) => p != null;
+        private void OnEditDocumentCommandExecuted(object p)
+        {
+            var document = (Document)p;
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Edit(document))
+            {
+                Documents[Documents.IndexOf(document)] = document;
+                _DocumentsViewSource?.View.Refresh();
+            }
+
         }
 
         #endregion
