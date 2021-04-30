@@ -17,7 +17,11 @@ namespace Equipment.Database.Entities
         /// <summary> Прикрепляемый документ </summary>
         public byte[] Content { get; set; }
 
+        /// <summary> тип файла (рисширение) </summary>
+        public string FileType { get; set; }
+
         /// <summary>Заявка по текущему документу</summary>
         public Request Request { get; set; }
+
     }
 }

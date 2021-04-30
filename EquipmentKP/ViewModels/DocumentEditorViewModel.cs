@@ -69,6 +69,17 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region string FileType - тип документа
+
+        private string _FileType;
+        public string FileType
+        {
+            get => _FileType;
+            set => Set(ref _FileType, value);
+        }
+
+        #endregion
+
         #region bool IsAttached  | true - если документ прикреплен
 
         //private bool _IsAttached;
@@ -101,6 +112,7 @@ namespace EquipmentKP.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
+                FileType = filePath[filePath.LastIndexOf('.')..];
                 Content = File.ReadAllBytes(filePath);
                 OnPropertyChanged(nameof(IsAttached));
             }
@@ -115,7 +127,7 @@ namespace EquipmentKP.ViewModels
         private bool CanShowUploadedFileCommandExecute() => Content != null && Content?.Length > 0;
         private void OnShowUploadedFileCommandExecuted()
         {
-            string fileName = "tmp.pdf";
+            string fileName = $"tmp{FileType}";
             string dirPath = Environment.CurrentDirectory;
             DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
             if (!dirInfo.Exists)
