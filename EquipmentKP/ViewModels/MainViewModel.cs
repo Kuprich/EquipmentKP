@@ -30,6 +30,7 @@ namespace EquipmentKP.ViewModels
         private readonly IRepository<EquipmentsKit> _EquipmentsKitsRep;
         private readonly IRepository<Request> _RequestsRep;
         private readonly IRepository<Document> _DocumentsRep;
+        private readonly IRepository<Location> _LocationRep;
         private readonly IUserDialog _UserDialog;
 
         #endregion
@@ -44,16 +45,124 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-        #region String InventoryNo                              - Поле для фильтра                          |
 
-        private String _InventoryNoFilter;
+        #region ObservableCollection<Location> Locations        - Список мест установки                     |
 
-        public String InventoryNoFilter
+        private ObservableCollection<Location> _Locations;
+        public ObservableCollection<Location> Locations
+        {
+            get => _Locations;
+            set => Set(ref _Locations, value);
+        }
+
+        #endregion
+        #region Location SelectedLocation                       - Поле фильтра (место установки)            |
+
+        private Location _SelectedLocation;
+        public Location SelectedLocation
+        {
+            get => _SelectedLocation;
+            set
+            {
+                if (!Set(ref _SelectedLocation, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+                
+        }
+
+        #endregion
+
+        #region string InventoryNoFilter                        - Поле фильтра (инв. номер)                 |
+
+        private string _InventoryNoFilter;
+
+        public string InventoryNoFilter
         {
             get => _InventoryNoFilter;
             set
             {
                 if (!Set(ref _InventoryNoFilter, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string SerialNoFilter                           - Поле фильтра (сер. номер)                 |
+
+        private string _SerialNoFilter;
+
+        public string SerialNoFilter
+        {
+            get => _SerialNoFilter;
+            set
+            {
+                if (!Set(ref _SerialNoFilter, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string OwnerNameFilter                          - Поле фильтра (владелец)                   |
+
+        private string _OwnerNameFilter;
+
+        public string OwnerNameFilter
+        {
+            get => _OwnerNameFilter;
+            set
+            {
+                if (!Set(ref _OwnerNameFilter, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string LocationNameFilter                       - Поле фильтра (место установки)            |
+
+        private string _LocationNameFilter;
+
+        public string LocationNameFilter
+        {
+            get => _LocationNameFilter;
+            set
+            {
+                if (!Set(ref _LocationNameFilter, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string IpAddressFilter                          - Поле фильтра (ip адрес)                   |
+
+        private string _IpAddressFilter;
+
+        public string IpAddressFilter
+        {
+            get => _IpAddressFilter;
+            set
+            {
+                if (!Set(ref _IpAddressFilter, value)) return;
+
+                _EquipmentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string NetworkNameFilter                        - Поле фильтра (сетевое имя)                |
+
+        private string _NetworkNameFilter;
+
+        public string NetworkNameFilter
+        {
+            get => _NetworkNameFilter;
+            set
+            {
+                if (!Set(ref _NetworkNameFilter, value)) return;
 
                 _EquipmentsViewSource.View.Refresh();
             }
@@ -67,10 +176,64 @@ namespace EquipmentKP.ViewModels
         public ICollectionView EquipmentsView => _EquipmentsViewSource?.View;
         private void EquipmentsViewSource_Filter(object sender, FilterEventArgs e)
         {
-            if ( !(e.Item is MainEquipment equipment) || string.IsNullOrEmpty(InventoryNoFilter) ) return;
+            if ( !(e.Item is MainEquipment equipment)) return;
 
-            if ( !equipment.EquipmentsKit.InventoryNo.Contains(InventoryNoFilter.Trim(), StringComparison.OrdinalIgnoreCase) )
-                e.Accepted = false;
+            // фильтрация по инвентарному номеру
+            if (!string.IsNullOrWhiteSpace(InventoryNoFilter))
+                if (string.IsNullOrWhiteSpace(equipment.EquipmentsKit.InventoryNo))
+                    e.Accepted = false;
+                else 
+                    if (!equipment.EquipmentsKit.InventoryNo.Contains(InventoryNoFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            // фильтрация по месту установки
+            if (!string.IsNullOrWhiteSpace(LocationNameFilter))
+                if (string.IsNullOrWhiteSpace(equipment.EquipmentsKit.Location.Name))
+                    e.Accepted = false;
+                else 
+                    if (!equipment.EquipmentsKit.Location.Name.Contains(LocationNameFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            // фильтрация по месту владельцу
+            if (!string.IsNullOrWhiteSpace(OwnerNameFilter))
+                if (string.IsNullOrWhiteSpace(equipment.EquipmentsKit.Owner.Name))
+                    e.Accepted = false;
+                else
+                    if (!equipment.EquipmentsKit.Owner.Name.Contains(OwnerNameFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            // фильтрация по серийному номеру
+            if (!string.IsNullOrWhiteSpace(SerialNoFilter))
+                if (string.IsNullOrWhiteSpace(equipment.SerialNo))
+                    e.Accepted = false;
+                else 
+                    if (!equipment.SerialNo.Contains(SerialNoFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            // фильтрация по ip адресу
+            if (!string.IsNullOrWhiteSpace(IpAddressFilter))
+            {
+                if (string.IsNullOrWhiteSpace(equipment.IpAddress))
+                    e.Accepted = false;
+                else 
+                    if (!equipment.IpAddress.Contains(IpAddressFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            }
+
+            // фильтрация по сетевому имени
+            if (!string.IsNullOrWhiteSpace(NetworkNameFilter))
+                if (string.IsNullOrWhiteSpace(equipment.NetworkName))
+                    e.Accepted = false;
+                else
+                    if (!equipment.NetworkName.Contains(NetworkNameFilter.Trim(), StringComparison.OrdinalIgnoreCase))
+                        e.Accepted = false;
+
+            // фильтрация по месту установки (выбранному сверху)
+            if (!string.IsNullOrWhiteSpace(SelectedLocation?.CodeName))
+                if (equipment.EquipmentsKit.Location.CodeName != SelectedLocation.CodeName)
+                    e.Accepted = false;
+
         }
 
         #endregion
@@ -103,8 +266,11 @@ namespace EquipmentKP.ViewModels
             {
                 if (!Set(ref _SelectedEquipment, value)) return;
 
-                Requests = new ObservableCollection<Request>(SelectedEquipment.Requests);
-                OnPropertyChanged(nameof(Requests));
+                if (SelectedEquipment?.Requests != null)
+                    Requests = new ObservableCollection<Request>(SelectedEquipment.Requests);
+                else
+                    Requests = new ObservableCollection<Request>();
+                    OnPropertyChanged(nameof(Requests));
             }
         }
 
@@ -215,7 +381,7 @@ namespace EquipmentKP.ViewModels
         private async Task OnLoadDataCommandExecuted()
         {
             Equipments = new ObservableCollection<MainEquipment>(await _EquipmentsRep.Items.ToArrayAsync());
-
+            Locations = new ObservableCollection<Location>(await _LocationRep.Items.ToArrayAsync());
 
             _EquipmentsViewSource.Filter += EquipmentsViewSource_Filter;
             EquipmentsView.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(EquipmentsKit)}.{nameof(EquipmentsKit.InventoryNo)}"));
@@ -424,6 +590,7 @@ namespace EquipmentKP.ViewModels
             IRepository<EquipmentsKit> EquipmentsKitsRep,
             IRepository<Request> RequestsRep,
             IRepository<Document> DocumentsRep,
+            IRepository<Location> LocationRep,
             IUserDialog UserDialog
             )
         {
@@ -431,6 +598,7 @@ namespace EquipmentKP.ViewModels
             _EquipmentsKitsRep = EquipmentsKitsRep;
             _RequestsRep = RequestsRep;
             _DocumentsRep = DocumentsRep;
+            _LocationRep = LocationRep;
             _UserDialog = UserDialog;
         }
 

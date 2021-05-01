@@ -53,14 +53,36 @@
                 <ColumnDefinition Width="33*"/>
                 <ColumnDefinition Width="40*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="328,0,0,0"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" />
 
             <DockPanel Grid.ColumnSpan="2">
 
-                <UniformGrid DockPanel.Dock="Top" Rows="1">
-                    <Button Content="Сгруппировать" Command="{Binding GroupingCammand}"/>
-                    <Button Content="Разгруппировать" Command="{Binding UnGroupingCammand}"/>
-                </UniformGrid>
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock Text="Место установки:" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="CheckboxLocationFilter" VerticalAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding Locations}" 
+                              SelectedItem="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged}" 
+                              VerticalAlignment="Center">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=CheckboxLocationFilter, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Setter Property="SelectedIndex" Value="-1"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding CodeName}" Width="70"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </DockPanel>
                 <Expander Header="Быстрые фильтры" DockPanel.Dock="Bottom" ExpandDirection="Up">
                     <Expander.Resources>
                         <Style TargetType="TextBox">
@@ -96,11 +118,13 @@
 
                             <TextBlock Text="Место уст.:" 
                                        Grid.Column="0" Grid.Row="1"/>
-                            <TextBox Grid.Column="1" Grid.Row="1"/>
+                            <TextBox Grid.Column="1" Grid.Row="1"
+                                     Text="{Binding LocationNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <TextBlock Text="Владелец.:" 
                                        Grid.Column="0" Grid.Row="2"/>
-                            <TextBox Grid.Column="1" Grid.Row="2"/>
+                            <TextBox Grid.Column="1" Grid.Row="2"
+                                     Text="{Binding OwnerNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Grid>
 
@@ -117,15 +141,18 @@
 
                             <TextBlock Text="Серийный №:" 
                                        Grid.Column="0" Grid.Row="0"/>
-                            <TextBox Grid.Column="1" Grid.Row="0"/>
+                            <TextBox Grid.Column="1" Grid.Row="0"
+                                     Text="{Binding SerialNoFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <TextBlock Text="IP адрес:" 
                                        Grid.Column="0" Grid.Row="1"/>
-                            <TextBox Grid.Column="1" Grid.Row="1"/>
+                            <TextBox Grid.Column="1" Grid.Row="1"
+                                     Text="{Binding IpAddressFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                             <TextBlock Text="Сетевой имя:" 
                                        Grid.Column="0" Grid.Row="2"/>
-                            <TextBox Grid.Column="1" Grid.Row="2"/>
+                            <TextBox Grid.Column="1" Grid.Row="2"
+                                     Text="{Binding NetworkNameFilter, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Grid>
 
@@ -323,7 +350,7 @@
                                     </DockPanel>
 
                                 </DockPanel>
-                            
+
                             </Expander>
                         </DockPanel>
                     </TabItem>
