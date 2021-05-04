@@ -49,17 +49,16 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="33*"/>
-                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="2" />
+            <GridSplitter Grid.Column="0" HorizontalAlignment="Right" />
 
-            <DockPanel Grid.ColumnSpan="2">
+            <DockPanel>
 
-                <DockPanel DockPanel.Dock="Top">
+                <DockPanel DockPanel.Dock="Top" Margin="0 5">
                     <TextBlock Text="Место установки:" VerticalAlignment="Center"/>
-                    <CheckBox x:Name="CheckboxLocationFilter" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="CheckboxLocationFilter" VerticalAlignment="Center" Margin="5 0"/>
                     <ComboBox ItemsSource="{Binding Locations}" 
                               SelectedItem="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged}" 
                               VerticalAlignment="Center">
@@ -171,11 +170,13 @@
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="Foreground" Value="#555"/>
                             <Setter Property="Margin" Value="0 0 10 0"/>
+                            <Setter Property="Width" Value="70"/>
                         </Style>
                         <Style x:Key="inventoryNo" TargetType="TextBlock">
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="Foreground" Value="#222"/>
                             <Setter Property="Margin" Value="0 0 10 0"/>
+                            <Setter Property="Width" Value="100"/>
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.GroupStyle>
@@ -225,146 +226,136 @@
                 </DataGrid>
 
             </DockPanel>
+            <DockPanel Grid.Column="1">
+                <DockPanel.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="5 1 0 1"/>
+                    </Style>
+                </DockPanel.Resources>
+                <GroupBox Header="Основная информация о комплекте"  DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-            <DockPanel Grid.Column="2">
-                <TabControl>
-                    <TabItem Header="Инфо">
-                        <DockPanel>
-                            <GroupBox Header="Основная информация"  DockPanel.Dock="Top">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock Text="Инвентарный №:"
+                        <TextBlock Text="Инвентарный №:"
                                    Grid.Column="0" Grid.Row="0"/>
-                                    <TextBox IsEnabled="False" 
+                        <TextBox IsEnabled="False" 
                                  Grid.Column="1" Grid.Row="0" 
                                  Text="{Binding SelectedEquipment.EquipmentsKit.InventoryNo}"/>
 
-                                    <TextBlock Text="Владелец:"
+                        <TextBlock Text="Владелец:"
                                    Grid.Column="0" Grid.Row="1"/>
-                                    <TextBox IsEnabled="False" 
+                        <TextBox IsEnabled="False" 
                                  Grid.Column="1" Grid.Row="1" 
                                  Text="{Binding SelectedEquipment.EquipmentsKit.Owner.Name}"/>
 
-                                    <TextBlock Text="Категрия обрудования:"  
+                        <TextBlock Text="Категрия обрудования:"  
                                    Grid.Column="0" Grid.Row="2"/>
-                                    <TextBox IsEnabled="False"          
+                        <TextBox IsEnabled="False"          
                                  Grid.Column="1" Grid.Row="2" 
                                  Text="{Binding SelectedEquipment.EquipmentType.EquipmentCategory.Name}"/>
 
-                                    <TextBlock Text="Тип оборудования"  
+                        <TextBlock Text="Тип оборудования"  
                                    Grid.Column="0" Grid.Row="3"/>
-                                    <TextBox IsEnabled="False"          
+                        <TextBox IsEnabled="False"          
                                  Grid.Column="1" Grid.Row="3" 
                                  Text="{Binding SelectedEquipment.EquipmentType.Name}"/>
-                                </Grid>
-                            </GroupBox>
-                            <GroupBox Header="Дополнительная информация:" DockPanel.Dock="Top">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Дополнительная информация:" DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                                    <TextBlock Text="IP адрес:"  
+                        <TextBlock Text="IP адрес:"  
                                    Grid.Column="0" Grid.Row="0"/>
-                                    <TextBox IsEnabled="False"          
+                        <TextBox IsEnabled="False"          
                                  Grid.Column="1" Grid.Row="0" 
                                  Text="{Binding SelectedEquipment.IpAddress}"/>
 
-                                    <TextBlock Text="Сетевое имя:"  
+                        <TextBlock Text="Сетевое имя:"  
                                    Grid.Column="0" Grid.Row="1"/>
-                                    <TextBox IsEnabled="False"          
+                        <TextBox IsEnabled="False"          
                                  Grid.Column="1" Grid.Row="1" 
                                  Text="{Binding SelectedEquipment.NetworkName}"/>
 
-                                    <TextBlock Text="Операционная система:"  
+                        <TextBlock Text="Операционная система:"  
                                    Grid.Column="0" Grid.Row="2"/>
-                                    <TextBox IsEnabled="False"          
+                        <TextBox IsEnabled="False"          
                                  Grid.Column="1" Grid.Row="2" 
                                  Text="{Binding SelectedEquipment.OperationSystem}"/>
-                                </Grid>
-                            </GroupBox>
+                    </Grid>
+                </GroupBox>
 
-                            <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" 
+                <Expander DockPanel.Dock="Bottom" Header="Заявки по ремонту и обслуживанию" 
                                       IsExpanded="True" Style="{DynamicResource MyExpanderStyle}">
 
-                                <DockPanel>
-                                    <DockPanel.Resources>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Margin" Value="2"/>
-                                            <Setter Property="Height" Value="18"/>
-                                            <Setter Property="Width" Value="18"/>
-                                        </Style>
-                                    </DockPanel.Resources>
+                    <DockPanel>
+                        <DockPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Margin" Value="2"/>
+                                <Setter Property="Height" Value="18"/>
+                                <Setter Property="Width" Value="18"/>
+                            </Style>
+                        </DockPanel.Resources>
 
-                                    <Expander DockPanel.Dock="Bottom"
+                        <Expander DockPanel.Dock="Bottom"
                                             ExpandDirection="Up"
                                             IsExpanded="True"
                                             Header="Прикрепленные документы по текущей заявке">
-                                        <DockPanel>
-                                            <StackPanel DockPanel.Dock="Right">
-                                                <Button Content="V"/>
-                                            </StackPanel>
-                                            <DataGrid ItemsSource="{Binding Documents}"
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Right">
+                                    <Button Content="V"/>
+                                </StackPanel>
+                                <DataGrid ItemsSource="{Binding Documents}"
                                                       SelectedItem="{Binding SelectedDocument}"
                                                       MinHeight="150">
-                                                <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
-                                                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
-                                                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}"/>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
+                                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                                        <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}"/>
 
-                                                </DataGrid.Columns>
-                                            </DataGrid>
-                                        </DockPanel>
-                                    </Expander>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </Expander>
 
-                                    <DockPanel>
-                                        <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                                            <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
-                                            <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
-                                            <Button Content="-"/>
-                                        </StackPanel>
-                                        <DataGrid ItemsSource="{Binding RequestsView}"  
-                                                  SelectedItem="{Binding SelectedRequest}">
-                                            <DataGrid.Columns>
-                                                <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
-                                                <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
-                                                <DataGridTextColumn Header="Дата поступления заявки" Binding="{Binding ReceiptDate, Converter={StaticResource DateConverter}}"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                    </DockPanel>
-
-                                </DockPanel>
-
-                            </Expander>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Комплект">
                         <DockPanel>
-                            <TextBlock Text="Здесь будет выводиться информация по текущему комплекту оборудования"/>
+                            <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                                <Button Content="+" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                                <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
+                                <Button Content="-"/>
+                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding RequestsView}"  
+                                                  SelectedItem="{Binding SelectedRequest}">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
+                                    <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
+                                    <DataGridTextColumn Header="Дата поступления заявки" Binding="{Binding ReceiptDate, Converter={StaticResource DateConverter}}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </DockPanel>
-                    </TabItem>
 
-                </TabControl>
+                    </DockPanel>
 
+                </Expander>
             </DockPanel>
-
-
+            
         </Grid>
     </DockPanel>
 </Window>
