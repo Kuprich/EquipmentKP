@@ -464,14 +464,17 @@ namespace EquipmentKP.ViewModels
         private bool CanRemoveEquipmentsKitCommandExecute(object p) => p is EquipmentsKit;
         private void OnRemoveEquipmentsKitCommandExecuted(object p)
         {
-            var equipmentsKit = (EquipmentsKit)p;
 
-            // реализовать диалог (точно удалить запись)
+            if (!_UserDialog.Confirm("Вы точно хотите удалить комплект оборудования а так же связанную с ним информацию? Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
+
+            var equipmentsKit = (EquipmentsKit)p;
 
             _EquipmentsKitsRep.Remove(equipmentsKit);
 
-            _ = OnLoadDataCommandExecuted();
+            SelectedEquipment = null;
 
+            _ = OnLoadDataCommandExecuted();
+            
             OnPropertyChanged(nameof(SelectedEquipment));
 
             _EquipmentsViewSource.View.Refresh();

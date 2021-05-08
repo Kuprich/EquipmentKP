@@ -207,10 +207,17 @@ namespace EquipmentKP.Services
         }
         #endregion
 
-        public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
+        public void ShowInformation(string Information = "Текст сообщения", string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
 
+        public bool Confirm(string Message = "Текст сообщения" , string Caption = "Информация", bool Exclamation = false) =>
+            MessageBox.Show
+            (
+                Message,
+                Caption,
+                MessageBoxButton.YesNo,
+                Exclamation ? MessageBoxImage.Exclamation : MessageBoxImage.Question
+            ) 
+            == MessageBoxResult.Yes;
 
-
-        
     }
 }
