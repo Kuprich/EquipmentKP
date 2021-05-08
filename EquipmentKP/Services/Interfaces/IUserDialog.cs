@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Equipment.Database.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,5 +10,6 @@ namespace EquipmentKP.Services.Interfaces
         bool Edit<T>(T item);
         void ShowInformation(string Information, string Caption = "Информация");
         bool OpenFile(string filePath);
+        void ShowFile(Document document);
     }
 }

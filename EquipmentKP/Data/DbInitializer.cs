@@ -113,20 +113,20 @@ namespace EquipmentKP.Data
             byte[] docContent4 = File.ReadAllBytes(@"D:\test\4.pdf");
             byte[] docContent5 = File.ReadAllBytes(@"D:\test\5.pdf");
 
-            documents[0] = new Document { Name = "Приказ № 1-02-227 Об утв. Метод. рукомендаций по проведению проверок", Number = "1-02-227", CreationDate = DateTime.Parse("12.05.2016"), Content = docContent1 };
-            documents[1] = new Document { Name = "Приказ №113 от 13.07.2018 Об утверждении устава ФГБУ ИАЦ", Number = "113", CreationDate = DateTime.Parse("13.07.2018"), Content = docContent2 };
-            documents[2] = new Document { Name = "Приказ № 1-02-43 Об утв. Поручения филиалам на 2018 год", Number = "1-02-43", CreationDate = DateTime.Parse("03.02.2002"), Content = docContent3 };
-            documents[3] = new Document { Name = "Приказ № 1-02-269 Об утверждении Регламента взаимодействия ФГБУ ИАЦ с филиалами", Number = "№ 1-02-269", CreationDate = DateTime.Parse("22.08.2019"), Content = docContent4 };
-            documents[4] = new Document { Name = "положение об антикорруп политике", CreationDate = DateTime.Parse("01.03.2019"), Content = docContent5 };
+            documents[0] = new Document { Name = "Приказ № 1-02-227 Об утв. Метод. рукомендаций по проведению проверок", Number = "1-02-227", CreationDate = DateTime.Parse("12.05.2016"), Content = docContent1, FileType = ".pdf"};
+            documents[1] = new Document { Name = "Приказ №113 от 13.07.2018 Об утверждении устава ФГБУ ИАЦ", Number = "113", CreationDate = DateTime.Parse("13.07.2018"), Content = docContent2, FileType = ".pdf" };
+            documents[2] = new Document { Name = "Приказ № 1-02-43 Об утв. Поручения филиалам на 2018 год", Number = "1-02-43", CreationDate = DateTime.Parse("03.02.2002"), Content = docContent3, FileType = ".pdf" };
+            documents[3] = new Document { Name = "Приказ № 1-02-269 Об утверждении Регламента взаимодействия ФГБУ ИАЦ с филиалами", Number = "№ 1-02-269", CreationDate = DateTime.Parse("22.08.2019"), Content = docContent4, FileType = ".pdf" };
+            documents[4] = new Document { Name = "положение об антикорруп политике", CreationDate = DateTime.Parse("01.03.2019"), Content = docContent5, FileType = ".pdf" };
 
             //тестовые файлы для примера (Привязавнные к заявке)
             byte[] docContent11 = File.ReadAllBytes(@"D:\test\11.pdf");
             byte[] docContent22 = File.ReadAllBytes(@"D:\test\22.pdf");
             byte[] docContent33 = File.ReadAllBytes(@"D:\test\33.pdf");
 
-            documents[5] = new Document { Name = "СР-130064-2020", CreationDate = DateTime.Parse("03.05.2020"), Number = "1231", Content = docContent11, Request = requests[0]};
-            documents[6] = new Document { Name = "ТС-130064-2020", CreationDate = DateTime.Parse("04.05.2020"), Number = "1232", Content = docContent22, Request = requests[0]};
-            documents[7] = new Document { Name = "СР-343322-2020", CreationDate = DateTime.Parse("05.05.2020"), Number = "1242", Content = docContent33, Request = requests[1]};
+            documents[5] = new Document { Name = "СР-130064-2020", CreationDate = DateTime.Parse("03.05.2020"), Number = "1231", Content = docContent11, Request = requests[0], FileType = ".pdf" };
+            documents[6] = new Document { Name = "ТС-130064-2020", CreationDate = DateTime.Parse("04.05.2020"), Number = "1232", Content = docContent22, Request = requests[0], FileType = ".pdf" };
+            documents[7] = new Document { Name = "СР-343322-2020", CreationDate = DateTime.Parse("05.05.2020"), Number = "1242", Content = docContent33, Request = requests[1], FileType = ".pdf" };
 
 
             await context.AddRangeAsync(documents);

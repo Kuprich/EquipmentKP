@@ -7,6 +7,8 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
 
@@ -184,6 +186,19 @@ namespace EquipmentKP.Services
         public bool OpenFile(string filePath)
         {
             return false;    
+        }
+        public void ShowFile(Document document)
+        {
+            if (document.Content is null && document.Content?.Length <= 0) return;
+
+            string fileName = $"tmp{document.FileType}";
+            string dirPath = Environment.CurrentDirectory;
+            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+            if (!dirInfo.Exists)
+                dirInfo.Create();
+            File.WriteAllBytes(dirPath + fileName, document.Content);
+
+            new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
         }
     }
 }

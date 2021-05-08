@@ -120,7 +120,7 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        #region ShowUploadedFileCommand - Команда загрузки документа из файла
+        #region ShowUploadedFileCommand - Команда просмотра прикрепленного документа
 
         private ICommand _ShowUploadedFileCommand = null;
         public ICommand ShowUploadedFileCommand => _ShowUploadedFileCommand ?? new LambdaCommand(OnShowUploadedFileCommandExecuted, CanShowUploadedFileCommandExecute);

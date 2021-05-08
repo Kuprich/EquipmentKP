@@ -583,6 +583,18 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region ShowSelectedDocument        - Показать прикрепл. документ                   | 
+
+        private ICommand _ShowSelectedDocument = null;
+        public ICommand ShowSelectedDocument => _ShowSelectedDocument ?? new LambdaCommand(OnShowSelectedDocumentExecuted, CanShowSelectedDocumentExecute);
+        private bool CanShowSelectedDocumentExecute(object p) => p is Document && p != null;
+        private void OnShowSelectedDocumentExecuted(object p)
+        {
+            _UserDialog.ShowFile((Document)p);
+        }
+
+        #endregion
+
         #endregion
 
         public MainViewModel(

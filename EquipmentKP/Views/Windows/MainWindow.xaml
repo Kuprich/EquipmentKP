@@ -314,7 +314,8 @@
                                             IsExpanded="True"
                                             Header="Прикрепленные документы по текущей заявке">
                             <DockPanel>
-                                <Button DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MiniButtonStyle}"
+                                <Button Command="{Binding ShowSelectedDocument}" CommandParameter="{Binding SelectedDocument}" 
+                                        DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MiniButtonStyle}"
                                         ToolTip="Просмотр прикрепленного документа">
                                     <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
                                 </Button>
