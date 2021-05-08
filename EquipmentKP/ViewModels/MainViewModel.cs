@@ -594,6 +594,26 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region RemoveRequestCommand        - Удаление заявки по текущему оборудованию      |
+
+        private ICommand _RemoveRequestCommand = null;
+        public ICommand RemoveRequestCommand => _RemoveRequestCommand ?? new LambdaCommand(OnRemoveRequestCommandExecuted, CanRemoveRequestCommandExecute);
+        private bool CanRemoveRequestCommandExecute(object p) => p is Request;
+        private void OnRemoveRequestCommandExecuted(object p)
+        {
+            if (!_UserDialog.Confirm("Вы собираетесь удалить заявку по рамонту(обслуживанию) оборудования а так же связанную с ним информацию. Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
+
+            var request = (Request)p;
+
+            _RequestsRep.Remove(request);
+            Requests.Remove(request);
+            SelectedRequest = null;
+            OnPropertyChanged(nameof(SelectedRequest));
+            _RequestsViewSource.View.Refresh();
+
+        }
+
+        #endregion
 
         #region ShowRequestsWindow          - Показать окно "Заявки"                        | 
 

@@ -374,7 +374,8 @@
                                     <fa5:FontAwesome Style="{StaticResource ResourceKey=EditButtonStyle}"/>
                                 </Button>
 
-                                <Button Style="{StaticResource MiniButtonStyle}"
+                                <Button Command="{Binding RemoveRequestCommand}" CommandParameter="{Binding SelectedRequest}"
+                                        Style="{StaticResource MiniButtonStyle}"
                                         ToolTip="Удалить текущую заявку">
                                     <fa5:FontAwesome Style="{StaticResource ResourceKey=DelButtonStyle}"/>
                                 </Button>
