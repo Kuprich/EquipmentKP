@@ -237,8 +237,8 @@
                 <GroupBox Header="Основная информация о комплекте"  DockPanel.Dock="Top">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -308,22 +308,16 @@
                                       IsExpanded="True" Style="{DynamicResource MyExpanderStyle}">
 
                     <DockPanel>
-                        <DockPanel.Resources>
-                            <Style TargetType="Button">
-                                <Setter Property="Margin" Value="2"/>
-                                <Setter Property="Height" Value="18"/>
-                                <Setter Property="Width" Value="18"/>
-                            </Style>
-                        </DockPanel.Resources>
 
                         <Expander DockPanel.Dock="Bottom"
                                             ExpandDirection="Up"
                                             IsExpanded="True"
                                             Header="Прикрепленные документы по текущей заявке">
                             <DockPanel>
-                                <StackPanel DockPanel.Dock="Right">
-                                    <Button Content="V"/>
-                                </StackPanel>
+                                <Button DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MiniButtonStyle}"
+                                        ToolTip="Просмотр прикрепленного документа">
+                                    <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
+                                </Button>
                                 <DataGrid ItemsSource="{Binding Documents}"
                                                       SelectedItem="{Binding SelectedDocument}"
                                                       MinHeight="150">
@@ -339,26 +333,23 @@
 
                         <DockPanel>
                             <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                                <StackPanel.Resources>
-                                    <Style TargetType="fa5:ImageAwesome">
-                                        <Setter Property="Width" Value="8"/>
 
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=BAddRequest, Path=IsEnabled}" Value="True">
-                                                <Setter Property="Foreground" Value="#838383"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                            
-                                    </Style>
-
-                                </StackPanel.Resources>
-                                <Button x:Name="BAddRequest" Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}" >
-                                    <Button.Content>
-                                        <fa5:ImageAwesome Icon="Solid_Plus"/>
-                                    </Button.Content>
+                                <Button Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}" 
+                                        Style="{StaticResource MiniButtonStyle}"
+                                        ToolTip="Добавить заявку к текущему оборудованию">
+                                    <fa5:FontAwesome Style="{StaticResource ResourceKey=AddButtonStyle}"/>
                                 </Button>
-                                <Button Content="e" Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"/>
-                                <Button Content="-"/>
+                                <Button Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"
+                                        Style="{StaticResource MiniButtonStyle}"
+                                        ToolTip="Редактировать текущую заявку">
+                                    <fa5:FontAwesome Style="{StaticResource ResourceKey=EditButtonStyle}"/>
+                                </Button>
+
+                                <Button Style="{StaticResource MiniButtonStyle}"
+                                        ToolTip="Удалить текущую заявку">
+                                    <fa5:FontAwesome Style="{StaticResource ResourceKey=DelButtonStyle}"/>
+                                </Button>
+
                             </StackPanel>
                             <DataGrid ItemsSource="{Binding RequestsView}"  
                                                   SelectedItem="{Binding SelectedRequest}">
