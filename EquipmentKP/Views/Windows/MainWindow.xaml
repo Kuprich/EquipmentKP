@@ -59,6 +59,30 @@
 
             <DockPanel>
 
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+
+                    <Button Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}" 
+                            Margin="5 5 5 0"
+                            Style="{StaticResource MiniButtonStyle}"
+                            ToolTip="Добавить оборудование к текущему комплекту">
+                        <fa5:FontAwesome Style="{StaticResource ResourceKey=AddButtonStyle}"/>
+                    </Button>
+                    
+                    <Button Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"
+                            Margin="0 5"                                        
+                            Style="{StaticResource MiniButtonStyle}"
+                            ToolTip="Редактировать выбранное оборудование">
+                        <fa5:FontAwesome Style="{StaticResource ResourceKey=EditButtonStyle}"/>
+                    </Button>
+
+                    <Button Command="{Binding RemoveEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"
+                            Style="{StaticResource MiniButtonStyle}"
+                            ToolTip="Удалить текущее оборyдование">
+                        <fa5:FontAwesome Style="{StaticResource ResourceKey=DelButtonStyle}"/>
+                    </Button>
+
+                </StackPanel>
+
                 <DockPanel DockPanel.Dock="Top" Margin="0 5">
                     <TextBlock Text="Место установки:" VerticalAlignment="Center"/>
                     <CheckBox x:Name="CheckboxLocationFilter" VerticalAlignment="Center" Margin="5 0"/>
@@ -229,6 +253,7 @@
                 </DataGrid>
 
             </DockPanel>
+            
             <DockPanel Grid.Column="1">
                 <DockPanel.Resources>
                     <Style TargetType="TextBox">
@@ -315,7 +340,8 @@
                                             IsExpanded="True"
                                             Header="Прикрепленные документы по текущей заявке">
                             <DockPanel>
-                                <Button Command="{Binding ShowSelectedDocument}" CommandParameter="{Binding SelectedDocument}" 
+                                <Button Command="{Binding ShowSelectedDocument}" CommandParameter="{Binding SelectedDocument}"
+                                        Margin="5 0 4 0"
                                         DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MiniButtonStyle}"
                                         ToolTip="Просмотр прикрепленного документа">
                                     <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
@@ -334,7 +360,7 @@
                         </Expander>
 
                         <DockPanel>
-                            <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                            <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5 0">
 
                                 <Button Command="{Binding AddRequestCommand}" CommandParameter="{Binding SelectedEquipment}" 
                                         Style="{StaticResource MiniButtonStyle}"
@@ -342,6 +368,7 @@
                                     <fa5:FontAwesome Style="{StaticResource ResourceKey=AddButtonStyle}"/>
                                 </Button>
                                 <Button Command="{Binding EditRequestCommand}" CommandParameter="{Binding SelectedRequest}"
+                                        Margin="0 5"
                                         Style="{StaticResource MiniButtonStyle}"
                                         ToolTip="Редактировать текущую заявку">
                                     <fa5:FontAwesome Style="{StaticResource ResourceKey=EditButtonStyle}"/>

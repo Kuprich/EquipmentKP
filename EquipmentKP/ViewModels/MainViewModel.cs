@@ -457,7 +457,7 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-        #region RemoveEquipmentsKitCommand     - Удаление комплекта оборудования               | 
+        #region RemoveEquipmentsKitCommand  - Удаление комплекта оборудования               | 
 
         private ICommand _RemoveEquipmentsKitCommand = null;
         public ICommand RemoveEquipmentsKitCommand => _RemoveEquipmentsKitCommand ?? new LambdaCommand(OnRemoveEquipmentsKitCommandExecuted, CanRemoveEquipmentsKitCommandExecute);
@@ -465,7 +465,7 @@ namespace EquipmentKP.ViewModels
         private void OnRemoveEquipmentsKitCommandExecuted(object p)
         {
 
-            if (!_UserDialog.Confirm("Вы точно хотите удалить комплект оборудования а так же связанную с ним информацию? Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
+            if (!_UserDialog.Confirm("Вы собираетесь удалить комплект оборудования а так же связанную с ним информацию. Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
 
             var equipmentsKit = (EquipmentsKit)p;
 
@@ -531,6 +531,26 @@ namespace EquipmentKP.ViewModels
 
                 _EquipmentsViewSource.View.Refresh();
             }
+        }
+
+        #endregion
+        #region RemoveEquipmentCommand      - Удаление оборудования                         |
+
+        private ICommand _RemoveEquipmentCommand = null;
+        public ICommand RemoveEquipmentCommand => _RemoveEquipmentCommand ?? new LambdaCommand(OnRemoveEquipmentCommandExecuted, CanRemoveEquipmentCommandExecute);
+        private bool CanRemoveEquipmentCommandExecute(object p) => p is MainEquipment;
+        private void OnRemoveEquipmentCommandExecuted(object p)
+        {
+            if (!_UserDialog.Confirm("Вы собираетесь удалить текущее оборудование а так же связанную с ним информацию. Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
+
+            var equipment = (MainEquipment)p;
+
+            _EquipmentsRep.Remove(equipment);
+            Equipments.Remove(equipment);
+            SelectedEquipment = null;
+            OnPropertyChanged(nameof(SelectedEquipment));
+            _EquipmentsViewSource.View.Refresh();
+
         }
 
         #endregion
