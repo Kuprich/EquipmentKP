@@ -172,7 +172,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("EquipmentsKitId");
 
-                    b.ToTable("MainEquipment");
+                    b.ToTable("MainEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.Owner", b =>
@@ -309,7 +309,8 @@ namespace Equipment.Database.Migrations
 
                     b.HasOne("Equipment.Database.Entities.EquipmentsKit", "EquipmentsKit")
                         .WithMany("MainEquipments")
-                        .HasForeignKey("EquipmentsKitId");
+                        .HasForeignKey("EquipmentsKitId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("EquipmentsKit");
 

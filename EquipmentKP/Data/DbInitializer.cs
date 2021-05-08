@@ -148,7 +148,7 @@ namespace EquipmentKP.Data
 
             mainEquipments[9] = new MainEquipment{ EquipmentsKit = equipmentsKits[3] };
 
-            await context.MainEquipment.AddRangeAsync(mainEquipments);
+            await context.MainEquipments.AddRangeAsync(mainEquipments);
             await context.SaveChangesAsync();
         }
         private async Task Init_EquipmentsKit()

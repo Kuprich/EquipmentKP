@@ -32,6 +32,7 @@
             <MenuItem Header="Комплекты оборудования">
                 <MenuItem Header="Добавить" Command="{Binding AddEquipmentsKitCommand}"/>
                 <MenuItem Header="Редактировать" Command="{Binding EditEquipmentsKitCommand}" CommandParameter="{Binding SelectedEquipment.EquipmentsKit}"/>
+                <MenuItem Header="Удалить" Command="{Binding RemoveEquipmentsKitCommand}" CommandParameter="{Binding SelectedEquipment.EquipmentsKit}"/>
             </MenuItem>
 
             <MenuItem Header="Оборудование">

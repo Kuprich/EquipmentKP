@@ -17,7 +17,7 @@ namespace EquipmentKP.Infrastructure.Converters
 
                 var item = (MainEquipment)items.First();
 
-                return item.EquipmentsKit.Location.Name;
+                return item?.EquipmentsKit?.Location?.Name;
             }
 
             return "-";

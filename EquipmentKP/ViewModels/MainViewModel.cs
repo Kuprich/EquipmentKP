@@ -457,6 +457,28 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region RemoveEquipmentsKitCommand     - Удаление комплекта оборудования               | 
+
+        private ICommand _RemoveEquipmentsKitCommand = null;
+        public ICommand RemoveEquipmentsKitCommand => _RemoveEquipmentsKitCommand ?? new LambdaCommand(OnRemoveEquipmentsKitCommandExecuted, CanRemoveEquipmentsKitCommandExecute);
+        private bool CanRemoveEquipmentsKitCommandExecute(object p) => p is EquipmentsKit;
+        private void OnRemoveEquipmentsKitCommandExecuted(object p)
+        {
+            var equipmentsKit = (EquipmentsKit)p;
+
+            // реализовать диалог (точно удалить запись)
+
+            _EquipmentsKitsRep.Remove(equipmentsKit);
+
+            _ = OnLoadDataCommandExecuted();
+
+            OnPropertyChanged(nameof(SelectedEquipment));
+
+            _EquipmentsViewSource.View.Refresh();
+            
+        }
+
+        #endregion
 
         #region AddEquipmentCommand         - Добавление оборудования                       | 
 

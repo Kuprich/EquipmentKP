@@ -115,7 +115,7 @@ namespace Equipment.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MainEquipment",
+                name: "MainEquipments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -130,15 +130,15 @@ namespace Equipment.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MainEquipment", x => x.Id);
+                    table.PrimaryKey("PK_MainEquipments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MainEquipment_EquipmentsKits_EquipmentsKitId",
+                        name: "FK_MainEquipments_EquipmentsKits_EquipmentsKitId",
                         column: x => x.EquipmentsKitId,
                         principalTable: "EquipmentsKits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MainEquipment_EquipmentTypes_EquipmentTypeId",
+                        name: "FK_MainEquipments_EquipmentTypes_EquipmentTypeId",
                         column: x => x.EquipmentTypeId,
                         principalTable: "EquipmentTypes",
                         principalColumn: "Id",
@@ -151,7 +151,7 @@ namespace Equipment.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReceiptDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MainEquipmentId = table.Column<int>(type: "int", nullable: true),
                     Closed = table.Column<bool>(type: "bit", nullable: false)
@@ -160,9 +160,9 @@ namespace Equipment.Database.Migrations
                 {
                     table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Requests_MainEquipment_MainEquipmentId",
+                        name: "FK_Requests_MainEquipments_MainEquipmentId",
                         column: x => x.MainEquipmentId,
-                        principalTable: "MainEquipment",
+                        principalTable: "MainEquipments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -176,6 +176,7 @@ namespace Equipment.Database.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RequestId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -238,13 +239,13 @@ namespace Equipment.Database.Migrations
                 column: "EquipmentCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MainEquipment_EquipmentsKitId",
-                table: "MainEquipment",
+                name: "IX_MainEquipments_EquipmentsKitId",
+                table: "MainEquipments",
                 column: "EquipmentsKitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MainEquipment_EquipmentTypeId",
-                table: "MainEquipment",
+                name: "IX_MainEquipments_EquipmentTypeId",
+                table: "MainEquipments",
                 column: "EquipmentTypeId");
 
             migrationBuilder.CreateIndex(
@@ -278,7 +279,7 @@ namespace Equipment.Database.Migrations
                 name: "RequestStates");
 
             migrationBuilder.DropTable(
-                name: "MainEquipment");
+                name: "MainEquipments");
 
             migrationBuilder.DropTable(
                 name: "EquipmentsKits");

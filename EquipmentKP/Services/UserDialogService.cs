@@ -32,6 +32,7 @@ namespace EquipmentKP.Services
             _Locations = LocationsRep.Items;
             _RequestStatesRep = RequestStatesRep;
         }
+
         public bool Edit<T>(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
@@ -46,6 +47,10 @@ namespace EquipmentKP.Services
                 _ => throw new NotSupportedException($"Редактирование объекта типа: {item.GetType()} не поддеживается"),
             };
         }
+
+
+
+        #region Команды редактирования объектов
 
         private bool EditDocument(Document document)
         {
@@ -73,7 +78,6 @@ namespace EquipmentKP.Services
 
             return true;
         }
-
         private bool EditRequestMovement(RequestMovement requestMovement)
         {
             var viewModel = new RequestStateEditorViewModel(requestMovement)
@@ -181,11 +185,12 @@ namespace EquipmentKP.Services
             //return window.ShowDialog() ?? false;
         }
 
-        public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
-        
+        #endregion
+
+        #region Показать / прикрепить файл
         public bool OpenFile(string filePath)
         {
-            return false;    
+            return false;
         }
         public void ShowFile(Document document)
         {
@@ -200,5 +205,12 @@ namespace EquipmentKP.Services
 
             new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
         }
+        #endregion
+
+        public void ShowInformation(string Information, string Caption = "Информация") => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+
+        
     }
 }

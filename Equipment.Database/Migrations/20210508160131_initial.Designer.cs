@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Equipment.Database.Migrations
 {
     [DbContext(typeof(EquipmentContext))]
-    [Migration("20210430172524_filetype")]
-    partial class filetype
+    [Migration("20210508160131_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,7 +174,7 @@ namespace Equipment.Database.Migrations
 
                     b.HasIndex("EquipmentsKitId");
 
-                    b.ToTable("MainEquipment");
+                    b.ToTable("MainEquipments");
                 });
 
             modelBuilder.Entity("Equipment.Database.Entities.Owner", b =>
@@ -311,7 +311,8 @@ namespace Equipment.Database.Migrations
 
                     b.HasOne("Equipment.Database.Entities.EquipmentsKit", "EquipmentsKit")
                         .WithMany("MainEquipments")
-                        .HasForeignKey("EquipmentsKitId");
+                        .HasForeignKey("EquipmentsKitId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("EquipmentsKit");
 
