@@ -38,6 +38,7 @@
             <MenuItem Header="Оборудование">
                 <MenuItem Header="Добавить" Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
                 <MenuItem Header="Редактировать" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                <MenuItem Header="Удалить" Command="{Binding RemoveEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
             </MenuItem>
             <MenuItem Header="Заявки">
                 <MenuItem Header="Просмотр заявкок" Command="{Binding ShowRequestsWindow}"/>
@@ -52,12 +53,13 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="167*"/>
+                <ColumnDefinition Width="109*"/>
+                <ColumnDefinition Width="276*"/>
             </Grid.ColumnDefinitions>
-            <GridSplitter Grid.Column="0" HorizontalAlignment="Right" />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Margin="214,0,0,0" />
 
-            <DockPanel>
+            <DockPanel Grid.ColumnSpan="2">
 
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
 
@@ -67,7 +69,7 @@
                             ToolTip="Добавить оборудование к текущему комплекту">
                         <fa5:FontAwesome Style="{StaticResource ResourceKey=AddButtonStyle}"/>
                     </Button>
-                    
+
                     <Button Command="{Binding AddEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"
                             Margin="0 5"                                        
                             Style="{StaticResource MiniButtonStyle}"
@@ -78,7 +80,7 @@
                     <Button Command="{Binding RemoveEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"
                             Style="{StaticResource MiniButtonStyle}"
                             ToolTip="Удалить текущее оборyдование">
-                        <fa5:FontAwesome Style="{StaticResource ResourceKey=DelButtonStyle}"/>
+                        <fa5:FontAwesome Style="{StaticResource ResourceKey=RemoveButtonStyle}"/>
                     </Button>
 
                 </StackPanel>
@@ -253,8 +255,8 @@
                 </DataGrid>
 
             </DockPanel>
-            
-            <DockPanel Grid.Column="1">
+
+            <DockPanel Grid.Column="2">
                 <DockPanel.Resources>
                     <Style TargetType="TextBox">
                         <Setter Property="Margin" Value="5 1 0 1"/>
@@ -352,7 +354,7 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
                                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
-                                        <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}"/>
+                                        <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}" Width="*"/>
 
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -377,7 +379,7 @@
                                 <Button Command="{Binding RemoveRequestCommand}" CommandParameter="{Binding SelectedRequest}"
                                         Style="{StaticResource MiniButtonStyle}"
                                         ToolTip="Удалить текущую заявку">
-                                    <fa5:FontAwesome Style="{StaticResource ResourceKey=DelButtonStyle}"/>
+                                    <fa5:FontAwesome Style="{StaticResource ResourceKey=RemoveButtonStyle}"/>
                                 </Button>
 
                             </StackPanel>
@@ -386,7 +388,7 @@
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="Исп." Binding="{Binding Closed}"/>
                                     <DataGridTextColumn Header="Номер Заявки" Binding="{Binding Number}"/>
-                                    <DataGridTextColumn Header="Дата поступления заявки" Binding="{Binding ReceiptDate, Converter={StaticResource DateConverter}}"/>
+                                    <DataGridTextColumn Header="Дата поступления заявки" Binding="{Binding ReceiptDate, Converter={StaticResource DateConverter}}" Width="*"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
@@ -395,7 +397,7 @@
 
                 </Expander>
             </DockPanel>
-            
+
         </Grid>
     </DockPanel>
 </Window>

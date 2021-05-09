@@ -19,18 +19,21 @@ namespace EquipmentKP.Services
         private readonly IEnumerable<Owner> _Owners;
         private readonly IEnumerable<Location> _Locations;
         private readonly IRepository<RequestState> _RequestStatesRep;
+        private readonly IRepository<EquipmentType> _EquipmentTypesRep;
 
         public UserDialogService
             (
             IRepository<Owner> OwnersRep,
             IRepository<Location> LocationsRep,
-            IRepository<RequestState> RequestStatesRep
+            IRepository<RequestState> RequestStatesRep,
+            IRepository<EquipmentType> EquipmentTypesRep
             )
         {
             // при необоходимости передавать репозитории и сохранять их в приватные поля
             _Owners = OwnersRep.Items;
             _Locations = LocationsRep.Items;
             _RequestStatesRep = RequestStatesRep;
+            _EquipmentTypesRep = EquipmentTypesRep;
         }
 
         public bool Edit<T>(T item)
@@ -166,8 +169,12 @@ namespace EquipmentKP.Services
             var viewModel = new EquipmentEditorViewModel(equipment.EquipmentsKit)
             {
                 Title = "Редактирование оборудования",
-                //InventoryNo = equipment.EquipmentsKit.InventoryNo,
-                SerialNo = equipment.SerialNo
+                IpAddress = equipment.IpAddress,
+                NetworkName = equipment.NetworkName,
+                OperationSystem = equipment.OperationSystem,
+                SerialNo = equipment.SerialNo,
+                SelectedEquipmentType = equipment.EquipmentType,
+                EquipmentTypes = new List<EquipmentType>(_EquipmentTypesRep.Items)
             };
 
             var window = new EquipmentEditorWindow
@@ -179,10 +186,14 @@ namespace EquipmentKP.Services
 
             if (window.ShowDialog() != true) return false;
 
+            // присвоение данных
+            equipment.IpAddress = viewModel.IpAddress;
+            equipment.NetworkName = viewModel.NetworkName;
+            equipment.OperationSystem = viewModel.OperationSystem;
             equipment.SerialNo = viewModel.SerialNo;
+            equipment.EquipmentType = viewModel.SelectedEquipmentType;
 
             return true;
-            //return window.ShowDialog() ?? false;
         }
 
         #endregion

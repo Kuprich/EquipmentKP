@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance {x:Type vm:EquipmentEditorViewModel}, IsDesignTimeCreatable=True}"
-        Title="{Binding Title}" Height="450" Width="800">
+        Title="{Binding Title}" Height="274" Width="800">
     <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Bottom">
             <DockPanel.Resources>
@@ -16,7 +16,6 @@
                     <Setter Property="Padding" Value="4"/>
                 </Style>
             </DockPanel.Resources>
-            <Button Content="Восстановить значения" HorizontalAlignment="Left"/>
             <UniformGrid HorizontalAlignment="Right" Rows="1">
                 <Button Content="Отменить" Command="{StaticResource DialogResultCommand}" CommandParameter="false"/>
                 <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true"/>
@@ -24,15 +23,26 @@
         </DockPanel>
 
         <DockPanel>
+            <DockPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+                
+            </DockPanel.Resources>
             <GroupBox Header="Сведения о комплекте по текущему оборудованию" DockPanel.Dock="Top">
                 <Grid>
                     <Grid.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                        </Style>
                         <Style TargetType="TextBox">
                             <Setter Property="IsEnabled" Value="False"/>
-                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="Margin" Value="3"/>
                         </Style>
                     </Grid.Resources>
                     
@@ -42,10 +52,10 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0">
+                    <Grid Grid.Column="0" HorizontalAlignment="Left" Width="379">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -86,17 +96,77 @@
             <GroupBox Header="Редактирование основных свойств оборудования" DockPanel.Dock="Top">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="110*"/>
-                        <ColumnDefinition Width="581*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Серийный №:"
-                               Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"/>
-                    <TextBox Grid.Row="0" Text="{Binding SerialNo, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="76,0,0,0" Grid.RowSpan="2"/>
+
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Наименование оборудования:"
+                               Grid.Row="0" Grid.Column="0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Серийный №:"
+                               Grid.Row="1" Grid.Column="0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding SerialNo, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Операционная система:"
+                               Grid.Row="2" Grid.Column="0" />
+                        <TextBox Grid.Row="2" Grid.Column="1"
+                                 Text="{Binding OperationSystem, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                    </Grid>
+
+                    <Grid Grid.Column="2" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="IP адрес:"
+                               Grid.Row="0" Grid.Column="0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding IpAddress, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Сетевое имя:"
+                               Grid.Row="1" Grid.Column="0" />
+                        <TextBox Grid.Row="1" Grid.Column="1"
+                                 Text="{Binding NetworkName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Тип оборудования:"
+                               Grid.Row="2" Grid.Column="0" />
+                        <ComboBox Grid.Row="2" Grid.Column="1"
+                                  ItemsSource="{Binding EquipmentTypes}" SelectedItem="{Binding SelectedEquipmentType}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                    </Grid>
 
                 </Grid>
             </GroupBox>

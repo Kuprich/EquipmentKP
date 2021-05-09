@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
         d:DataContext="{d:DesignInstance {x:Type vm:RequestEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}" Height="338" Width="800">
@@ -131,16 +132,18 @@
                 <GroupBox Header="Движение заявки">
                     <DockPanel>
                         <UniformGrid DockPanel.Dock="Right" VerticalAlignment="Top" Rows="3">
-                            <UniformGrid.Resources>
-                                <Style TargetType="Button">
-                                    <Setter Property="Width" Value="25"/>
-                                    <Setter Property="Height" Value="25"/>
-                                    <Setter Property="Margin" Value="4 0 0 2"/>
-                                </Style>
-                            </UniformGrid.Resources>
-                            <Button Content="+" Command="{Binding AddRequestMovementCommand}"/>
-                            <Button Content="e" Command="{Binding EditRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}"/>
-                            <Button Content="-"/>
+                            
+                            <Button Command="{Binding AddRequestMovementCommand}" 
+                                    Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
+                            </Button>
+                            <Button Command="{Binding EditRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}"  
+                                    Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
+                            </Button>
+                            <Button Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
+                            </Button>
                         </UniformGrid>
                         <DataGrid ItemsSource="{Binding RequestMovementsView}" SelectedItem="{Binding SelectedRequestMovement}">
                             <DataGrid.Columns>
@@ -161,9 +164,18 @@
                                     <Setter Property="Margin" Value="4 0 0 2"/>
                                 </Style>
                             </UniformGrid.Resources>
-                            <Button Content="+" Command="{Binding AddDocumentCommand}"/>
-                            <Button Content="e" Command="{Binding EditDocumentCommand}" CommandParameter="{Binding SelectedDocument}"/>
-                            <Button Content="-"/>
+                            <Button Command="{Binding AddDocumentCommand}"
+                                    Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
+                            </Button>
+                            <Button Command="{Binding EditDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                                    Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
+                            </Button>
+                            <Button 
+                                Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
+                            </Button>
                         </UniformGrid>
                         <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">
                             <DataGrid.Columns>

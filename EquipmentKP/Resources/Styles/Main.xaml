@@ -43,7 +43,7 @@
         <Setter Property="Icon" Value="Solid_Edit"/>
     </Style>
 
-    <Style x:Key="DelButtonStyle" TargetType="fa5:FontAwesome">
+    <Style x:Key="RemoveButtonStyle" TargetType="fa5:FontAwesome">
         <Setter Property="Icon" Value="Solid_Trash"/>
     </Style>
     
