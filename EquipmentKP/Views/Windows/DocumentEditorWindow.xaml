@@ -6,21 +6,28 @@
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
         d:DataContext="{d:DesignInstance {x:Type vm:DocumentEditorViewModel}, IsDesignTimeCreatable=True}"
-        xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters"
-        Title="{Binding Title}" Height="368" Width="588">
+        xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters" xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        Title="{Binding Title}" Height="413" Width="588">
     <DockPanel>
         <DockPanel.Resources>
             <c:DateConverter x:Key="DateConverter"/>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="3"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
         </DockPanel.Resources>
         <GroupBox DockPanel.Dock="Top" Header="Основные данные по текущему оборудованию">
             <GroupBox.Resources>
                 <Style TargetType="TextBox">
                     <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Margin" Value="3"/>
                 </Style>
             </GroupBox.Resources>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -60,6 +67,7 @@
             <GroupBox.Resources>
                 <Style TargetType="TextBox">
                     <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Margin" Value="3"/>
                 </Style>
             </GroupBox.Resources>
             <Grid>
@@ -102,7 +110,7 @@
 
             </Grid>
         </GroupBox>
-        <UniformGrid DockPanel.Dock="Bottom" HorizontalAlignment="Right" Rows="1">
+        <UniformGrid DockPanel.Dock="Bottom" HorizontalAlignment="Right" Rows="1" Margin="8">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Padding" Value="5"/>
@@ -134,18 +142,24 @@
 
                 <TextBlock Text="Дата документа:"
                    Grid.Column="0" Grid.Row="2"/>
-                <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding CreationDate}"/>
+                <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding CreationDate}" Margin="3"/>
                 
                 <TextBlock Text="Документ:"
                    Grid.Column="0" Grid.Row="3"/>
-                <DockPanel Grid.Column="1" Grid.Row="3">
+                <DockPanel Grid.Column="1" Grid.Row="3" Margin="3">
                     
                     <Button Content="Прикрепить новый документ" DockPanel.Dock="Right" Command="{Binding UploadFileCommand}"/>
-                    <Button Content=" V " Command="{Binding ShowUploadedFileCommand}"/>
+                    <Button Command="{Binding ShowUploadedFileCommand}"
+                            Style="{StaticResource MiniButtonStyle}">
+                        <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}" />
+                    </Button>
+                    
                     <TextBlock>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Padding" Value="10 0 0 0"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsAttached}" Value="false">
                                         <Setter Property="Text" Value="Не прикреплен"/>

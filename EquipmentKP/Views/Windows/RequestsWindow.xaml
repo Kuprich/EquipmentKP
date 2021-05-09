@@ -17,20 +17,12 @@
     </i:Interaction.Triggers>
     
     <DockPanel>
-        <GroupBox Header="Список поступивших заявок" DockPanel.Dock="Top">
-            <DataGrid ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№ заявки" Binding="{Binding Number}"/>
-                    <DataGridTextColumn Header="Дата регитрации" Binding="{Binding ReceiptDate}"/>
-                    <DataGridTextColumn Header="Объект автоматизации" Binding="{Binding MainEquipment.EquipmentsKit.Location.Name}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
+
         <Expander ExpandDirection="Up" DockPanel.Dock="Bottom" Header="Сведения по текущей заявке" IsExpanded="True">
             <TabControl >
 
                 <TabItem Header="Общая информация">
-                
+
                 </TabItem>
 
                 <TabItem Header="Движение заявки">
@@ -44,5 +36,16 @@
 
             </TabControl>
         </Expander>
+
+        <GroupBox Header="Перечень всех поступивших заявок" DockPanel.Dock="Top">
+            <DataGrid ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№ заявки" Binding="{Binding Number}"/>
+                    <DataGridTextColumn Header="Дата регитрации" Binding="{Binding ReceiptDate}"/>
+                    <DataGridTextColumn Header="Объект автоматизации" Binding="{Binding MainEquipment.EquipmentsKit.Location.Name}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        
     </DockPanel>
 </Window>

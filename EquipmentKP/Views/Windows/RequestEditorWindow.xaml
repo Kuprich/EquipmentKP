@@ -34,6 +34,12 @@
                     <Style TargetType="TextBox">
                         <Setter Property="Margin" Value="0 2"/>
                     </Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Margin" Value="0 2"/>
+                    </Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="Margin" Value="0 2"/>
+                    </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -134,15 +140,18 @@
                         <UniformGrid DockPanel.Dock="Right" VerticalAlignment="Top" Rows="3">
                             
                             <Button Command="{Binding AddRequestMovementCommand}" 
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Добавить движение завяки">
                                 <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
                             </Button>
                             <Button Command="{Binding EditRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}"  
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Редактировать движение заявки">
                                 <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                             </Button>
                             <Button Style="{StaticResource MiniButtonStyle}"
-                                    Command="{Binding DeleteRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}">
+                                    Command="{Binding DeleteRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}"
+                                    ToolTip="Удалить движение заявки">
                                 <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
                             </Button>
                         </UniformGrid>
@@ -166,19 +175,23 @@
                                 </Style>
                             </UniformGrid.Resources>
                             <Button Command="{Binding AddDocumentCommand}"
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Добавить документ к заявке">
                                 <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
                             </Button>
                             <Button Command="{Binding EditDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Редактировать текущий документ">
                                 <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                             </Button>
                             <Button Command="{Binding ShowUploadedDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Просмотр текущего документа">
                                 <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
                             </Button>
                             <Button Command="{Binding RemoveDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
-                                    Style="{StaticResource MiniButtonStyle}">
+                                    Style="{StaticResource MiniButtonStyle}"
+                                    ToolTip="Удалить выбранный документ">
                                 <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
                             </Button>
                         </UniformGrid>
