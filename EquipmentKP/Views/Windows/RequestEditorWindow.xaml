@@ -141,7 +141,8 @@
                                     Style="{StaticResource MiniButtonStyle}">
                                 <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                             </Button>
-                            <Button Style="{StaticResource MiniButtonStyle}">
+                            <Button Style="{StaticResource MiniButtonStyle}"
+                                    Command="{Binding DeleteRequestMovementCommand}" CommandParameter="{Binding SelectedRequestMovement}">
                                 <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
                             </Button>
                         </UniformGrid>
@@ -156,7 +157,7 @@
                 <GroupBox Header="Список прикрепленных к заявке документов"
                           Grid.Column="1">
                     <DockPanel>
-                        <UniformGrid DockPanel.Dock="Right" VerticalAlignment="Top" Rows="3">
+                        <UniformGrid DockPanel.Dock="Right" VerticalAlignment="Top" Rows="4">
                             <UniformGrid.Resources>
                                 <Style TargetType="Button">
                                     <Setter Property="Width" Value="25"/>
@@ -172,8 +173,12 @@
                                     Style="{StaticResource MiniButtonStyle}">
                                 <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                             </Button>
-                            <Button 
-                                Style="{StaticResource MiniButtonStyle}">
+                            <Button Command="{Binding ShowUploadedDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                                    Style="{StaticResource MiniButtonStyle}">
+                                <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
+                            </Button>
+                            <Button Command="{Binding RemoveDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                                    Style="{StaticResource MiniButtonStyle}">
                                 <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
                             </Button>
                         </UniformGrid>

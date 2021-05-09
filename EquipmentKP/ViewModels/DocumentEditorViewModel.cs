@@ -21,7 +21,7 @@ namespace EquipmentKP.ViewModels
         }
         public RequestMovement LastRequestMovement
         {
-            get => _Document.Request.RequestMovements.Last();
+            get => _Document?.Request?.RequestMovements?.Last();
         }
 
         #region string Name - наименование документа

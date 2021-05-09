@@ -62,7 +62,8 @@ namespace EquipmentKP.Services
                 Content = document.Content,
                 CreationDate = document.CreationDate == DateTime.MinValue ? DateTime.Now : document.CreationDate,
                 Name = document.Name,
-                Number = document.Number
+                Number = document.Number,
+                FileType = document.FileType
             };
             var window = new DocumentEditorWindow
             {
@@ -78,6 +79,7 @@ namespace EquipmentKP.Services
             document.Number = viewModel.Number;
             document.CreationDate = viewModel.CreationDate;
             document.Content = viewModel.Content;
+            document.FileType = viewModel.FileType;
 
             return true;
         }

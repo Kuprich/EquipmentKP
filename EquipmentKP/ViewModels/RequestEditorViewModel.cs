@@ -185,6 +185,28 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region DeleteRequestMovementCommand - удвление записи из таблицы "движение заявки"
+
+        private ICommand _DeleteRequestMovementCommand = null;
+        public ICommand DeleteRequestMovementCommand => _DeleteRequestMovementCommand ?? new LambdaCommand(OnDeleteRequestMovementCommandExecuted, CanDeleteRequestMovementCommandExecute);
+        private bool CanDeleteRequestMovementCommandExecute(object p) => p != null;
+        private void OnDeleteRequestMovementCommandExecuted(object p)
+        {
+            
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (!_UserDialog.Confirm("Вы собираетесь удалить одно из движений оборудования. Желаете продолжить?", "Внимание")) return;
+
+            var requestMovement = (RequestMovement)p;
+
+            RequestMovements.Remove(requestMovement);
+            SelectedRequestMovement = null;
+
+        }
+
+        #endregion
 
 
         #region AddDocumentCommand - добавление документа
@@ -213,7 +235,7 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-        #region EditDocumentCommand - добавление документа
+        #region EditDocumentCommand - Редактирование документа
 
         private ICommand _EditDocumentCommand = null;
         public ICommand EditDocumentCommand => _EditDocumentCommand ?? new LambdaCommand(OnEditDocumentCommandExecuted, CanEditDocumentCommandExecute);
@@ -230,6 +252,43 @@ namespace EquipmentKP.ViewModels
                 Documents[Documents.IndexOf(document)] = document;
                 _DocumentsViewSource?.View.Refresh();
             }
+
+        }
+
+        #endregion
+        #region ShowUploadedDocumentCommand - Просмотр прикрепленного документа
+
+        private ICommand _ShowUploadedDocumentCommand = null;
+        public ICommand ShowUploadedDocumentCommand => _ShowUploadedDocumentCommand ?? new LambdaCommand(OnShowUploadedDocumentCommandExecuted, CanShowUploadedDocumentCommandExecute);
+        private bool CanShowUploadedDocumentCommandExecute(object p) => p != null;
+        private void OnShowUploadedDocumentCommandExecuted(object p)
+        {
+            var document = (Document)p;
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            _UserDialog.ShowFile(document);
+
+        }
+
+        #endregion
+        #region RemoveDocumentCommand - Удаление документа
+
+        private ICommand _RemoveDocumentCommand = null;
+        public ICommand RemoveDocumentCommand => _RemoveDocumentCommand ?? new LambdaCommand(OnRemoveDocumentCommandExecuted, CanRemoveDocumentCommandExecute);
+        private bool CanRemoveDocumentCommandExecute(object p) => p != null;
+        private void OnRemoveDocumentCommandExecuted(object p)
+        {
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (!_UserDialog.Confirm("Вы собираетесь удалить один из документов. Желаете продолжить?", "Внимание")) return;
+
+            var document = (Document)p;
+
+            Documents.Remove(document);
+            SelectedDocument = null;
 
         }
 
