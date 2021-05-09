@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
         d:DataContext="{d:DesignInstance {x:Type vm:DocumentEditorViewModel}, IsDesignTimeCreatable=True}"
         xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters" xmlns:fa5="http://schemas.fontawesome.com/icons/"
-        Title="{Binding Title}" Height="413" Width="588">
+        Title="{Binding Title}" Height="449" Width="588">
     <DockPanel>
         <DockPanel.Resources>
             <c:DateConverter x:Key="DateConverter"/>
@@ -130,6 +130,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Наименование документа"
@@ -147,8 +148,13 @@
                 <TextBlock Text="Документ:"
                    Grid.Column="0" Grid.Row="3"/>
                 <DockPanel Grid.Column="1" Grid.Row="3" Margin="3">
-                    
-                    <Button Content="Прикрепить новый документ" DockPanel.Dock="Right" Command="{Binding UploadFileCommand}"/>
+
+                    <Button DockPanel.Dock="Right" Command="{Binding UploadFileCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa5:FontAwesome Icon="Solid_Thumbtack" VerticalAlignment="Center" Margin="5 3 5 0"/>
+                            <TextBlock Text="Прикрепить документ"/>
+                        </StackPanel>
+                    </Button>
                     <Button Command="{Binding ShowUploadedFileCommand}"
                             Style="{StaticResource MiniButtonStyle}">
                         <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}" />
@@ -175,6 +181,12 @@
                     </TextBlock>
 
                 </DockPanel>
+
+                <TextBlock Text="Расширение прикреп. документа"
+                   Grid.Column="0" Grid.Row="4"/>
+                <TextBlock Text="{Binding FileType}" 
+                   Grid.Column="1" Grid.Row="4"/>
+
             </Grid>
         </GroupBox>
 

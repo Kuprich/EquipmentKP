@@ -201,7 +201,7 @@ namespace EquipmentKP.Services
         #endregion
 
         #region Показать / прикрепить файл
-        public bool OpenFile(string filePath)
+        public bool UploadFile(string filePath)
         {
             return false;
         }

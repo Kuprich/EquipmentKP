@@ -1,6 +1,8 @@
 ﻿using Equipment.Database.Entities;
 using EquipmentKP.Infrastructure.Commands;
+using EquipmentKP.Services.Interfaces;
 using EquipmentKP.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,8 @@ namespace EquipmentKP.ViewModels
 {
     class DocumentEditorViewModel : ViewModelBase
     {
+        private IUserDialog _UserDialog;
+
         private readonly Document _Document;
         public Document Document
         {
@@ -21,7 +25,11 @@ namespace EquipmentKP.ViewModels
         }
         public RequestMovement LastRequestMovement
         {
-            get => _Document?.Request?.RequestMovements?.Last();
+            get 
+            {
+                if (_Document.Request.RequestMovements.Count > 0) return _Document.Request.RequestMovements.Last();
+                return null;
+            }
         }
 
         #region string Name - наименование документа
@@ -123,18 +131,23 @@ namespace EquipmentKP.ViewModels
         #region ShowUploadedFileCommand - Команда просмотра прикрепленного документа
 
         private ICommand _ShowUploadedFileCommand = null;
+        
+
         public ICommand ShowUploadedFileCommand => _ShowUploadedFileCommand ?? new LambdaCommand(OnShowUploadedFileCommandExecuted, CanShowUploadedFileCommandExecute);
         private bool CanShowUploadedFileCommandExecute() => Content != null && Content?.Length > 0;
         private void OnShowUploadedFileCommandExecuted()
         {
-            string fileName = $"tmp{FileType}";
-            string dirPath = Environment.CurrentDirectory;
-            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-            if (!dirInfo.Exists)
-                dirInfo.Create();
-            File.WriteAllBytes(dirPath + fileName, Content);
 
-            new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
+            _UserDialog.ShowFile(new Document { Content = Content, FileType = FileType });
+
+            //string fileName = $"tmp{FileType}";
+            //string dirPath = Environment.CurrentDirectory;
+            //DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+            //if (!dirInfo.Exists)
+            //    dirInfo.Create();
+            //File.WriteAllBytes(dirPath + fileName, Content);
+
+            //new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
         }
         #endregion
 
@@ -142,6 +155,9 @@ namespace EquipmentKP.ViewModels
         public DocumentEditorViewModel(Document document)
         {
             _Document = document;
+
+            using var scope = App.Host.Services.CreateScope();
+            _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
         }
         public DocumentEditorViewModel()
         {

@@ -10,7 +10,7 @@ namespace EquipmentKP.Services.Interfaces
         bool Edit<T>(T item);
         void ShowInformation(string Information = "Текст сообщения", string Caption = "Информация");
         public bool Confirm(string Message = "Текст сообщения", string Caption = "Информация", bool Exclamation = false);
-        bool OpenFile(string filePath);
+        bool UploadFile(string filePath);
         void ShowFile(Document document);
     }
 }

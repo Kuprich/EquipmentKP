@@ -626,6 +626,7 @@ namespace EquipmentKP.ViewModels
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             window.ShowDialog();
         }
@@ -642,6 +643,7 @@ namespace EquipmentKP.ViewModels
             {
                 DataContext = viewModel,
                 Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
             window.ShowDialog();
         }

@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows"
         
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
-        
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels" xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters" xmlns:fa5="http://schemas.fontawesome.com/icons/"
         d:DataContext="{d:DesignInstance {x:Type vm:DocumentsViewModel}, IsDesignTimeCreatable=True}"
         Title="DocumentsWindow" Height="450" Width="800">
 
@@ -16,25 +15,78 @@
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
+    <Window.Resources>
+        <c:DateConverter x:Key="DateConverter"/>
+    </Window.Resources>
+
+
     <DockPanel>
+        <Expander DockPanel.Dock="Bottom" Header="Быстрые фильтры" IsExpanded="True" ExpandDirection="Up" Margin="5">
+            <Expander.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+                <Style TargetType="CheckBox">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </Expander.Resources>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="№ документа"
+                           Grid.Row="0" Grid.Column="0"/>
+                <TextBox Grid.Row="0" Grid.Column="1"/>
+
+                <TextBlock Text="Наименование"
+                           Grid.Row="1" Grid.Column="0"/>
+                <TextBox Grid.Row="1" Grid.Column="1"/>
+
+                <TextBlock Text="Только с прикрепленными файлами"
+                           Grid.Row="2" Grid.Column="0"/>
+                <CheckBox Grid.Row="2" Grid.Column="1"/>
+            </Grid>
+        </Expander>
         <GroupBox Header="Список имеющихся документов" DockPanel.Dock="Top">
-            <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
-        <GroupBox Header="Сведения по текущему документу">
             <DockPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    <Button Content="Выбрать файл" Command="{Binding UploadFileCommand}"/>
-                    <TextBox Text="путь до файла"/>
-                    <Button Content="Показать файл" Command="{Binding ShowFileCommand}"
-                            CommandParameter="{Binding SelectedDocument}"/>
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                    <Button Style="{StaticResource MiniButtonStyle}"
+                        ToolTip="Добавить новый документ">
+                        <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
+                    </Button>
+                    <Button Style="{StaticResource MiniButtonStyle}"
+                        ToolTip="редактировать Текущий документ">
+                        <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
+                    </Button>
+                    <Button Style="{StaticResource MiniButtonStyle}"
+                        ToolTip="Просмотреть содержимое текущего документа">
+                        <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
+                    </Button>
+                    <Button Style="{StaticResource MiniButtonStyle}"
+                        ToolTip="редактировать Текущий документ">
+                        <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
+                    </Button>
                 </StackPanel>
-                <StackPanel/>
+                <DataGrid ItemsSource="{Binding DocumentsView}" SelectedItem="{Binding SelectedDocument}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}" />
+                        <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Контент документа" Binding="{Binding Content}"/>
+                        <DataGridTextColumn Header="Тип прикрепленного файла" Binding="{Binding FileType}" Width="auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </DockPanel>
+
         </GroupBox>
+        
     </DockPanel>
 </Window>

@@ -40,14 +40,12 @@ namespace EquipmentKP.ViewModels
             }
         }
         #endregion
-
         #region View & ViewSource Documents - отображение документов
 
         private CollectionViewSource _DocumentsViewSource;
         public ICollectionView DocumentsView => _DocumentsViewSource?.View;
 
         #endregion
-
         #region Document SelectedDocument - выбранный документ
         private Document _SelectedDocument;
 
@@ -67,37 +65,25 @@ namespace EquipmentKP.ViewModels
         }
         #endregion
 
-        #region UploadFileCommand - Команда загрузки документа из файла
-        private ICommand _UploadFileCommand = null;
-        public ICommand UploadFileCommand => _UploadFileCommand ?? new LambdaCommand(OnUploadFileCommandExecuted);
-        private void OnUploadFileCommandExecuted()
-        {
-            string filePath = null;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-                filePath = openFileDialog.FileName;
+    
+        //private ICommand _ShowFileCommand = null;
+        //public ICommand ShowFileCommand => _ShowFileCommand ?? new LambdaCommand(OnShowFileCommandExecuted);
 
-        }
-        #endregion
+        //private bool CanShowFileCommandExecute(object p) => p is Document; 
+        //private void OnShowFileCommandExecuted(object p)
+        //{
+        //    if (p is Document document)
+        //    {
+        //        string fileName = "tmp.pdf";
+        //        string dirPath = Environment.CurrentDirectory;
+        //        DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+        //        if (!dirInfo.Exists)
+        //            dirInfo.Create();
+        //        File.WriteAllBytes(dirPath+fileName, document.Content);
 
-        private ICommand _ShowFileCommand = null;
-        public ICommand ShowFileCommand => _ShowFileCommand ?? new LambdaCommand(OnShowFileCommandExecuted);
-
-        private bool CanShowFileCommandExecute(object p) => p is Document; 
-        private void OnShowFileCommandExecuted(object p)
-        {
-            if (p is Document document)
-            {
-                string fileName = "tmp.pdf";
-                string dirPath = Environment.CurrentDirectory;
-                DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-                if (!dirInfo.Exists)
-                    dirInfo.Create();
-                File.WriteAllBytes(dirPath+fileName, document.Content);
-
-                new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
-            }
-        }
+        //        new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
+        //    }
+        //}
 
 
         public DocumentsViewModel()
