@@ -15,9 +15,11 @@
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    
 
     <Window.Resources>
         <c:DateConverter x:Key="DateConverter"/>
+        <c:DocumentContentConverter x:Key="DocumentContentConverter"/>
     </Window.Resources>
 
 
@@ -57,7 +59,7 @@
         </Expander>
         <GroupBox Header="Список имеющихся документов" DockPanel.Dock="Top">
             <DockPanel>
-                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="6 0 0 0">
                     <Button Command="{Binding AddDocumentCommand}"
                         Style="{StaticResource MiniButtonStyle}"
                         ToolTip="Добавить новый документ">
@@ -68,11 +70,13 @@
                         ToolTip="редактировать Текущий документ">
                         <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                     </Button>
-                    <Button Style="{StaticResource MiniButtonStyle}"
+                    <Button Command="{Binding ShowUploadedDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                        Style="{StaticResource MiniButtonStyle}"
                         ToolTip="Просмотреть содержимое текущего документа">
                         <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}"/>
                     </Button>
-                    <Button Style="{StaticResource MiniButtonStyle}"
+                    <Button Command="{Binding RemoveDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                        Style="{StaticResource MiniButtonStyle}"
                         ToolTip="редактировать Текущий документ">
                         <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
                     </Button>
@@ -82,7 +86,7 @@
                         <DataGridTextColumn Header="Дата создания" Binding="{Binding CreationDate, Converter={StaticResource DateConverter}}" />
                         <DataGridTextColumn Header="№ документа" Binding="{Binding Number}"/>
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*"/>
-                        <DataGridTextColumn Header="Контент документа" Binding="{Binding Content}"/>
+                        <DataGridTextColumn Header="Контент документа" Binding="{Binding Content, Converter={StaticResource DocumentContentConverter}}"/>
                         <DataGridTextColumn Header="Тип прикрепленного файла" Binding="{Binding FileType}" Width="auto"/>
                     </DataGrid.Columns>
                 </DataGrid>

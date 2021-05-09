@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
         d:DataContext="{d:DesignInstance {x:Type vm:DocumentEditorViewModel}, IsDesignTimeCreatable=True}"
         xmlns:c="clr-namespace:EquipmentKP.Infrastructure.Converters" xmlns:fa5="http://schemas.fontawesome.com/icons/"
-        Title="{Binding Title}" Height="449" Width="588">
+        Title="{Binding Title}" Height="327" Width="588">
     <DockPanel>
         <DockPanel.Resources>
             <c:DateConverter x:Key="DateConverter"/>
@@ -18,98 +18,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
         </DockPanel.Resources>
-        <GroupBox DockPanel.Dock="Top" Header="Основные данные по текущему оборудованию">
-            <GroupBox.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Setter Property="Margin" Value="3"/>
-                </Style>
-            </GroupBox.Resources>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="auto"/>
-                </Grid.RowDefinitions>
 
-                <TextBlock Text="Наименование оборудования:"
-                           Grid.Column="0" Grid.Row="0"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="0"
-                    Text="{Binding Document.Request.MainEquipment.Name}"/>
-
-                <TextBlock Text="Тип оборудования:"
-                           Grid.Column="0" Grid.Row="1"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="1"
-                    Text="{Binding Document.Request.MainEquipment.EquipmentType.Name}"/>
-
-                <TextBlock Text="Серийный номер:"
-                           Grid.Column="0" Grid.Row="2"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="2"
-                    Text="{Binding Document.Request.MainEquipment.SerialNo}"/>
-
-                <TextBlock Text="Инвентарный номер:"
-                           Grid.Column="0" Grid.Row="3"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="3"
-                    Text="{Binding Document.Request.MainEquipment.EquipmentsKit.InventoryNo}"/>
-                
-            </Grid>
-        </GroupBox>
-        <GroupBox DockPanel.Dock="Top" Header="Основные сведения по заявке">
-            <GroupBox.Resources>
-                <Style TargetType="TextBox">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Setter Property="Margin" Value="3"/>
-                </Style>
-            </GroupBox.Resources>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="auto"/>
-                    <RowDefinition  Height="auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Номер заявки:"
-                           Grid.Column="0" Grid.Row="0"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="0"
-                    Text="{Binding Document.Request.Number}"/>
-
-                <TextBlock Text="Дата поступления заявки:"
-                           Grid.Column="0" Grid.Row="1"/>
-                <TextBox
-                    Grid.Column="1" Grid.Row="1"
-                    Text="{Binding Document.Request.ReceiptDate, Converter={StaticResource DateConverter}}"/>
-
-                <TextBlock Text="Текущее состояние заявки:"
-                           Grid.Column="0" Grid.Row="2"/>
-                <Grid Grid.Column="1" Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding LastRequestMovement.RegistrationDate, Converter={StaticResource DateConverter}}"/>
-                    <TextBox Text="{Binding LastRequestMovement.RequestState.Name}"
-                               Grid.Column="1"/>
-                </Grid>
-                <!--<TextBox
-                    Grid.Column="1" Grid.Row="2"
-                    Text="{Binding Document.Request.RequestMovements, Converter={StaticResource LastRequestMovement}}" />-->
-
-            </Grid>
-        </GroupBox>
         <UniformGrid DockPanel.Dock="Bottom" HorizontalAlignment="Right" Rows="1" Margin="8">
             <UniformGrid.Resources>
                 <Style TargetType="Button">
@@ -119,76 +28,178 @@
             <Button Content="Отмена" Command="{StaticResource DialogResultCommand}" CommandParameter="false" Margin="0 0 10 0"/>
             <Button Content="Ок" Command="{StaticResource DialogResultCommand}" CommandParameter="true" />
         </UniformGrid>
-        <GroupBox Header="Сведения по текущему документу">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
 
-                <TextBlock Text="Наименование документа"
+        <TabControl>
+            <TabItem Header="Сведения по документу">
+                <GroupBox Header="Основные данные">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Наименование документа"
                    Grid.Column="0" Grid.Row="0"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}"/>
 
-                <TextBlock Text="Номер документа (по базе ИАЦ)"
+                        <TextBlock Text="Номер документа (по базе ИАЦ)"
                    Grid.Column="0" Grid.Row="1"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Number}"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Number}"/>
 
-                <TextBlock Text="Дата документа:"
+                        <TextBlock Text="Дата документа:"
                    Grid.Column="0" Grid.Row="2"/>
-                <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding CreationDate}" Margin="3"/>
-                
-                <TextBlock Text="Документ:"
+                        <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding CreationDate}" Margin="3"/>
+
+                        <TextBlock Text="Документ:"
                    Grid.Column="0" Grid.Row="3"/>
-                <DockPanel Grid.Column="1" Grid.Row="3" Margin="3">
+                        <DockPanel Grid.Column="1" Grid.Row="3" Margin="3">
 
-                    <Button DockPanel.Dock="Right" Command="{Binding UploadFileCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa5:FontAwesome Icon="Solid_Thumbtack" VerticalAlignment="Center" Margin="5 3 5 0"/>
-                            <TextBlock Text="Прикрепить документ"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{Binding ShowUploadedFileCommand}"
+                            <Button DockPanel.Dock="Right" Command="{Binding UploadFileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa5:FontAwesome Icon="Solid_Thumbtack" VerticalAlignment="Center" Margin="5 3 5 0"/>
+                                    <TextBlock Text="Прикрепить документ"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ShowUploadedFileCommand}"
                             Style="{StaticResource MiniButtonStyle}">
-                        <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}" />
-                    </Button>
-                    
-                    <TextBlock>
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Padding" Value="10 0 0 0"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsAttached}" Value="false">
-                                        <Setter Property="Text" Value="Не прикреплен"/>
-                                        <Setter Property="Foreground" Value="#b57900"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsAttached}" Value="true">
-                                        <Setter Property="Text" Value="Прикреплен"/>
-                                        <Setter Property="Foreground" Value="#00994d"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
+                                <fa5:FontAwesome Style="{StaticResource ShowDocumentButtonStyle}" />
+                            </Button>
 
-                </DockPanel>
+                            <TextBlock>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Padding" Value="10 0 0 0"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAttached}" Value="false">
+                                                <Setter Property="Text" Value="Не прикреплен"/>
+                                                <Setter Property="Foreground" Value="#b57900"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsAttached}" Value="true">
+                                                <Setter Property="Text" Value="Прикреплен"/>
+                                                <Setter Property="Foreground" Value="#00994d"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
 
-                <TextBlock Text="Расширение прикреп. документа"
+                        </DockPanel>
+
+                        <TextBlock Text="Расширение прикреп. документа"
                    Grid.Column="0" Grid.Row="4"/>
-                <TextBlock Text="{Binding FileType}" 
+                        <TextBlock Text="{Binding FileType}" 
                    Grid.Column="1" Grid.Row="4"/>
 
-            </Grid>
-        </GroupBox>
+                    </Grid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="Информация по заявке">
+                <DockPanel>
+                    <GroupBox DockPanel.Dock="Top" Header="Основные данные по текущему оборудованию">
+                        <GroupBox.Resources>
+                            <Style TargetType="TextBox">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="Margin" Value="3"/>
+                            </Style>
+                        </GroupBox.Resources>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  Height="auto"/>
+                                <RowDefinition  Height="auto"/>
+                                <RowDefinition  Height="auto"/>
+                                <RowDefinition  Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Наименование оборудования:"
+                           Grid.Column="0" Grid.Row="0"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="0"
+                    Text="{Binding Document.Request.MainEquipment.Name}"/>
+
+                            <TextBlock Text="Тип оборудования:"
+                           Grid.Column="0" Grid.Row="1"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="1"
+                    Text="{Binding Document.Request.MainEquipment.EquipmentType.Name}"/>
+
+                            <TextBlock Text="Серийный номер:"
+                           Grid.Column="0" Grid.Row="2"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="2"
+                    Text="{Binding Document.Request.MainEquipment.SerialNo}"/>
+
+                            <TextBlock Text="Инвентарный номер:"
+                           Grid.Column="0" Grid.Row="3"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="3"
+                    Text="{Binding Document.Request.MainEquipment.EquipmentsKit.InventoryNo}"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox DockPanel.Dock="Top" Header="Основные сведения по заявке">
+                        <GroupBox.Resources>
+                            <Style TargetType="TextBox">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="Margin" Value="3"/>
+                            </Style>
+                        </GroupBox.Resources>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  Height="auto"/>
+                                <RowDefinition  Height="auto"/>
+                                <RowDefinition  Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Номер заявки:"
+                           Grid.Column="0" Grid.Row="0"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="0"
+                    Text="{Binding Document.Request.Number}"/>
+
+                            <TextBlock Text="Дата поступления заявки:"
+                           Grid.Column="0" Grid.Row="1"/>
+                            <TextBox
+                    Grid.Column="1" Grid.Row="1"
+                    Text="{Binding Document.Request.ReceiptDate, Converter={StaticResource DateConverter}}"/>
+
+                            <TextBlock Text="Текущее состояние заявки:"
+                           Grid.Column="0" Grid.Row="2"/>
+                            <Grid Grid.Column="1" Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding LastRequestMovement.RegistrationDate, Converter={StaticResource DateConverter}}"/>
+                                <TextBox Text="{Binding LastRequestMovement.RequestState.Name}"
+                               Grid.Column="1"/>
+                            </Grid>
+                            <!--<TextBox
+                    Grid.Column="1" Grid.Row="2"
+                    Text="{Binding Document.Request.RequestMovements, Converter={StaticResource LastRequestMovement}}" />-->
+
+                        </Grid>
+                    </GroupBox>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+
 
     </DockPanel>
 </Window>

@@ -99,7 +99,7 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-        #region EditDocumentCommand - Добавить документ
+        #region EditDocumentCommand - Редактировать документ
 
         private ICommand _EditDocumentCommand = null;
         public ICommand EditDocumentCommand => _EditDocumentCommand ?? new LambdaCommand(OnEditDocumentCommandExecuted, CanEditDocumentCommandExecute);
@@ -119,6 +119,36 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+        #region RemoveDocumentCommand - Удалить документ
+
+        private ICommand _RemoveDocumentCommand = null;
+        public ICommand RemoveDocumentCommand => _RemoveDocumentCommand ?? new LambdaCommand(OnRemoveDocumentCommandExecuted, CanRemoveDocumentCommandExecute);
+        private bool CanRemoveDocumentCommandExecute(object p) => p is Document && p != null;
+        private void OnRemoveDocumentCommandExecuted(object p)
+        {
+            var document = (Document)p;
+
+            if (!_UserDialog.Confirm($"Вы собираетесь удалить документ {document.Name}. Желаете продолжить?", "Внимание")) return;
+
+            _DocumentsRep.Remove(document);
+            Documents.Remove(document);
+            SelectedDocument = null;
+        }
+
+        #endregion
+        #region ShowUploadedDocumentCommand - Показать прикрепленный документ
+
+        private ICommand _ShowUploadedDocumentCommand = null;
+        public ICommand ShowUploadedDocumentCommand => _ShowUploadedDocumentCommand ?? new LambdaCommand(OnShowUploadedDocumentCommandExecuted, CanShowUploadedDocumentCommandExecute);
+        private bool CanShowUploadedDocumentCommandExecute(object p) => p is Document && p != null;
+        private void OnShowUploadedDocumentCommandExecuted(object p)
+        {
+            var document = (Document)p;
+            _UserDialog.ShowFile(document);
+        }
+
+        #endregion
+
 
 
         public DocumentsViewModel()

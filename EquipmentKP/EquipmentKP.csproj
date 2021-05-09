@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Infrastructure\Converters\LastRequestMovement.OLDcs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Infrastructure\Converters\LastRequestMovement.OLDcs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
 
