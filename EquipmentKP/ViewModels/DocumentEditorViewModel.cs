@@ -27,7 +27,7 @@ namespace EquipmentKP.ViewModels
         {
             get 
             {
-                if (_Document.Request.RequestMovements.Count > 0) return _Document.Request.RequestMovements.Last();
+                if (_Document.Request?.RequestMovements.Count > 0) return _Document.Request.RequestMovements.Last();
                 return null;
             }
         }
@@ -42,7 +42,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region string Number - номер документа
 
         private string _Number;
@@ -53,7 +52,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region DateTime CreationDate - дата документа
 
         private DateTime _CreationDate;
@@ -64,7 +62,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region byte[] Content  - контент документа
 
         private byte[] _Content;
@@ -76,7 +73,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region string FileType - тип документа
 
         private string _FileType;
@@ -87,7 +83,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region bool IsAttached  | true - если документ прикреплен
 
         //private bool _IsAttached;
@@ -97,7 +92,6 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-
         #region string Title Заголовок окна
 
         private string _Title = "Документы";
@@ -127,7 +121,6 @@ namespace EquipmentKP.ViewModels
             
         }
         #endregion
-
         #region ShowUploadedFileCommand - Команда просмотра прикрепленного документа
 
         private ICommand _ShowUploadedFileCommand = null;

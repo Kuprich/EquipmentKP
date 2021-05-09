@@ -256,6 +256,7 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
+
         #region ShowUploadedDocumentCommand - Просмотр прикрепленного документа
 
         private ICommand _ShowUploadedDocumentCommand = null;

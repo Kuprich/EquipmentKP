@@ -21,9 +21,12 @@ namespace EquipmentKP.ViewModels
 {
     class DocumentsViewModel : ViewModelBase
     {
+        // ПОЛЯ И СВОЙСТВА
         private readonly IRepository<Document> _DocumentsRep;
+        private IUserDialog _UserDialog;
 
         #region ObservableCollection<Document> Documents - Документы
+
         private ObservableCollection<Document> _Documents;
         public ObservableCollection<Document> Documents
         {
@@ -39,6 +42,7 @@ namespace EquipmentKP.ViewModels
 
             }
         }
+
         #endregion
         #region View & ViewSource Documents - отображение документов
 
@@ -47,6 +51,7 @@ namespace EquipmentKP.ViewModels
 
         #endregion
         #region Document SelectedDocument - выбранный документ
+
         private Document _SelectedDocument;
 
         public Document SelectedDocument
@@ -54,36 +59,66 @@ namespace EquipmentKP.ViewModels
             get => _SelectedDocument;
             set => Set(ref _SelectedDocument, value);
         }
+
         #endregion
 
+        // КОМАНДЫ
         #region LoadDataCommand - Команда загрузки данных из репозитория
+
         private ICommand _LoadDataCommand = null;
         public ICommand LoadDataCommand => _LoadDataCommand ?? new LambdaCommandAsync(OnLoadDataCommandExecuted);
         private async Task OnLoadDataCommandExecuted()
         {
             Documents = new ObservableCollection<Document>(await _DocumentsRep.Items.ToArrayAsync());
         }
+
         #endregion
 
-    
-        //private ICommand _ShowFileCommand = null;
-        //public ICommand ShowFileCommand => _ShowFileCommand ?? new LambdaCommand(OnShowFileCommandExecuted);
+        #region AddDocumentCommand - Добавить документ
 
-        //private bool CanShowFileCommandExecute(object p) => p is Document; 
-        //private void OnShowFileCommandExecuted(object p)
-        //{
-        //    if (p is Document document)
-        //    {
-        //        string fileName = "tmp.pdf";
-        //        string dirPath = Environment.CurrentDirectory;
-        //        DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
-        //        if (!dirInfo.Exists)
-        //            dirInfo.Create();
-        //        File.WriteAllBytes(dirPath+fileName, document.Content);
+        private ICommand _AddDocumentCommand = null;
+       
+        public ICommand AddDocumentCommand => _AddDocumentCommand ?? new LambdaCommand(OnAddDocumentCommandExecuted);
+        private void OnAddDocumentCommandExecuted()
+        {
 
-        //        new Process { StartInfo = new ProcessStartInfo(dirPath + fileName) { UseShellExecute = true } }.Start();
-        //    }
-        //}
+            var document = new Document();
+
+            Documents.Add(document);
+
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            if (_UserDialog.Edit(document))
+            {
+                Documents[Documents.IndexOf(document)] = document;
+                _DocumentsViewSource?.View.Refresh();
+            }
+
+            else Documents.Remove(document);
+        }
+
+        #endregion
+        #region EditDocumentCommand - Добавить документ
+
+        private ICommand _EditDocumentCommand = null;
+        public ICommand EditDocumentCommand => _EditDocumentCommand ?? new LambdaCommand(OnEditDocumentCommandExecuted, CanEditDocumentCommandExecute);
+        private bool CanEditDocumentCommandExecute(object p) => p is Document && p != null;
+        private void OnEditDocumentCommandExecuted(object p)
+        {
+            using var scope = App.Host.Services.CreateScope();
+            var _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
+
+            var document = (Document)p;
+
+            if (_UserDialog.Edit(document))
+            {
+                Documents[Documents.IndexOf(document)] = document;
+                _DocumentsViewSource?.View.Refresh();
+            }
+        }
+
+        #endregion
 
 
         public DocumentsViewModel()
@@ -94,6 +129,9 @@ namespace EquipmentKP.ViewModels
         public DocumentsViewModel(IRepository<Document> DocumentsRep )
         {
             _DocumentsRep = DocumentsRep;
+
+            using var scope = App.Host.Services.CreateScope();
+            _UserDialog = scope.ServiceProvider.GetRequiredService<IUserDialog>();
         }
     }
 }

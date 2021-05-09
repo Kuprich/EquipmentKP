@@ -22,7 +22,7 @@
 
 
     <DockPanel>
-        <Expander DockPanel.Dock="Bottom" Header="Быстрые фильтры" IsExpanded="True" ExpandDirection="Up" Margin="5">
+        <Expander DockPanel.Dock="Bottom" Header="Быстрые фильтры" IsExpanded="False" ExpandDirection="Up" Margin="5">
             <Expander.Resources>
                 <Style TargetType="TextBox">
                     <Setter Property="Margin" Value="3"/>
@@ -58,11 +58,13 @@
         <GroupBox Header="Список имеющихся документов" DockPanel.Dock="Top">
             <DockPanel>
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
-                    <Button Style="{StaticResource MiniButtonStyle}"
+                    <Button Command="{Binding AddDocumentCommand}"
+                        Style="{StaticResource MiniButtonStyle}"
                         ToolTip="Добавить новый документ">
                         <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
                     </Button>
-                    <Button Style="{StaticResource MiniButtonStyle}"
+                    <Button Command="{Binding EditDocumentCommand}" CommandParameter="{Binding SelectedDocument}"
+                        Style="{StaticResource MiniButtonStyle}"
                         ToolTip="редактировать Текущий документ">
                         <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>
                     </Button>
