@@ -601,7 +601,7 @@ namespace EquipmentKP.ViewModels
         private bool CanRemoveRequestCommandExecute(object p) => p is Request;
         private void OnRemoveRequestCommandExecuted(object p)
         {
-            if (!_UserDialog.Confirm("Вы собираетесь удалить заявку по рамонту(обслуживанию) оборудования а так же связанную с ним информацию. Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
+            if (!_UserDialog.Confirm("Вы собираетесь удалить заявку по ремонту(обслуживанию) оборудования а так же связанную с ним информацию. Вернуть данные будет невозможно! Желаете продолжить?", "Внимание")) return;
 
             var request = (Request)p;
 

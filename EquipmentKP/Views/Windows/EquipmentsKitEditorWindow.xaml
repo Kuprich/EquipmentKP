@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EquipmentKP.Views.Windows" 
-        xmlns:vm="clr-namespace:EquipmentKP.ViewModels"
+        xmlns:vm="clr-namespace:EquipmentKP.ViewModels" xmlns:fa5="http://schemas.fontawesome.com/icons/"
         d:DataContext="{d:DesignInstance {x:Type vm:EquipmentsKitEditorViewModel}, IsDesignTimeCreatable=True}"
         Title="{Binding Title}" Height="450" Width="800">
 
@@ -29,6 +29,17 @@
 
         <GroupBox Header="Редактирование оборудования" DockPanel.Dock="Top">
             <Grid>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="3"/>
+                    </Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Margin" Value="3"/>
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
@@ -50,21 +61,47 @@
 
                 <TextBlock Text="Место установки"
                            Grid.Column="0" Grid.Row="2"/>
-                <ComboBox ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}" SelectedIndex="0" DisplayMemberPath="Name"
-                    Grid.Column="1" Grid.Row="2"/>
+                <ComboBox ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}" SelectedIndex="0"
+                          Grid.Column="1" Grid.Row="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CodeName}"/>
+                                <TextBlock Text="|"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </GroupBox>
 
         <GroupBox Header="Оборудование, входящее в состав комплекта" DockPanel.Dock="Top">
             <DockPanel>
                 <DockPanel DockPanel.Dock="Right">
-                    <UniformGrid Rows="3" VerticalAlignment="Top" Width="20" Margin="5">
-                        <Button Content="+" Margin="0 0 0 5" Command="{Binding AddEquipmentCommand}"/>
-                        <Button Content="-" Margin="0 0 0 5"/>
-                        <Button Content="e" Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"/>
+                    <UniformGrid Rows="3" VerticalAlignment="Top" Margin="5 0">
+                        <Button Command="{Binding AddEquipmentCommand}"
+                                Style="{StaticResource MiniButtonStyle}">
+                            <fa5:FontAwesome Style="{StaticResource AddButtonStyle}"/>
+                        </Button>
+                        <Button Command="{Binding EditEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}" 
+                                Style="{StaticResource MiniButtonStyle}">
+                            <fa5:FontAwesome Style="{StaticResource EditButtonStyle}"/>   
+                        </Button>
+                        <Button Command="{Binding RemoveEquipmentCommand}" CommandParameter="{Binding SelectedEquipment}"
+                            Style="{StaticResource MiniButtonStyle}">
+                            <fa5:FontAwesome Style="{StaticResource RemoveButtonStyle}"/>
+                        </Button>
                     </UniformGrid>
                 </DockPanel>
-                <DataGrid ItemsSource="{Binding EquipmentsView}" AutoGenerateColumns="True" SelectedItem="{Binding SelectedEquipment}">
+                <DataGrid ItemsSource="{Binding EquipmentsView}" SelectedItem="{Binding SelectedEquipment}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Серийный номер" Binding="{Binding SerialNo}"/>
+                        <DataGridTextColumn Header="Тип оборудования" Binding="{Binding EquipmentType.Name}"/>
+                        <DataGridTextColumn Header="Операционная система" Binding="{Binding OperationSystem}"/>
+                        <DataGridTextColumn Header="Сетевое имя" Binding="{Binding NetworkName}"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
         </GroupBox>

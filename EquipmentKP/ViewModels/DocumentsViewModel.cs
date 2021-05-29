@@ -44,10 +44,35 @@ namespace EquipmentKP.ViewModels
         }
 
         #endregion
-        #region View & ViewSource Documents - отображение документов
+        #region View & ViewSource Documents - отображение документов ( + фильтр)
 
         private CollectionViewSource _DocumentsViewSource;
         public ICollectionView DocumentsView => _DocumentsViewSource?.View;
+        private void DocumentsViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Document document)) return;
+
+            // фильтр по номеру документа
+            if (!string.IsNullOrWhiteSpace(FilterNumber))
+                if (string.IsNullOrWhiteSpace(document.Number))
+                    e.Accepted = false;
+                else
+                    if (!document.Number.Contains(FilterNumber.Trim(), StringComparison.OrdinalIgnoreCase))
+                    e.Accepted = false;
+
+            // фильтр по наименованию документа
+            if (!string.IsNullOrWhiteSpace(FilterNumber))
+                if (string.IsNullOrWhiteSpace(document.Number))
+                    e.Accepted = false;
+                else
+                    if (!document.Number.Contains(FilterNumber.Trim(), StringComparison.OrdinalIgnoreCase))
+                    e.Accepted = false;
+
+            // фильтр по загруженному контенту
+            if (UploadedContentFilter)
+                if (document.Content != null && document.Content?.Length > 0)
+                e.Accepted = false;
+        }
 
         #endregion
         #region Document SelectedDocument - выбранный документ
@@ -62,6 +87,52 @@ namespace EquipmentKP.ViewModels
 
         #endregion
 
+        #region string FilterNumber - фильтр по номеру документа
+
+        private string _FilterNumber;
+
+        public string FilterNumber
+        {
+            get => _FilterNumber;
+            set
+            {
+                if (!Set(ref _FilterNumber, value)) return;
+                _DocumentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region string FilterName - фильтр по наименованию документа
+
+        private string _FilterName;
+
+        public string FilterName
+        {
+            get => _FilterName;
+            set
+            {
+                if (!Set(ref _FilterName, value)) return;
+                _DocumentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+        #region bool UploadedContentFilter - фильтр по загруженому контенту
+
+        private bool _UploadedContentFilter;
+
+        public bool UploadedContentFilter
+        {
+            get => _UploadedContentFilter;
+            set
+            {
+                if (!Set(ref _UploadedContentFilter, value)) return;
+                _DocumentsViewSource.View.Refresh();
+            }
+        }
+
+        #endregion
+
         // КОМАНДЫ
         #region LoadDataCommand - Команда загрузки данных из репозитория
 
@@ -70,6 +141,7 @@ namespace EquipmentKP.ViewModels
         private async Task OnLoadDataCommandExecuted()
         {
             Documents = new ObservableCollection<Document>(await _DocumentsRep.Items.ToArrayAsync());
+            _DocumentsViewSource.Filter += DocumentsViewSource_Filter;
         }
 
         #endregion
